@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KMovie</string>
+
+    <string name="app_ico">M</string>
 </resources>

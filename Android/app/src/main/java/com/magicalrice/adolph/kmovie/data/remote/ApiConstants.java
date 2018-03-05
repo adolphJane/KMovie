@@ -6,5 +6,6 @@ package com.magicalrice.adolph.kmovie.data.remote;
 
 public class ApiConstants {
     public static final int TIME_IN_SEC = 10;
+    public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "74a1fd59a732270cc2e2b6753c3cd7aa";
 }
