@@ -10,11 +10,13 @@ import android.support.annotation.NonNull;
 
 public class MovieViewModuleFactory implements ViewModelProvider.Factory {
 
+
+
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if () {
-            return null;
+        if (modelClass.isAssignableFrom(LoginViewModule.class)) {
+            return new LoginViewModule();
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

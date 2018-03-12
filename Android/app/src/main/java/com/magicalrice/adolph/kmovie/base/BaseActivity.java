@@ -22,7 +22,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends DaggerApp
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,getLayoutRes());
     }
