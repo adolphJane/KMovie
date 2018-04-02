@@ -1,13 +1,10 @@
 package com.magicalrice.adolph.kmovie.base;
 
-import android.app.Activity;
-import android.app.Application;
 import android.support.v4.app.Fragment;
 
 import com.magicalrice.adolph.kmovie.assist.MyLifecycle;
 import com.magicalrice.adolph.kmovie.assist.dagger.component.AppComponent;
 import com.magicalrice.adolph.kmovie.assist.dagger.component.DaggerAppComponent;
-import com.magicalrice.adolph.kmovie.assist.dagger.module.NetModule;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -19,14 +16,12 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Created by Adolph on 2018/2/26.
  */
 
-public class MovieApplication extends DaggerApplication implements HasSupportFragmentInjector {
+public class MovieApplication extends DaggerApplication {
     private static MovieApplication instance;
     @Inject
     DispatchingAndroidInjector<Fragment> injector;
@@ -40,8 +35,11 @@ public class MovieApplication extends DaggerApplication implements HasSupportFra
         initLeakCanary();
     }
 
-    public static MovieApplication getApp() {
-        return instance;
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+        appComponent.inject(this);
+        return appComponent;
     }
 
     private void initLogger() {
@@ -63,17 +61,5 @@ public class MovieApplication extends DaggerApplication implements HasSupportFra
         if (!LeakCanary.isInAnalyzerProcess(this)) {
             LeakCanary.install(this);
         }
-    }
-
-    @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        AppComponent component = DaggerAppComponent.builder().application(this).build();
-        component.inject(this);
-        return component;
-    }
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return injector;
     }
 }

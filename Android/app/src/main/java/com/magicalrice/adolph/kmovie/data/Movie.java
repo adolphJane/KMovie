@@ -26,4 +26,9 @@ public final class Movie {
         Movie movie = (Movie) obj;
         return mId.equals(movie.mId);
     }
+
+    @NonNull
+    public String getmId() {
+        return mId;
+    }
 }
