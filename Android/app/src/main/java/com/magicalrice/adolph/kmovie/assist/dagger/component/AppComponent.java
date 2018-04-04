@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.magicalrice.adolph.kmovie.assist.dagger.module.ActivityBuilderModule;
 import com.magicalrice.adolph.kmovie.assist.dagger.module.ApplicationModule;
+import com.magicalrice.adolph.kmovie.assist.dagger.module.NetModule;
 import com.magicalrice.adolph.kmovie.base.MovieApplication;
 
 import javax.inject.Singleton;
@@ -19,8 +20,8 @@ import dagger.android.support.DaggerApplication;
  */
 
 @Singleton
-@Component(modules = {AndroidSupportInjectionModule.class, ApplicationModule.class, ActivityBuilderModule.class})
-public interface AppComponent extends AndroidInjector<DaggerApplication>{
+@Component(modules = {AndroidSupportInjectionModule.class, ApplicationModule.class, NetModule.class, ActivityBuilderModule.class})
+public interface AppComponent extends AndroidInjector<MovieApplication>{
 
     @Component.Builder
     interface Builder {
@@ -28,9 +29,4 @@ public interface AppComponent extends AndroidInjector<DaggerApplication>{
         Builder application(Application application);
         AppComponent build();
     }
-
-    @Override
-    void inject(DaggerApplication instance);
-
-    void inject(MovieApplication application);
 }

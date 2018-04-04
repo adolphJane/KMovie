@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.RequestInterceptor;
+import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 
 import java.util.concurrent.TimeUnit;
 
@@ -42,11 +43,11 @@ public class NetModule {
 
     @Singleton
     @Provides
-    OkHttpClient provideOkHttp(Cache cache) {
+    OkHttpClient provideOkHttp(Cache cache, Tmdb tmdb) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(ApiConstants.TIME_IN_SEC, TimeUnit.SECONDS)
                 .readTimeout(ApiConstants.TIME_IN_SEC, TimeUnit.SECONDS)
-                .addInterceptor(new RequestInterceptor())
+                .addInterceptor(new RequestInterceptor(tmdb))
                 .cache(cache)
                 .build();
         return client;
@@ -57,7 +58,7 @@ public class NetModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(ApiConstants.BASE_URL)
+                .baseUrl(ApiConstants.API_URL)
                 .client(client)
                 .build();
         return retrofit;
