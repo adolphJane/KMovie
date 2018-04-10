@@ -20,7 +20,7 @@ import dagger.android.support.DaggerApplication;
  */
 
 @Singleton
-@Component(modules = {AndroidSupportInjectionModule.class, ApplicationModule.class, NetModule.class, ActivityBuilderModule.class})
+@Component(modules = {AndroidSupportInjectionModule.class, ApplicationModule.class,NetModule.class,ActivityBuilderModule.class})
 public interface AppComponent extends AndroidInjector<MovieApplication>{
 
     @Component.Builder

@@ -18,17 +18,17 @@ public class DiscoverTvBuilder {
     private TmdbDate air_date_lte;
     private TmdbDate first_air_date_gte;
     private TmdbDate first_air_date_lte;
-    private int first_air_date_year;
-    private int page;
+    private Integer first_air_date_year;
+    private Integer page;
     private String timezone;
-    private float vote_average_gte;
-    private int vote_count_gte;
+    private Float vote_average_gte;
+    private Integer vote_count_gte;
     private DiscoverFilter with_genres;
     private DiscoverFilter with_networks;
     private DiscoverFilter without_genres;
-    private int with_runtime_gte;
-    private int with_runtime_lte;
-    private boolean include_null_first_air_dates;
+    private Integer with_runtime_gte;
+    private Integer with_runtime_lte;
+    private Boolean include_null_first_air_dates;
     private String with_original_language;
     private DiscoverFilter without_keywords;
 
@@ -66,12 +66,12 @@ public class DiscoverTvBuilder {
         return this;
     }
 
-    public DiscoverTvBuilder first_air_date_year(int value) {
+    public DiscoverTvBuilder first_air_date_year(Integer value) {
         this.first_air_date_year = value;
         return this;
     }
 
-    public DiscoverTvBuilder page(int value) {
+    public DiscoverTvBuilder page(Integer value) {
         this.page = value;
         return this;
     }
@@ -81,12 +81,12 @@ public class DiscoverTvBuilder {
         return this;
     }
 
-    public DiscoverTvBuilder vote_average_gte(float value) {
+    public DiscoverTvBuilder vote_average_gte(Float value) {
         this.vote_average_gte = value;
         return this;
     }
 
-    public DiscoverTvBuilder vote_count_gte(int value) {
+    public DiscoverTvBuilder vote_count_gte(Integer value) {
         this.vote_count_gte = value;
         return this;
     }
@@ -106,12 +106,12 @@ public class DiscoverTvBuilder {
         return this;
     }
 
-    public DiscoverTvBuilder with_runtime_gte(int value) {
+    public DiscoverTvBuilder with_runtime_gte(Integer value) {
         this.with_runtime_gte = value;
         return this;
     }
 
-    public DiscoverTvBuilder with_runtime_lte(int value) {
+    public DiscoverTvBuilder with_runtime_lte(Integer value) {
         this.with_runtime_lte = value;
         return this;
     }

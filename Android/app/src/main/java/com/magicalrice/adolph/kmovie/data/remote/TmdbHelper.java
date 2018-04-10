@@ -1,6 +1,5 @@
 package com.magicalrice.adolph.kmovie.data.remote;
 
-
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -25,74 +24,86 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.magicalrice.adolph.kmovie.data.remote.ApiConstants.TMDB_DATE_PATTERN;
-
-/**
- * Created by Adolph on 2018/4/4.
- */
 public class TmdbHelper {
+
+    public static final String TMDB_DATE_PATTERN = "yyyy-MM-dd";
     private static final ThreadLocal<SimpleDateFormat> TMDB_DATE_FORMAT = new ThreadLocal<>();
 
-    public GsonBuilder getGsonBuilder() {
+    /**
+     * Create a {@link GsonBuilder} and register all of the custom types needed in order to properly
+     * deserialize complex TMDb-specific types.
+     *
+     * @return Assembled GSON builder instance.
+     */
+    public static GsonBuilder getGsonBuilder() {
         GsonBuilder builder = new GsonBuilder();
 
+        // class types
         builder.registerTypeAdapter(Integer.class, new JsonDeserializer<Integer>() {
             @Override
-            public Integer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            public Integer deserialize(JsonElement json, Type typeOfT,
+                                       JsonDeserializationContext context) throws JsonParseException {
                 return json.getAsInt();
             }
         });
 
         builder.registerTypeAdapter(MediaType.class, new JsonDeserializer<MediaType>() {
             @Override
-            public MediaType deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            public MediaType deserialize(JsonElement json, Type typeOfT,
+                                         JsonDeserializationContext context) throws JsonParseException {
                 return MediaType.get(json.getAsString());
             }
         });
 
         builder.registerTypeAdapter(VideoType.class, new JsonDeserializer<VideoType>() {
             @Override
-            public VideoType deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            public VideoType deserialize(JsonElement json, Type typeOfT,
+                                         JsonDeserializationContext context) throws JsonParseException {
                 return VideoType.get(json.getAsString());
             }
         });
 
         builder.registerTypeAdapter(BaseAccountStates.class, new JsonDeserializer<BaseAccountStates>() {
+
             @Override
-            public BaseAccountStates deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                JsonObject object = json.getAsJsonObject();
+            public BaseAccountStates deserialize(JsonElement jsonElement, Type type,
+                                                 JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                JsonObject object = jsonElement.getAsJsonObject();
                 BaseAccountStates accountStates = new BaseAccountStates();
                 accountStates.id = object.get("id").getAsInt();
                 try {
                     accountStates.rated = object.get("rated").getAsBoolean();
-                } catch (Exception e) {
+                } catch (Exception exc) {
                     accountStates.rated = true;
-                    accountStates.rating = context.deserialize(object.get("rated"), RatingObject.class);
+                    accountStates.rating = jsonDeserializationContext.deserialize(object.get("rated"), RatingObject.class);
                 }
+
                 return accountStates;
             }
         });
 
         builder.registerTypeAdapter(AccountStates.class, new JsonDeserializer<AccountStates>() {
+
             @Override
-            public AccountStates deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                JsonObject object = json.getAsJsonObject();
-                AccountStates states = new AccountStates();
-                states.id = object.get("id").getAsInt();
+            public AccountStates deserialize(JsonElement jsonElement, Type type,
+                                             JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                JsonObject object = jsonElement.getAsJsonObject();
+                AccountStates accountStates = new AccountStates();
+                accountStates.id = object.get("id").getAsInt();
                 try {
-                    states.rated = object.get("rated").getAsBoolean();
-                } catch (Exception e) {
-                    states.rated = true;
-                    states.rating = context.deserialize(object.get("rated"),RatingObject.class);
+                    accountStates.rated = object.get("rated").getAsBoolean();
+                } catch (Exception exc) {
+                    accountStates.rated = true;
+                    accountStates.rating = jsonDeserializationContext.deserialize(object.get("rated"), RatingObject.class);
                 }
                 if (object.get("favorite") != null) {
-                    states.favorite = object.get("favorite").getAsBoolean();
-                    states.watchlist = object.get("watchlist").getAsBoolean();
+                    accountStates.favorite = object.get("favorite").getAsBoolean();
+                    accountStates.watchlist = object.get("watchlist").getAsBoolean();
                 }
-                if (object.get("episode_number") != null) {
-                    states.episode_number = object.get("episode_number").getAsInt();
-                }
-                return states;
+                if (object.get("episode_number") != null)
+                    accountStates.episode_number = object.get("episode_number").getAsInt();
+
+                return accountStates;
             }
         });
 

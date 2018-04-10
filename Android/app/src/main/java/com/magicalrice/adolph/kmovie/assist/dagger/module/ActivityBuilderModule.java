@@ -1,7 +1,6 @@
 package com.magicalrice.adolph.kmovie.assist.dagger.module;
 
 import com.magicalrice.adolph.kmovie.login.LoginActivity;
-import com.magicalrice.adolph.kmovie.login.LoginActivityModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -11,6 +10,6 @@ import dagger.android.ContributesAndroidInjector;
  */
 @Module
 public abstract class ActivityBuilderModule {
-    @ContributesAndroidInjector(modules = LoginActivityModule.class)
+    @ContributesAndroidInjector(modules = LoginModule.class)
     abstract LoginActivity bindLoginActivity();
 }

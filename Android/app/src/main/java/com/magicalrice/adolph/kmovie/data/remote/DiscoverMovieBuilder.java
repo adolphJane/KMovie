@@ -18,28 +18,28 @@ public class DiscoverMovieBuilder {
     private String certification_country;
     private String certification;
     private String certification_lte;
-    private boolean include_adult;
-    private boolean include_video;
-    private int page;
-    private int primary_release_year;
+    private Boolean include_adult;
+    private Boolean include_video;
+    private Integer page;
+    private Integer primary_release_year;
     private TmdbDate primary_release_date_gte;
     private TmdbDate primary_release_date_lte;
     private TmdbDate release_date_gte;
     private TmdbDate release_date_lte;
-    private int vote_count_gte;
-    private int vote_count_lte;
-    private float vote_average_gte;
-    private float vote_average_lte;
+    private Integer vote_count_gte;
+    private Integer vote_count_lte;
+    private Float vote_average_gte;
+    private Float vote_average_lte;
     private DiscoverFilter with_cast;
     private DiscoverFilter with_crew;
     private DiscoverFilter with_companies;
     private DiscoverFilter with_genres;
     private DiscoverFilter with_keywords;
     private DiscoverFilter with_people;
-    private int year;
+    private Integer year;
     private DiscoverFilter without_genres;
-    private int with_runtime_gte;
-    private int with_runtime_lte;
+    private Integer with_runtime_gte;
+    private Integer with_runtime_lte;
     private DiscoverFilter with_release_type;
     private String with_original_language;
     private DiscoverFilter without_keywords;
@@ -88,12 +88,12 @@ public class DiscoverMovieBuilder {
         return this;
     }
 
-    public DiscoverMovieBuilder page(int value) {
+    public DiscoverMovieBuilder page(Integer value) {
         this.page = value;
         return this;
     }
 
-    public DiscoverMovieBuilder primary_release_year(int value) {
+    public DiscoverMovieBuilder primary_release_year(Integer value) {
         this.primary_release_year = value;
         return this;
     }
@@ -118,22 +118,22 @@ public class DiscoverMovieBuilder {
         return this;
     }
 
-    public DiscoverMovieBuilder vote_count_gte(int value) {
+    public DiscoverMovieBuilder vote_count_gte(Integer value) {
         this.vote_count_gte = value;
         return this;
     }
 
-    public DiscoverMovieBuilder vote_count_lte(int value) {
+    public DiscoverMovieBuilder vote_count_lte(Integer value) {
         this.vote_count_lte = value;
         return this;
     }
 
-    public DiscoverMovieBuilder vote_average_gte(float value) {
+    public DiscoverMovieBuilder vote_average_gte(Float value) {
         this.vote_average_gte = value;
         return this;
     }
 
-    public DiscoverMovieBuilder vote_average_lte(float value) {
+    public DiscoverMovieBuilder vote_average_lte(Float value) {
         this.vote_average_lte = value;
         return this;
     }
@@ -168,7 +168,7 @@ public class DiscoverMovieBuilder {
         return this;
     }
 
-    public DiscoverMovieBuilder year(int value) {
+    public DiscoverMovieBuilder year(Integer value) {
         this.year = value;
         return this;
     }
@@ -178,12 +178,12 @@ public class DiscoverMovieBuilder {
         return this;
     }
 
-    public DiscoverMovieBuilder with_runtime_gte(int value) {
+    public DiscoverMovieBuilder with_runtime_gte(Integer value) {
         this.with_runtime_gte = value;
         return this;
     }
 
-    public DiscoverMovieBuilder with_runtime_lte(int value) {
+    public DiscoverMovieBuilder with_runtime_lte(Integer value) {
         this.with_runtime_lte = value;
         return this;
     }

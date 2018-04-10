@@ -3,6 +3,7 @@ package com.magicalrice.adolph.kmovie.data.remote;
 import com.magicalrice.adolph.kmovie.data.entities.Status;
 import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbAuthenticationFailedException;
 import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbDuplicateEntryException;
+import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbException;
 import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbInvalidParametersException;
 import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbNotFoundException;
 import com.magicalrice.adolph.kmovie.data.remote.exceptions.TmdbServiceErrorException;
@@ -32,33 +33,77 @@ import com.magicalrice.adolph.kmovie.data.remote.services.TvService;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Adolph on 2018/4/4.
+ * Helper class for easy usage of the TMDB v3 API using retrofit.
+ * <p>
+ * <p>Create an instance of this class and then call any of the service methods.
+ * <p>
+ * <p>The service methods take care of constructing the required {@link Retrofit} instance and creating the service. It
+ * is recommended you use your existing OkHttp client instance by overriding {@link #okHttpClient()}.
+ * <p>
+ * <p>Only one {@link Retrofit} instance is created upon the first and re-used for any consequent service method call.
  */
 public class Tmdb {
-    private boolean hasGuestSession = false;
-    private boolean hasAccountSession = false;
-    boolean isLoggedIn = false;
 
-    private String username;
-    private String password;
-    private String sessionId;
-    private String guestSessionId;
+    /**
+     * API Related Information
+     */
+    public static final String API_HOST = "api.themoviedb.org";
+    public static final String API_VERSION = "3";
+    public static final String API_URL = "https://" + API_HOST + "/" + API_VERSION + "/";
+
+    /**
+     * API key, Session and Guest Session query parameter names.
+     */
+    public static final String PARAM_API_KEY = "api_key";
+    public static final String PARAM_SESSION_ID = "session_id";
+    public static final String PARAM_GUEST_SESSION_ID = "guest_session_id";
+
+    /**
+     * Authentication and Guest Session end point paths.
+     */
+    public static final String PATH_AUTHENTICATION = "authentication";
+
+    private OkHttpClient okHttpClient;
     private Retrofit retrofit;
 
-    public Tmdb(Retrofit retrofit) {
-        this.retrofit = retrofit;
+    private String apiKey;
+
+    private Boolean hasGuestSession = false;
+    private Boolean hasAccountSession = false;
+
+    Boolean isLoggedIn = false;
+
+    String username;
+    String password;
+    String sessionId;
+    String guestSessionId;
+
+    /**
+     * Create a new manager instance.
+     *
+     * @param apiKey Your TMDB API key.
+     */
+    @Inject
+    public Tmdb(String apiKey) {
+        this.apiKey = apiKey;
     }
 
     public void accountSession(String username, String password) throws TmdbInvalidParametersException {
         if (username == null || password == null) {
             throw new TmdbInvalidParametersException(401, "Username and Password may not be null");
         }
+
         this.username = username;
         this.password = password;
         hasAccountSession = true;
@@ -88,17 +133,85 @@ public class Tmdb {
         return hasAccountSession;
     }
 
+    public void apiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String apiKey() {
+        return apiKey;
+    }
+
+    /**
+     * Creates a {@link Retrofit.Builder} that sets the base URL, adds a Gson converter and sets {@link #okHttpClient()}
+     * as its client.
+     *
+     * @see #okHttpClient()
+     */
+    protected Retrofit.Builder retrofitBuilder() {
+        return new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addConverterFactory(GsonConverterFactory.create(TmdbHelper.getGsonBuilder().create()))
+                .client(okHttpClient());
+    }
+
+
+    /**
+     * Returns the default OkHttp client instance. It is strongly recommended to override this and use your app
+     * instance.
+     *
+     * @see #setOkHttpClientDefaults(OkHttpClient.Builder)
+     */
+    protected synchronized OkHttpClient okHttpClient() {
+        if (okHttpClient == null) {
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            setOkHttpClientDefaults(builder);
+            okHttpClient = builder.build();
+        }
+        return okHttpClient;
+    }
+
+    /**
+     * Adds an interceptor to add the api key query parameter and to log requests.
+     */
+    protected void setOkHttpClientDefaults(OkHttpClient.Builder builder) {
+        builder.addInterceptor(new TmdbInterceptor(this)).authenticator(new TmdbAuthenticator(this));
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(interceptor);
+    }
+
+    /**
+     * Return the current {@link Retrofit} instance. If none exists (first call, auth changed), builds a new one.
+     * <p>When building, sets the base url and a custom client with an {@link Interceptor} which supplies authentication
+     * data.
+     */
+    protected Retrofit getRetrofit() {
+        if (retrofit == null) {
+            retrofit = retrofitBuilder().build();
+        }
+        return retrofit;
+    }
+
+    /**
+     * Throws a {@link TmdbException} if the given unsuccessful response contains a
+     * known TMDB status code.
+     *
+     * @see <a href="https://www.themoviedb.org/documentation/api/status-codes">Status Codes</a>
+     */
     public void throwOnKnownError(Response response) throws IOException {
         if (response.isSuccessful()) {
             return;
         }
+
         ResponseBody responseBody = response.errorBody();
         if (responseBody == null) {
             return;
         }
 
-        Status status = (Status) retrofit.responseBodyConverter(Status.class, Status.class.getAnnotations())
+        Status status = (Status) retrofit
+                .responseBodyConverter(Status.class, Status.class.getAnnotations())
                 .convert(responseBody);
+
         Integer code = status.status_code;
         String message = status.status_message;
         switch (code) {
@@ -112,16 +225,16 @@ public class Tmdb {
             case 24:
                 throw new TmdbServiceErrorException(code, message);
             case 3:
+            case 14:
+            case 33:
             case 7:
             case 10:
-            case 14:
             case 17:
             case 18:
             case 26:
             case 30:
             case 31:
             case 32:
-            case 33:
                 throw new TmdbAuthenticationFailedException(code, message);
             case 5:
             case 20:
@@ -134,100 +247,100 @@ public class Tmdb {
             case 34:
                 throw new TmdbNotFoundException(code, message);
             case 8:
-                throw new TmdbDuplicateEntryException(code,message);
+                throw new TmdbDuplicateEntryException(code, message);
         }
     }
 
     public AccountService accountService() {
-        return retrofit.create(AccountService.class);
+        return getRetrofit().create(AccountService.class);
     }
 
     public AuthenticationService authenticationService() {
-        return retrofit.create(AuthenticationService.class);
+        return getRetrofit().create(AuthenticationService.class);
     }
 
     public CertificationsService certificationsService() {
-        return retrofit.create(CertificationsService.class);
+        return getRetrofit().create(CertificationsService.class);
     }
 
     public ChangesService changesService() {
-        return retrofit.create(ChangesService.class);
+        return getRetrofit().create(ChangesService.class);
     }
 
     public CollectionsService collectionService() {
-        return retrofit.create(CollectionsService.class);
+        return getRetrofit().create(CollectionsService.class);
     }
 
     public CompaniesService companiesService() {
-        return retrofit.create(CompaniesService.class);
+        return getRetrofit().create(CompaniesService.class);
     }
 
     public ConfigurationService configurationService() {
-        return retrofit.create(ConfigurationService.class);
+        return getRetrofit().create(ConfigurationService.class);
     }
 
     public CreditsService creditsService() {
-        return retrofit.create(CreditsService.class);
+        return getRetrofit().create(CreditsService.class);
     }
 
     public DiscoverService discoverService() {
-        return retrofit.create(DiscoverService.class);
+        return getRetrofit().create(DiscoverService.class);
     }
 
     public FindService findService() {
-        return retrofit.create(FindService.class);
+        return getRetrofit().create(FindService.class);
     }
 
     public GenresService genreService() {
-        return retrofit.create(GenresService.class);
+        return getRetrofit().create(GenresService.class);
     }
 
     public GuestSessionService guestSessionService() {
-        return retrofit.create(GuestSessionService.class);
+        return getRetrofit().create(GuestSessionService.class);
     }
 
     public KeywordsService keywordsService() {
-        return retrofit.create(KeywordsService.class);
+        return getRetrofit().create(KeywordsService.class);
     }
 
     public ListsService listsService() {
-        return retrofit.create(ListsService.class);
+        return getRetrofit().create(ListsService.class);
     }
 
     public MoviesService moviesService() {
-        return retrofit.create(MoviesService.class);
+        return getRetrofit().create(MoviesService.class);
     }
 
     public NetworksService networksService() {
-        return retrofit.create(NetworksService.class);
+        return getRetrofit().create(NetworksService.class);
     }
 
     public PeopleService personService() {
-        return retrofit.create(PeopleService.class);
+        return getRetrofit().create(PeopleService.class);
     }
 
     public ReviewsService reviewsService() {
-        return retrofit.create(ReviewsService.class);
+        return getRetrofit().create(ReviewsService.class);
     }
 
     public SearchService searchService() {
-        return retrofit.create(SearchService.class);
+        return getRetrofit().create(SearchService.class);
     }
 
     public TimezonesService timezonesService() {
-        return retrofit.create(TimezonesService.class);
+        return getRetrofit().create(TimezonesService.class);
     }
 
     public TvService tvService() {
-        return retrofit.create(TvService.class);
+        return getRetrofit().create(TvService.class);
     }
 
     public TvSeasonsService tvSeasonsService() {
-        return retrofit.create(TvSeasonsService.class);
+        return getRetrofit().create(TvSeasonsService.class);
     }
 
     public TvEpisodesService tvEpisodesService() {
-        return retrofit.create(TvEpisodesService.class);
+        return getRetrofit().create(TvEpisodesService.class);
     }
 
 
@@ -239,35 +352,4 @@ public class Tmdb {
         return new DiscoverTvBuilder(discoverService());
     }
 
-    public Retrofit getRetrofit() {
-        return retrofit;
-    }
-
-    public void setRetrofit(Retrofit retrofit) {
-        this.retrofit = retrofit;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public void setGuestSessionId(String guestSessionId) {
-        this.guestSessionId = guestSessionId;
-    }
 }
