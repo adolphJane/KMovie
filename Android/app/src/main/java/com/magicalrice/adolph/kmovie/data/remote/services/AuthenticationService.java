@@ -5,6 +5,7 @@ import com.magicalrice.adolph.kmovie.data.entities.RequestToken;
 import com.magicalrice.adolph.kmovie.data.entities.Session;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -15,7 +16,7 @@ public interface AuthenticationService {
      * Requests authentication Token.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/token/new")
-    Call<RequestToken> requestToken();
+    Observable<BaseResult<RequestToken>> requestToken();
 
     /**
      * Attempts to Login with a Request Token and Username/Password.
@@ -25,7 +26,7 @@ public interface AuthenticationService {
      * @param request_token The Token you requested.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/token/validate_with_login")
-    Call<RequestToken> validateToken(
+    Observable<BaseResult<RequestToken>> validateToken(
             @Query("username") String username,
             @Query("password") String password,
             @Query("request_token") String request_token
@@ -37,7 +38,7 @@ public interface AuthenticationService {
      * @param request_token The Token you requested.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/session/new")
-    Call<Session> createSession(
+    Observable<BaseResult<Session>> createSession(
             @Query("request_token") String request_token
     );
 
@@ -45,5 +46,5 @@ public interface AuthenticationService {
      * Creates Guest TvSeason
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/guest_session/new")
-    Call<GuestSession> createGuestSession();
+    Observable<BaseResult<GuestSession>> createGuestSession();
 }

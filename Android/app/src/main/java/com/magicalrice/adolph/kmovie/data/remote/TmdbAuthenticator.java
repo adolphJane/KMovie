@@ -67,7 +67,7 @@ public class TmdbAuthenticator implements Authenticator {
 
         RequestToken token = authService.requestToken().execute().body();
 
-        token = authService.validateToken(tmdb.username, tmdb.password, token.request_token).execute().body();
+        token = authService.validateToken("magicalrice", "jrm7758521", token.request_token).execute().body();
 
         Session session = authService.createSession(token.request_token).execute().body();
 

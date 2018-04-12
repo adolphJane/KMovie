@@ -79,13 +79,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     public void onVisitorLogin() {
         Tmdb tmdb = new Tmdb(ApiConstants.API_KEY);
+
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-                    Movie movie = tmdb.moviesService().summary(550).execute().body();
-                    Logger.e(movie.toString());
+                    Logger.e(tmdb.accountService().summary().execute().body().toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

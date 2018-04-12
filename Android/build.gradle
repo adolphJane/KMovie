@@ -34,4 +34,6 @@ ext {
     archRoomVersion = '1.1.0-alpha1'
     loggerVersion = '2.1.1'
     leakcanaryVersion = '1.5.4'
+    rxjava2Version = '2.1.12'
+    rxjava2AndroidVersion = '2.0.2'
 }
