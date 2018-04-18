@@ -1,6 +1,7 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
 public class RequestToken {
+    private boolean success;
     private String request_token;
     private String expires_at;
 
@@ -18,5 +19,13 @@ public class RequestToken {
 
     public void setExpires_at(String expires_at) {
         this.expires_at = expires_at;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }

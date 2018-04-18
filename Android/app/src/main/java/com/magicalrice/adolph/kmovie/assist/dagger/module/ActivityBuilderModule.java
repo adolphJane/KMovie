@@ -1,6 +1,6 @@
 package com.magicalrice.adolph.kmovie.assist.dagger.module;
 
-import com.magicalrice.adolph.kmovie.login.LoginActivity;
+import com.magicalrice.adolph.kmovie.business.login.LoginActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

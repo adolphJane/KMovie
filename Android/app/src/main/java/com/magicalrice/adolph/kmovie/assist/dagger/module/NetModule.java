@@ -5,9 +5,11 @@ import android.app.Application;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.RequestInterceptor;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
+import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +19,9 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -44,11 +48,20 @@ public class NetModule {
 
     @Singleton
     @Provides
-    OkHttpClient provideOkHttp(Cache cache) {
+    HttpLoggingInterceptor provideInterceptor() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return interceptor;
+    }
+
+    @Singleton
+    @Provides
+    OkHttpClient provideOkHttp(Cache cache,HttpLoggingInterceptor interceptor) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(ApiConstants.TIME_IN_SEC, TimeUnit.SECONDS)
                 .readTimeout(ApiConstants.TIME_IN_SEC, TimeUnit.SECONDS)
                 .addInterceptor(new RequestInterceptor())
+                .addInterceptor(interceptor)
                 .cache(cache)
                 .build();
         return client;
@@ -59,6 +72,7 @@ public class NetModule {
     Retrofit provideRetrofit(Gson gson, OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(ApiConstants.API_URL)
                 .client(client)
                 .build();
@@ -70,5 +84,12 @@ public class NetModule {
     Tmdb provideTmdb(Retrofit retrofit) {
         Tmdb tmdb = new Tmdb(retrofit);
         return tmdb;
+    }
+
+    @Provides
+    @Singleton
+    public ViewModuleFactory provideFactory(LoginRemoteDataSource source) {
+        ViewModuleFactory factory = new ViewModuleFactory(source);
+        return factory;
     }
 }

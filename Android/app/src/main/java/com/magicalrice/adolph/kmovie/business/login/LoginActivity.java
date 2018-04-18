@@ -1,6 +1,7 @@
-package com.magicalrice.adolph.kmovie.login;
+package com.magicalrice.adolph.kmovie.business.login;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +12,12 @@ import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
-import com.magicalrice.adolph.kmovie.data.entities.Account;
-import com.magicalrice.adolph.kmovie.data.entities.Movie;
-import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.databinding.ActivityLoginBinding;
 import com.magicalrice.adolph.kmovie.utils.AnimatorUtil;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModule;
-import com.orhanobut.logger.Logger;
-
-import java.io.IOException;
+import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
 
 import javax.inject.Inject;
 
@@ -29,14 +25,17 @@ import javax.inject.Inject;
  * Created by Adolph on 2018/2/26.
  */
 
-public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements ViewTreeObserver.OnGlobalLayoutListener, LoginClickListener {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements ViewTreeObserver.OnGlobalLayoutListener,LoginClickListener {
+    @Inject
+    public ViewModuleFactory factory;
+
     private LoginViewModule viewModule;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
-        viewModule = ViewModelProviders.of(this).get(LoginViewModule.class);
+        viewModule = ViewModelProviders.of(this,factory).get(LoginViewModule.class);
         binding.setListener(this);
     }
 
@@ -78,23 +77,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
 
     @Override
     public void onVisitorLogin() {
-        Tmdb tmdb = new Tmdb(ApiConstants.API_KEY);
-
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Logger.e(tmdb.accountService().summary().execute().body().toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+        viewModule.guestLogin();
     }
 
     @Override
     public void onUserLogin() {
+        viewModule.userLogin(binding.inputLayoutOne,binding.inputLayoutTwo);
     }
 
     @Override

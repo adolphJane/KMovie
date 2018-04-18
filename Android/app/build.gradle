@@ -75,4 +75,6 @@ dependencies {
     //rxjava2
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava2Version"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxjava2AndroidVersion"
+    //SnackBar
+    implementation "com.trycatch.android:mysnackbar:$rootProject.snackBarVersion"
 }

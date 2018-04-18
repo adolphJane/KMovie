@@ -18,6 +18,7 @@ import dagger.android.DaggerApplication;
 
 public class MovieApplication extends DaggerApplication {
     private static MovieApplication instance;
+    private static boolean hasToken;
 
     @Override
     public void onCreate() {
@@ -31,6 +32,7 @@ public class MovieApplication extends DaggerApplication {
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
+        appComponent.inject(this);
         return appComponent;
     }
 
@@ -58,5 +60,13 @@ public class MovieApplication extends DaggerApplication {
 
     public static MovieApplication getInstance() {
         return instance;
+    }
+
+    public static boolean isHasToken() {
+        return hasToken;
+    }
+
+    public static void setHasToken(boolean hasToken) {
+        MovieApplication.hasToken = hasToken;
     }
 }

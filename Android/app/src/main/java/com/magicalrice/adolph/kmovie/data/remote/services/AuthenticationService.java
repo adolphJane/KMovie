@@ -16,7 +16,7 @@ public interface AuthenticationService {
      * Requests authentication Token.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/token/new")
-    Observable<BaseResult<RequestToken>> requestToken();
+    Observable<RequestToken> requestToken();
 
     /**
      * Attempts to Login with a Request Token and Username/Password.
@@ -26,7 +26,7 @@ public interface AuthenticationService {
      * @param request_token The Token you requested.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/token/validate_with_login")
-    Observable<BaseResult<RequestToken>> validateToken(
+    Observable<RequestToken> validateToken(
             @Query("username") String username,
             @Query("password") String password,
             @Query("request_token") String request_token
@@ -38,7 +38,7 @@ public interface AuthenticationService {
      * @param request_token The Token you requested.
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/session/new")
-    Observable<BaseResult<Session>> createSession(
+    Observable<Session> createSession(
             @Query("request_token") String request_token
     );
 
@@ -46,5 +46,5 @@ public interface AuthenticationService {
      * Creates Guest TvSeason
      */
     @GET(ApiConstants.PATH_AUTHENTICATION + "/guest_session/new")
-    Observable<BaseResult<GuestSession>> createGuestSession();
+    Observable<GuestSession> createGuestSession();
 }

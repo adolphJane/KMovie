@@ -1,4 +1,4 @@
-package com.magicalrice.adolph.kmovie.login;
+package com.magicalrice.adolph.kmovie.business.login;
 
 /**
  * Created by Adolph on 2018/4/10.

@@ -6,7 +6,7 @@
 
         <variable
             name="listener"
-            type="com.magicalrice.adolph.kmovie.login.LoginClickListener" />
+            type="com.magicalrice.adolph.kmovie.business.login.LoginClickListener" />
     </data>
 
     <RelativeLayout

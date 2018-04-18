@@ -12,7 +12,7 @@ public class ApiConstants {
     public static final String API_HOST = "api.themoviedb.org";
     public static final String API_VERSION = "3";
     public static final String API_URL = "https://" + API_HOST + "/" + API_VERSION + "/";
-    public static final String API_KEY =     "74a1fd59a732270cc2e2b6753c3cd7aa";
+    public static final String API_KEY = "74a1fd59a732270cc2e2b6753c3cd7aa";
 
     /**
      * API key, Session and Guest Session query parameter names.
