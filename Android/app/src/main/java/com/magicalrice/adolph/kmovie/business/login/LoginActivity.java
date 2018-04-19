@@ -16,6 +16,7 @@ import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.databinding.ActivityLoginBinding;
 import com.magicalrice.adolph.kmovie.utils.AnimatorUtil;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
+import com.magicalrice.adolph.kmovie.utils.SpUtils;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
 
@@ -25,7 +26,7 @@ import javax.inject.Inject;
  * Created by Adolph on 2018/2/26.
  */
 
-public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements ViewTreeObserver.OnGlobalLayoutListener,LoginClickListener {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements ViewTreeObserver.OnGlobalLayoutListener, LoginClickListener {
     @Inject
     public ViewModuleFactory factory;
 
@@ -35,7 +36,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
-        viewModule = ViewModelProviders.of(this,factory).get(LoginViewModule.class);
+        viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
         binding.setListener(this);
     }
 
@@ -82,7 +83,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
 
     @Override
     public void onUserLogin() {
-        viewModule.userLogin(binding.inputLayoutOne,binding.inputLayoutTwo);
+        viewModule.userLogin(binding.inputLayoutOne, binding.inputLayoutTwo)
+                .subscribe(requestToken -> {
+                    if (requestToken.equals("请求失败")) {
+                        Toast.makeText(LoginActivity.this, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                    } else {
+                        SpUtils.getInstance(LoginActivity.this).put("user_token", requestToken.getRequest_token());
+                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

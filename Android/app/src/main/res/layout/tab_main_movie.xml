@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.magicalrice.adolph.kmovie.widget.TabIconLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+    <ImageView
+        android:id="@+id/img_tab_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_movie_black_24dp"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="电影"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/img_tab_movie"
+        android:textSize="14sp"
+        android:textColor="@color/colorAccent"/>
+
+</com.magicalrice.adolph.kmovie.widget.TabIconLayout>
