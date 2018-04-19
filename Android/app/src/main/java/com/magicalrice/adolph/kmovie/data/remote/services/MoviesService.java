@@ -20,6 +20,7 @@ import com.magicalrice.adolph.kmovie.data.entities.Translations;
 import com.magicalrice.adolph.kmovie.data.entities.Videos;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -308,7 +309,7 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/popular")
-    Call<MovieResultsPage> popular(
+    Observable<MovieResultsPage> popular(
             @Query("page") Integer page,
             @Query("language") String language
     );

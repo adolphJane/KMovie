@@ -25,7 +25,6 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends DaggerApp
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.translucentStatusBar(this);
         binding = DataBindingUtil.setContentView(this,getLayoutRes());
     }
 

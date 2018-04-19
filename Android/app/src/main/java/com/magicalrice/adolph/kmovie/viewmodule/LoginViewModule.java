@@ -29,13 +29,8 @@ public class LoginViewModule extends AndroidViewModel {
         this.dataSource = dataSource;
     }
 
-    public void guestLogin() {
-        dataSource.getBaseToken()
-                .subscribe(requestToken -> {
-                    SpUtils.getInstance(context).put("base_token", requestToken.getRequest_token());
-                    Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
-                    context.setHasToken(true);
-                }, throwable -> Toast.makeText(context, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show());
+    public Observable<RequestToken> guestLogin() {
+        return dataSource.getBaseToken();
     }
 
     public Observable<RequestToken> userLogin(TextInputLayout accountLayout, TextInputLayout passwordLayout) {

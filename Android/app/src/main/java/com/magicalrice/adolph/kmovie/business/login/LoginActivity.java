@@ -2,6 +2,7 @@ package com.magicalrice.adolph.kmovie.business.login;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,11 +13,14 @@ import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
+import com.magicalrice.adolph.kmovie.base.MovieApplication;
+import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.databinding.ActivityLoginBinding;
 import com.magicalrice.adolph.kmovie.utils.AnimatorUtil;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.SpUtils;
+import com.magicalrice.adolph.kmovie.utils.StatusBarUtil;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
 
@@ -35,6 +39,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.translucentStatusBar(this);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
         binding.setListener(this);
@@ -78,11 +83,23 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
 
     @Override
     public void onVisitorLogin() {
-        viewModule.guestLogin();
+        binding.setShowProgress(true);
+        viewModule.guestLogin()
+                .subscribe(requestToken -> {
+                    SpUtils.getInstance(LoginActivity.this).put("base_token", requestToken.getRequest_token());
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    MovieApplication.getInstance().setHasToken(true);
+                    startActivity(new Intent(LoginActivity.this, MainHomeActivity.class));
+                    binding.setShowProgress(false);
+                }, throwable -> {
+                    Toast.makeText(LoginActivity.this, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
+                    binding.setShowProgress(false);
+                });
     }
 
     @Override
     public void onUserLogin() {
+        binding.setShowProgress(true);
         viewModule.userLogin(binding.inputLayoutOne, binding.inputLayoutTwo)
                 .subscribe(requestToken -> {
                     if (requestToken.equals("请求失败")) {
@@ -91,6 +108,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
                         SpUtils.getInstance(LoginActivity.this).put("user_token", requestToken.getRequest_token());
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     }
+                    binding.setShowProgress(false);
                 });
     }
 
