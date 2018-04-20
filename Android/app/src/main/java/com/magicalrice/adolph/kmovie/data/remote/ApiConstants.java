@@ -27,4 +27,6 @@ public class ApiConstants {
     public static final String PATH_AUTHENTICATION = "authentication";
 
     public static final String TMDB_DATE_PATTERN = "yyyy-MM-dd";
+
+    public static final String TMDB_IMAGE_PATH = "http://image.tmdb.org/t/p/";
 }

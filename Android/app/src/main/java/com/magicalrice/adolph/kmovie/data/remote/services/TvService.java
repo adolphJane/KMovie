@@ -18,6 +18,7 @@ import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.Videos;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -319,7 +320,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/popular")
-    Call<TvShowResultsPage> popular(
+    Observable<TvShowResultsPage> popular(
             @Query("page") Integer page,
             @Query("language") String language
     );

@@ -1,17 +1,13 @@
 package com.magicalrice.adolph.kmovie.assist.dagger.module;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.RequestInterceptor;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
-import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -86,12 +82,5 @@ public class NetModule {
     Tmdb provideTmdb(Retrofit retrofit) {
         Tmdb tmdb = new Tmdb(retrofit);
         return tmdb;
-    }
-
-    @Provides
-    @Singleton
-    public ViewModuleFactory provideFactory(Context context, LoginRemoteDataSource loginSource, MovieRemoteDataSource movieSource) {
-        ViewModuleFactory factory = new ViewModuleFactory((Application) context,loginSource,movieSource);
-        return factory;
     }
 }

@@ -2,6 +2,7 @@ package com.magicalrice.adolph.kmovie
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.magicalrice.adolph.kmovie.data.remote.Tmdb
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,5 +21,10 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("com.magicalrice.adolph.kmovie", appContext.packageName)
+    }
+
+    @Test
+    fun assertMovie() {
+
     }
 }

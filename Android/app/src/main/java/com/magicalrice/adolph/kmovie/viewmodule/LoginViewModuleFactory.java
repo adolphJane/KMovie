@@ -12,9 +12,8 @@ import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
  * Created by Adolph on 2018/2/28.
  */
 
-public class ViewModuleFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class LoginViewModuleFactory extends ViewModelProvider.AndroidViewModelFactory {
     private LoginRemoteDataSource loginDataSource;
-    private MovieRemoteDataSource movieDataSource;
     private Application application;
 
     /**
@@ -22,11 +21,10 @@ public class ViewModuleFactory extends ViewModelProvider.AndroidViewModelFactory
      *
      * @param application an application to pass in {@link AndroidViewModel}
      */
-    public ViewModuleFactory(@NonNull Application application,LoginRemoteDataSource loginDataSource,MovieRemoteDataSource movieDataSource) {
+    public LoginViewModuleFactory(@NonNull Application application, LoginRemoteDataSource loginDataSource) {
         super(application);
         this.application = application;
         this.loginDataSource = loginDataSource;
-        this.movieDataSource = movieDataSource;
     }
 
 
@@ -35,8 +33,6 @@ public class ViewModuleFactory extends ViewModelProvider.AndroidViewModelFactory
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModule.class)) {
             return (T) new LoginViewModule(application,loginDataSource);
-        } else if (modelClass.isAssignableFrom(MovieViewModule.class)) {
-            return (T) new MovieViewModule(application,movieDataSource);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
