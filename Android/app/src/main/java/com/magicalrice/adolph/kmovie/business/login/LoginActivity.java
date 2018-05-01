@@ -1,7 +1,6 @@
 package com.magicalrice.adolph.kmovie.business.login;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -15,14 +14,13 @@ import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.base.MovieApplication;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
-import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.databinding.ActivityLoginBinding;
 import com.magicalrice.adolph.kmovie.utils.AnimatorUtil;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.SpUtils;
 import com.magicalrice.adolph.kmovie.utils.StatusBarUtil;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModule;
-import com.magicalrice.adolph.kmovie.viewmodule.ViewModuleFactory;
+import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModuleFactory;
 
 import javax.inject.Inject;
 
@@ -32,7 +30,7 @@ import javax.inject.Inject;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements ViewTreeObserver.OnGlobalLayoutListener, LoginClickListener {
     @Inject
-    public ViewModuleFactory factory;
+    public LoginViewModuleFactory factory;
 
     private LoginViewModule viewModule;
 

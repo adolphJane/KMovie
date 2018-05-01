@@ -12,7 +12,7 @@ public abstract class FragmentBuilderModule {
     @ContributesAndroidInjector(modules = MovieFragmentModule.class)
     abstract PopularMovieFragment bindMovieFragment();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = TvFragmentModule.class)
     abstract PopularTvFragment bindTvFragment();
 
     @ContributesAndroidInjector
