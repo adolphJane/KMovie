@@ -42,7 +42,6 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView {
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         parentLayout.setLayoutParams(params);
         parentLayout.setOrientation(LinearLayout.HORIZONTAL);
-        parentLayout.setBackgroundColor(getResources().getColor(R.color.gray_1));
         addView(parentLayout);
     }
 

@@ -1,4 +1,4 @@
-package com.magicalrice.adolph.kmovie.business.mainhome;
+package com.magicalrice.adolph.kmovie.widget.adapter;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

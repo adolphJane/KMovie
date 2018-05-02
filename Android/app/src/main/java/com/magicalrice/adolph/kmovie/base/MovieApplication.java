@@ -1,8 +1,5 @@
 package com.magicalrice.adolph.kmovie.base;
 
-import android.os.Build;
-import android.os.Debug;
-
 import com.magicalrice.adolph.kmovie.BuildConfig;
 import com.magicalrice.adolph.kmovie.assist.MyLifecycle;
 import com.magicalrice.adolph.kmovie.assist.dagger.component.AppComponent;

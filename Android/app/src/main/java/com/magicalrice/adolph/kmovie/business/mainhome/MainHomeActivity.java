@@ -7,23 +7,27 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
+import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MainHomeFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MeFragment;
-import com.magicalrice.adolph.kmovie.business.mainhome.fragment.PopularMovieFragment;
-import com.magicalrice.adolph.kmovie.business.mainhome.fragment.PopularTvFragment;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMainHomeBinding;
 import com.magicalrice.adolph.kmovie.viewmodule.MainHomeViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
+import com.magicalrice.adolph.kmovie.widget.scrolltag.onScrollSelectTagListener;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> implements TabLayout.OnTabSelectedListener {
+public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> implements TabLayout.OnTabSelectedListener,MainHomeClickListener, onScrollSelectTagListener {
     private MainHomeViewModule viewModule;
     @Inject
     MainViewModuleFactory factory;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
             getSupportActionBar().setTitle("");
         }
         setUpTabLayout();
+        setUpToolBar();
         viewModule = ViewModelProviders.of(this,factory).get(MainHomeViewModule.class);
     }
 
@@ -47,6 +52,11 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
         bottomTab.addTab(bottomTab.newTab().setCustomView(R.layout.tab_main_me));
         bottomTab.addOnTabSelectedListener(this);
         bottomTab.getTabAt(0).select();
+    }
+
+    private void setUpToolBar() {
+        binding.setClickListener(this);
+        binding.tagGroup.addOnScrollSelectTagListener(this);
     }
 
     @Override
@@ -102,7 +112,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
 
         if (TextUtils.equals(tag,"main_movie")) {
             if (movieFragment == null) {
-                movieFragment = new PopularMovieFragment();
+                movieFragment = new MainHomeFragment();
                 Bundle bundle = new Bundle();
                 movieFragment.setArguments(bundle);
                 tr.add(R.id.content,movieFragment,"main_movie");
@@ -111,7 +121,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
             }
         } else if (TextUtils.equals(tag,"main_tv")) {
             if (tvFragment == null) {
-                tvFragment = new PopularTvFragment();
+                tvFragment = new MainHomeFragment();
                 Bundle bundle = new Bundle();
                 tvFragment.setArguments(bundle);
                 tr.add(R.id.content,tvFragment,"main_tv");
@@ -131,4 +141,30 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
         tr.commitAllowingStateLoss();
     }
 
+    public void updateTag(ViewPager viewPager,List<String> tagList,int position) {
+        binding.tagGroup.setParam(viewPager,tagList);
+        if (position != -1) {
+            binding.tagGroup.selectItem(position);
+        }
+    }
+
+    @Override
+    public void onSearchClick() {
+
+    }
+
+    @Override
+    public void onSelectTag(int position) {
+
+    }
+
+    @Override
+    public void onScrollTop(boolean isTop) {
+
+    }
+
+    @Override
+    public void onScrollBottom(boolean isBottom) {
+
+    }
 }

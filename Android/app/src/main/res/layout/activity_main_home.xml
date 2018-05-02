@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.magicalrice.adolph.kmovie.business.mainhome.MainHomeClickListener"/>
+
+        <variable
+            name="clickListener"
+            type="MainHomeClickListener"/>
+    </data>
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/coordinator">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -17,23 +24,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="enterAlways|scroll">
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
                     android:padding="0dp"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:theme="@style/ThemeOverlay.AppCompat">
 
-                    <TextView
-                        android:id="@+id/tv_log"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="@string/app_name"
-                        android:textColor="#757575"
-                        android:textSize="20sp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/app_icon"
+                            android:layout_centerVertical="true"/>
+
+                        <ImageView
+                            android:id="@+id/search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/app_search"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp"
+                            android:onClick="@{v->clickListener.onSearchClick()}"/>
+
+                        <com.magicalrice.adolph.kmovie.widget.scrolltag.HorizontalScrollTagLayout
+                            android:id="@+id/tag_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@id/icon"
+                            android:layout_toLeftOf="@id/search"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp" />
+                    </RelativeLayout>
+
 
                 </android.support.v7.widget.Toolbar>
             </FrameLayout>
@@ -43,16 +73,16 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/bottom_tab"
+            style="@style/NoUnderLineTabLayout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
-            style="@style/NoUnderLineTabLayout"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

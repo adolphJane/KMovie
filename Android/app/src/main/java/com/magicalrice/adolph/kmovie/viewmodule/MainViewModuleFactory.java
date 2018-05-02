@@ -36,7 +36,7 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
         } else if (modelClass.isAssignableFrom(TvViewModule.class)) {
             return (T) new TvViewModule(application,tvDataSource);
         } else if (modelClass.isAssignableFrom(MainHomeViewModule.class)) {
-            return (T) new MainHomeViewModule(application);
+            return (T) new MainHomeViewModule(application,movieDataSource);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

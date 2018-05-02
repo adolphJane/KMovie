@@ -6,6 +6,7 @@ import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 import com.magicalrice.adolph.kmovie.data.enumerations.SortBy;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,7 +20,7 @@ public interface GenresService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("genre/movie/list")
-    Call<GenreResults> movie(
+    Observable<GenreResults> movie(
             @Query("language") String language
     );
 

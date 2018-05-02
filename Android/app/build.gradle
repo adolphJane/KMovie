@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -93,6 +94,9 @@ dependencies {
     debugApi "com.sw.debug.view:debug-view:$rootProject.debugViewVersion"
     releaseApi "com.sw.debug.view:debug-view-no-op:$rootProject.debugViewVersion"
     testImplementation "com.sw.debug.view:debug-view-no-op:$rootProject.debugViewVersion"
+
+    //StreamSupport
+    implementation "net.sourceforge.streamsupport:streamsupport:$rootProject.streamSupportVersion"
 }
 repositories {
     mavenCentral()
