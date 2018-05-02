@@ -10,8 +10,12 @@ import android.widget.Toast;
 import com.magicalrice.adolph.kmovie.base.MovieApplication;
 import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.entities.RequestToken;
+import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.utils.SpUtils;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.api.BasicCallback;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
@@ -42,6 +46,38 @@ public class LoginViewModule extends AndroidViewModel {
             passwordLayout.setError("账号密码不能为空");
             return Observable.empty();
         }
+    }
 
+    public void loginJMessage(String userName,String password) {
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)) {
+            return;
+        }
+        UserInfo myInfo = JMessageClient.getMyInfo();
+        if (myInfo == null) {
+            JMessageClient.login(userName, password, new BasicCallback() {
+                @Override
+                public void gotResult(int i, String s) {
+                    if (i == 0) {
+
+                    } else if (i > 0) {
+                        LUtils.e(s);
+                        registerJMessage(userName,password);
+                    }
+                }
+            });
+        }
+    }
+
+    public void registerJMessage(String userName,String password) {
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)) {
+            return;
+        }
+
+        JMessageClient.register(userName, password, new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+
+            }
+        });
     }
 }

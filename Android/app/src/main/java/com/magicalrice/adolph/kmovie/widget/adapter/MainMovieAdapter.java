@@ -14,19 +14,17 @@ import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Adolph on 2018/4/20.
  */
 
-public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.PopularMovieHolder> {
+public class MainMovieAdapter extends RecyclerView.Adapter<MainMovieAdapter.PopularMovieHolder> {
     private List<BaseMovie> movieList;
     private Context context;
 
-    public PopularMovieAdapter(Context context,List<BaseMovie> movies) {
+    public MainMovieAdapter(Context context, List<BaseMovie> movies) {
         this.context = context;
         this.movieList = movies;
     }

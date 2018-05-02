@@ -1,5 +1,9 @@
 package com.magicalrice.adolph.kmovie.base;
 
+import android.os.Build;
+import android.os.Debug;
+
+import com.magicalrice.adolph.kmovie.BuildConfig;
 import com.magicalrice.adolph.kmovie.assist.MyLifecycle;
 import com.magicalrice.adolph.kmovie.assist.dagger.component.AppComponent;
 import com.magicalrice.adolph.kmovie.assist.dagger.component.DaggerAppComponent;
@@ -8,7 +12,9 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
+import com.sw.debug.view.DebugViewWrapper;
 
+import cn.jpush.im.android.api.JMessageClient;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 
@@ -27,6 +33,8 @@ public class MovieApplication extends DaggerApplication {
         MyLifecycle.init(this);
         initLogger();
         initLeakCanary();
+        initJMessage();
+        initDebugView();
     }
 
     @Override
@@ -57,6 +65,26 @@ public class MovieApplication extends DaggerApplication {
             LeakCanary.install(this);
         }
     }
+
+    private void initJMessage() {
+        if (BuildConfig.DEBUG) {
+            JMessageClient.setDebugMode(true);
+        }
+        JMessageClient.init(getApplicationContext(), true);
+    }
+
+    private void initDebugView() {
+        DebugViewWrapper.Companion.getInstance().init(
+                new DebugViewWrapper.Builder(this)
+                        .viewWidth(250)
+                        .bgColor(0x6f677700)
+                        .alwaysShowOverlaySetting(true)
+                        .logMaxLines(20)
+        );
+
+        DebugViewWrapper.Companion.getInstance().show();
+    }
+
 
     public static MovieApplication getInstance() {
         return instance;

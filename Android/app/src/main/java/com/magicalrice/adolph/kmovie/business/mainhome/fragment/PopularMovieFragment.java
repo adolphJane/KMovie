@@ -11,8 +11,7 @@ import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.databinding.FragmentMainHomeMovieBinding;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieViewModule;
-import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModuleFactory;
-import com.magicalrice.adolph.kmovie.widget.adapter.PopularMovieAdapter;
+import com.magicalrice.adolph.kmovie.widget.adapter.MainMovieAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import javax.inject.Inject;
 
 public class PopularMovieFragment extends BaseFragment<FragmentMainHomeMovieBinding>{
     private MovieViewModule viewModule;
-    private PopularMovieAdapter adapter;
+    private MainMovieAdapter adapter;
     private List<BaseMovie> movieList;
     @Inject
     MainViewModuleFactory factory;
@@ -41,7 +40,7 @@ public class PopularMovieFragment extends BaseFragment<FragmentMainHomeMovieBind
     public void createView(View view) {
         if (movieList == null) {
             movieList = new ArrayList<>();
-            adapter = new PopularMovieAdapter(getContext(),movieList);
+            adapter = new MainMovieAdapter(getContext(),movieList);
             binding.setAdapter(adapter);
         }
         viewModule.getPopularMovie(1);

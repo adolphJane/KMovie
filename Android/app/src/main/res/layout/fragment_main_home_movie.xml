@@ -6,7 +6,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.magicalrice.adolph.kmovie.widget.adapter.PopularMovieAdapter"/>
+            type="com.magicalrice.adolph.kmovie.widget.adapter.MainMovieAdapter"/>
     </data>
     <FrameLayout
         android:layout_width="match_parent"

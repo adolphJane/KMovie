@@ -1,5 +1,6 @@
 package com.magicalrice.adolph.kmovie.business.mainhome;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,10 +15,15 @@ import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MeFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.PopularMovieFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.PopularTvFragment;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMainHomeBinding;
+import com.magicalrice.adolph.kmovie.viewmodule.MainHomeViewModule;
+import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
+
+import javax.inject.Inject;
 
 public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> implements TabLayout.OnTabSelectedListener {
-
-
+    private MainHomeViewModule viewModule;
+    @Inject
+    MainViewModuleFactory factory;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
             getSupportActionBar().setTitle("");
         }
         setUpTabLayout();
+        viewModule = ViewModelProviders.of(this,factory).get(MainHomeViewModule.class);
     }
 
     @Override
@@ -39,6 +46,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
         bottomTab.addTab(bottomTab.newTab().setCustomView(R.layout.tab_main_tv));
         bottomTab.addTab(bottomTab.newTab().setCustomView(R.layout.tab_main_me));
         bottomTab.addOnTabSelectedListener(this);
+        bottomTab.getTabAt(0).select();
     }
 
     @Override

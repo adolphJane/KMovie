@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.magicalrice.adolph.kmovie.R;
-import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 
@@ -21,11 +20,11 @@ import java.util.List;
  * Created by Adolph on 2018/4/20.
  */
 
-public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.PopularTvHolder> {
+public class MainTvAdapter extends RecyclerView.Adapter<MainTvAdapter.PopularTvHolder> {
     private List<BaseTvShow> tvList;
     private Context context;
 
-    public PopularTvAdapter(Context context,List<BaseTvShow> tvList) {
+    public MainTvAdapter(Context context, List<BaseTvShow> tvList) {
         this.context = context;
         this.tvList = tvList;
     }
