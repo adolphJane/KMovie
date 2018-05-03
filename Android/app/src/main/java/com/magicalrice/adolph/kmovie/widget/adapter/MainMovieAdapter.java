@@ -3,6 +3,7 @@ package com.magicalrice.adolph.kmovie.widget.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,19 @@ public class MainMovieAdapter extends RecyclerView.Adapter<MainMovieAdapter.Popu
     public void onBindViewHolder(@NonNull PopularMovieHolder holder, int position) {
         BaseMovie bean = movieList.get(position);
         if (bean != null) {
-            Glide.with(context)
-                    .load(ApiConstants.TMDB_IMAGE_PATH + "/w400" + bean.getPoster_path())
-                    .into(holder.imgMovie);
+            String imgPath = "";
+            if (bean.getPoster_path() != null) {
+                imgPath = bean.getPoster_path();
+            } else {
+                if (bean.getBackdrop_path() != null) {
+                    imgPath = bean.getBackdrop_path();
+                }
+            }
+            if (!TextUtils.isEmpty(imgPath)) {
+                Glide.with(context)
+                        .load(ApiConstants.TMDB_IMAGE_PATH + "/w400" + imgPath)
+                        .into(holder.imgMovie);
+            }
             holder.tvRelease.setText(bean.getRelease_date());
             holder.tvTitle.setText(bean.getTitle());
         }

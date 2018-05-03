@@ -30,14 +30,20 @@ public class MainHomeFragment extends BaseFragment<FragmentMainHomeBinding> {
     private MainHomeViewModule viewModule;
     private MainHomeAdapter adapter;
     private List<String> genreList = new ArrayList<>();
+    private int type = 0;
     @Inject
     MainViewModuleFactory factory;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModule = ViewModelProviders.of(this,factory).get(MainHomeViewModule.class);
-        viewModule.getMovieGenre();
+        type = getArguments().getInt("type");
+        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
+        if (type == 1) {
+            viewModule.getMovieGenre();
+        } else if (type == 2) {
+            viewModule.getTvGenre();
+        }
     }
 
     @Override
@@ -51,15 +57,27 @@ public class MainHomeFragment extends BaseFragment<FragmentMainHomeBinding> {
         initData();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            ((MainHomeActivity) getActivity()).updateTag(binding.viewPager, genreList, binding.viewPager.getCurrentItem());
+        }
+    }
+
     private void initView() {
         adapter = new MainHomeAdapter(getFragmentManager());
+        binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setOffscreenPageLimit(4);
     }
 
     private void initData() {
         viewModule.genreData.observe(this, genreResults -> {
-            adapter.addDatas(genreResults.getGenres());
+            adapter.addDatas(genreResults.getGenres(),type);
+            adapter.notifyDataSetChanged();
+            genreList.clear();
             genreList.addAll(StreamSupport.stream(genreResults.getGenres()).map(genre -> genre.getName()).collect(Collectors.toList()));
-            ((MainHomeActivity)getActivity()).updateTag(binding.viewPager,genreList,-1);
+            ((MainHomeActivity) getActivity()).updateTag(binding.viewPager, genreList, -1);
         });
     }
 }

@@ -1,9 +1,12 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class BaseTvShow extends BaseRatingObject {
+public class BaseTvShow extends BaseRatingObject implements Parcelable {
     private int id;
     private String original_name;
     private String original_language;
@@ -130,4 +133,60 @@ public class BaseTvShow extends BaseRatingObject {
     public void setMedia_type(String media_type) {
         this.media_type = media_type;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.original_name);
+        dest.writeString(this.original_language);
+        dest.writeString(this.overview);
+        dest.writeString(this.name);
+        dest.writeStringList(this.origin_country);
+        dest.writeList(this.genre_ids);
+        dest.writeString(this.first_air_date);
+        dest.writeString(this.backdrop_path);
+        dest.writeString(this.poster_path);
+        dest.writeDouble(this.popularity);
+        dest.writeDouble(this.vote_average);
+        dest.writeInt(this.vote_count);
+        dest.writeString(this.media_type);
+    }
+
+    public BaseTvShow() {
+    }
+
+    protected BaseTvShow(Parcel in) {
+        this.id = in.readInt();
+        this.original_name = in.readString();
+        this.original_language = in.readString();
+        this.overview = in.readString();
+        this.name = in.readString();
+        this.origin_country = in.createStringArrayList();
+        this.genre_ids = new ArrayList<Integer>();
+        in.readList(this.genre_ids, Integer.class.getClassLoader());
+        this.first_air_date = in.readString();
+        this.backdrop_path = in.readString();
+        this.poster_path = in.readString();
+        this.popularity = in.readDouble();
+        this.vote_average = in.readDouble();
+        this.vote_count = in.readInt();
+        this.media_type = in.readString();
+    }
+
+    public static final Parcelable.Creator<BaseTvShow> CREATOR = new Parcelable.Creator<BaseTvShow>() {
+        @Override
+        public BaseTvShow createFromParcel(Parcel source) {
+            return new BaseTvShow(source);
+        }
+
+        @Override
+        public BaseTvShow[] newArray(int size) {
+            return new BaseTvShow[size];
+        }
+    };
 }

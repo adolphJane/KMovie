@@ -7,12 +7,18 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.entities.DiscoverFilter;
 import com.magicalrice.adolph.kmovie.data.entities.GenreResults;
+import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 
 public class MainHomeViewModule extends AndroidViewModel{
     private MovieRemoteDataSource dataSource;
     private Application context;
     public MutableLiveData<GenreResults> genreData = new MutableLiveData<>();
+    public MutableLiveData<MovieResultsPage> movieData = new MutableLiveData<>();
+    public MutableLiveData<TvShowResultsPage> tvData = new MutableLiveData<>();
+
     public MainHomeViewModule(@NonNull Application application,MovieRemoteDataSource dataSource) {
         super(application);
         this.context = application;
@@ -22,6 +28,26 @@ public class MainHomeViewModule extends AndroidViewModel{
     public void getMovieGenre() {
         dataSource.getMovieGenre().subscribe(genreResults -> {
              genreData.setValue(genreResults);
+        },throwable -> Toast.makeText(context,throwable.getMessage() + "error",Toast.LENGTH_SHORT).show());
+    }
+
+    public void getTvGenre() {
+        dataSource.getTvGenre().subscribe(genreResults -> {
+            genreData.setValue(genreResults);
+        },throwable -> Toast.makeText(context,throwable.getMessage() + "error",Toast.LENGTH_SHORT).show());
+    }
+
+    public void getMovies(int genreId,int page) {
+        DiscoverFilter filter = new DiscoverFilter(genreId);
+        dataSource.getMoviesByGenre(filter,page).subscribe(movieResultsPage -> {
+            movieData.setValue(movieResultsPage);
+        },throwable -> Toast.makeText(context,throwable.getMessage() + "error",Toast.LENGTH_SHORT).show());
+    }
+
+    public void getTvs(int genreId,int page) {
+        DiscoverFilter filter = new DiscoverFilter(genreId);
+        dataSource.getTvsByGenre(filter,page).subscribe(tvShowResultsPage -> {
+            tvData.setValue(tvShowResultsPage);
         },throwable -> Toast.makeText(context,throwable.getMessage() + "error",Toast.LENGTH_SHORT).show());
     }
 }

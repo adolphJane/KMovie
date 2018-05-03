@@ -79,7 +79,7 @@ public class MovieApplication extends DaggerApplication {
                         .logMaxLines(20)
         );
 
-        DebugViewWrapper.Companion.getInstance().show();
+//        DebugViewWrapper.Companion.getInstance().show();
     }
 
 

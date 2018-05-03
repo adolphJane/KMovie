@@ -6,6 +6,7 @@ import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.enumerations.SortBy;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -92,6 +93,16 @@ public interface DiscoverService {
             @Query("without_keywords") DiscoverFilter without_keywords
     );
 
+    @GET("discover/movie")
+    Observable<MovieResultsPage> discoverMovieWithGenre(
+            @Query("language") String language,
+            @Query("sort_by") SortBy sort_by,
+            @Query("include_adult") Boolean include_adult,
+            @Query("include_video") Boolean include_video,
+            @Query("page") Integer page,
+            @Query("with_genres") DiscoverFilter with_genres
+    );
+
     /**
      * Discover TV shows by different types of data like average rating, number of votes, genres, the network they aired
      * on and air dates.
@@ -139,6 +150,14 @@ public interface DiscoverService {
             @Query("include_null_first_air_dates") Boolean include_null_first_air_dates,
             @Query("with_original_language") String with_original_language,
             @Query("without_keywords") DiscoverFilter without_keywords
+    );
+
+    @GET("discover/tv")
+    Observable<TvShowResultsPage> discoverTvWithGenre(
+            @Query("language") String language,
+            @Query("sort_by") SortBy sort_by,
+            @Query("page") Integer page,
+            @Query("with_genres") DiscoverFilter with_genres
     );
 
 }

@@ -68,7 +68,6 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         tab.getCustomView().setSelected(false);
-
     }
 
     @Override
@@ -89,6 +88,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
                 changeFragment("main_me");
                 break;
         }
+        binding.tagGroup.detachListener();
     }
 
     private void changeFragment(String tag) {
@@ -114,6 +114,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
             if (movieFragment == null) {
                 movieFragment = new MainHomeFragment();
                 Bundle bundle = new Bundle();
+                bundle.putInt("type",1);                //电影type:1
                 movieFragment.setArguments(bundle);
                 tr.add(R.id.content,movieFragment,"main_movie");
             } else {
@@ -123,6 +124,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
             if (tvFragment == null) {
                 tvFragment = new MainHomeFragment();
                 Bundle bundle = new Bundle();
+                bundle.putInt("type",2);                //电视type:2
                 tvFragment.setArguments(bundle);
                 tr.add(R.id.content,tvFragment,"main_tv");
             } else {

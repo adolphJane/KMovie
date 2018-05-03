@@ -1,6 +1,7 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class BaseMovie extends BaseRatingObject {
+public class BaseMovie extends BaseRatingObject implements Parcelable {
     private int id;
     private boolean adult;
     private String backdrop_path;
@@ -144,4 +145,62 @@ public class BaseMovie extends BaseRatingObject {
     public void setMedia_type(String media_type) {
         this.media_type = media_type;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
+        dest.writeString(this.backdrop_path);
+        dest.writeTypedList(this.genres);
+        dest.writeList(this.genre_ids);
+        dest.writeString(this.original_title);
+        dest.writeString(this.original_language);
+        dest.writeString(this.overview);
+        dest.writeDouble(this.popularity);
+        dest.writeString(this.poster_path);
+        dest.writeString(this.release_date);
+        dest.writeString(this.title);
+        dest.writeDouble(this.vote_average);
+        dest.writeInt(this.vote_count);
+        dest.writeString(this.media_type);
+    }
+
+    public BaseMovie() {
+    }
+
+    protected BaseMovie(Parcel in) {
+        this.id = in.readInt();
+        this.adult = in.readByte() != 0;
+        this.backdrop_path = in.readString();
+        this.genres = in.createTypedArrayList(Genre.CREATOR);
+        this.genre_ids = new ArrayList<Integer>();
+        in.readList(this.genre_ids, Integer.class.getClassLoader());
+        this.original_title = in.readString();
+        this.original_language = in.readString();
+        this.overview = in.readString();
+        this.popularity = in.readDouble();
+        this.poster_path = in.readString();
+        this.release_date = in.readString();
+        this.title = in.readString();
+        this.vote_average = in.readDouble();
+        this.vote_count = in.readInt();
+        this.media_type = in.readString();
+    }
+
+    public static final Parcelable.Creator<BaseMovie> CREATOR = new Parcelable.Creator<BaseMovie>() {
+        @Override
+        public BaseMovie createFromParcel(Parcel source) {
+            return new BaseMovie(source);
+        }
+
+        @Override
+        public BaseMovie[] newArray(int size) {
+            return new BaseMovie[size];
+        }
+    };
 }

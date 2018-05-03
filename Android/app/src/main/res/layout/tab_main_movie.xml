@@ -19,7 +19,7 @@
         android:text="电影"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/img_tab_movie"
-        android:textSize="14sp"
-        android:textColor="@color/colorAccent"/>
+        android:textSize="15sp"
+        android:textColor="@color/yellow_1"/>
 
 </com.magicalrice.adolph.kmovie.widget.TabIconLayout>
