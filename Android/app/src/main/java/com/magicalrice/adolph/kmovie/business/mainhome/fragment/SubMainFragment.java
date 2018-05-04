@@ -2,9 +2,11 @@ package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +61,6 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         genre = getArguments().getParcelable("gener");
-        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
     }
 
     @Override
@@ -80,10 +81,14 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
 
     @Override
     public void createView(View view) {
+        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
         PreloadSizeProvider sizeProvider = new ViewPreloadSizeProvider();
         RecyclerViewPreloader preloader = null;
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
-        binding.recycler.setLayoutManager(manager);
+        if (type == 1) {
+            binding.recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        } else if (type == 2) {
+            binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
 //        if (type == 1) {
         videoList = new ArrayList<>();
         movieAdapter = new MainMovieAdapter(getActivity(), videoList);
@@ -139,7 +144,7 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
                     video.setTitle("name" + 1);
                     video.setBackdrop_path("");
                     video.setPoster_path("");
-                    video.setRelease_date("1995-6-"+i);
+                    video.setRelease_date("1995-6-" + i);
                     video.setId(i);
                     videoList.add(video);
                 }
@@ -150,7 +155,7 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
                 List<BaseVideo> temp = videoResultsPage.getResults();
                 videoList.addAll(temp);
                 movieAdapter.notifyItemRangeInserted(videoList.size() - temp.size(), temp.size());
-
+                LUtils.e("线程" + (Looper.myLooper() == Looper.getMainLooper()));
             });
 //                viewModule.tvData.observe(this, tvShowResultsPage -> {
 //                    List<BaseTvShow> temp = tvShowResultsPage.getResults();
