@@ -15,9 +15,10 @@ import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MainHomeFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MeFragment;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMainHomeBinding;
+import com.magicalrice.adolph.kmovie.utils.StatusBarUtil;
 import com.magicalrice.adolph.kmovie.viewmodule.MainHomeViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
-import com.magicalrice.adolph.kmovie.widget.scrolltag.onScrollSelectTagListener;
+import com.magicalrice.adolph.kmovie.widget.scroll_tag.onScrollSelectTagListener;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.translucentStatusBar(this,true);
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");

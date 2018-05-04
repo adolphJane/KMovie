@@ -19,12 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/toolbarScroller"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_scrollFlags="enterAlways|scroll">
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:background="?attr/colorPrimary"/>
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -63,7 +67,7 @@
                             android:layout_toLeftOf="@id/search"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"/>
-                        <com.magicalrice.adolph.kmovie.widget.scrolltag.HorizontalScrollTagLayout
+                        <com.magicalrice.adolph.kmovie.widget.scroll_tag.HorizontalScrollTagLayout
                             android:id="@+id/tag_group"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -75,7 +79,7 @@
 
 
                 </android.support.v7.widget.Toolbar>
-            </FrameLayout>
+            </LinearLayout>
         </android.support.design.widget.AppBarLayout>
             <FrameLayout
                 android:id="@+id/content"

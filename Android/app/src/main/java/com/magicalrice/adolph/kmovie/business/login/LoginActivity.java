@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.translucentStatusBar(this);
+        StatusBarUtil.translucentStatusBar(this,false);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
         binding.setListener(this);

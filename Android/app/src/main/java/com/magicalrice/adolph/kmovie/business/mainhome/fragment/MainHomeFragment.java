@@ -12,7 +12,6 @@ import com.magicalrice.adolph.kmovie.databinding.FragmentMainHomeBinding;
 import com.magicalrice.adolph.kmovie.viewmodule.MainHomeViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.widget.adapter.MainHomeAdapter;
-import com.magicalrice.adolph.kmovie.widget.scrolltag.onScrollSelectTagListener;
 
 import java.util.ArrayList;
 import java.util.List;

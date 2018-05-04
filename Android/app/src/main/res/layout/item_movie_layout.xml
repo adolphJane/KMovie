@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_wrapper"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         android:layout_marginBottom="15dp"
         app:cardCornerRadius="5dp">
         <ImageView
-            android:id="@+id/img_movie"
+            android:id="@+id/img_video"
             android:layout_width="175dp"
             android:layout_height="230dp"
             android:scaleType="fitXY"
@@ -31,7 +32,7 @@
             android:layout_height="63dp"
             android:layout_gravity="bottom|center_horizontal">
             <TextView
-                android:id="@+id/tv_movie_title"
+                android:id="@+id/tv_video_title"
                 android:layout_width="155dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="20dp"

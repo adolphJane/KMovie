@@ -3,10 +3,7 @@ package com.magicalrice.adolph.kmovie.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class BaseMovie extends BaseRatingObject implements Parcelable {

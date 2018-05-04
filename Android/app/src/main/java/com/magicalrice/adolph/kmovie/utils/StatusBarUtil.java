@@ -15,11 +15,17 @@ import android.view.WindowManager;
 
 public class StatusBarUtil {
 
-    public static void translucentStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            translucentDown(activity);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            translucentUp(activity,false);
+    public static void translucentStatusBar(Activity activity,boolean isWindowTranslucent) {
+        if (isWindowTranslucent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                translucentDown(activity);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                translucentDown(activity);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                translucentUp(activity,false);
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.magicalrice.adolph.kmovie.widget.TabIconLayout
+<com.magicalrice.adolph.kmovie.widget.tab_icon.TabIconLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp">
@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_person_black_24dp"
+        android:src="@drawable/main_tab_me"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"/>
 
     <TextView
@@ -22,4 +23,4 @@
         android:textSize="15sp"
         android:textColor="@color/yellow_1"/>
 
-</com.magicalrice.adolph.kmovie.widget.TabIconLayout>
+</com.magicalrice.adolph.kmovie.widget.tab_icon.TabIconLayout>

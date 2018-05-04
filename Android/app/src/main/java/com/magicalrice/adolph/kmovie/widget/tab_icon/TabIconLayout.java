@@ -1,4 +1,4 @@
-package com.magicalrice.adolph.kmovie.widget;
+package com.magicalrice.adolph.kmovie.widget.tab_icon;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

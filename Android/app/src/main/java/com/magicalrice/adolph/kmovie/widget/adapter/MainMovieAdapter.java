@@ -2,6 +2,7 @@ package com.magicalrice.adolph.kmovie.widget.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,69 +11,90 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.magicalrice.adolph.kmovie.R;
-import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
+import com.magicalrice.adolph.kmovie.base.GlideApp;
+import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
+import com.magicalrice.adolph.kmovie.widget.recyclerview.MagicalRecyclerAdapter;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Adolph on 2018/4/20.
  */
 
-public class MainMovieAdapter extends RecyclerView.Adapter<MainMovieAdapter.PopularMovieHolder> {
-    private List<BaseMovie> movieList;
+public class MainMovieAdapter extends MagicalRecyclerAdapter<BaseVideo> implements ListPreloader.PreloadModelProvider {
+    private List<BaseVideo> videoList;
+    private LayoutInflater mInflater;
     private Context context;
 
-    public MainMovieAdapter(Context context, List<BaseMovie> movies) {
+    public MainMovieAdapter(Context context, List<BaseVideo> videos) {
+        super(videos);
+        mInflater = LayoutInflater.from(context);
         this.context = context;
-        this.movieList = movies;
-    }
-
-    @NonNull
-    @Override
-    public PopularMovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie_layout, parent, false);
-        PopularMovieHolder holder = new PopularMovieHolder(view);
-        return holder;
+        this.videoList = videos;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularMovieHolder holder, int position) {
-        BaseMovie bean = movieList.get(position);
+    public RecyclerView.ViewHolder onCreateBaseViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new PopularMovieHolder(mInflater.inflate(R.layout.item_movie_layout, parent, false));
+    }
+
+    @Override
+    public void onBindBaseViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        BaseVideo bean = videoList.get(position);
+        PopularMovieHolder baseHolder = (PopularMovieHolder) holder;
         if (bean != null) {
-            String imgPath = "";
-            if (bean.getPoster_path() != null) {
-                imgPath = bean.getPoster_path();
-            } else {
-                if (bean.getBackdrop_path() != null) {
-                    imgPath = bean.getBackdrop_path();
-                }
-            }
-            if (!TextUtils.isEmpty(imgPath)) {
-                Glide.with(context)
-                        .load(ApiConstants.TMDB_IMAGE_PATH + "/w400" + imgPath)
-                        .into(holder.imgMovie);
-            }
-            holder.tvRelease.setText(bean.getRelease_date());
-            holder.tvTitle.setText(bean.getTitle());
+            GlideApp.with(context)
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "/w400" + bean.getPoster_path())
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(baseHolder.imgVideo);
+            baseHolder.tvRelease.setText(bean.getRelease_date());
+            baseHolder.tvTitle.setText(bean.getTitle());
         }
     }
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        return videoList.size();
+    }
+
+    @NonNull
+    @Override
+    public List getPreloadItems(int position) {
+        String url = "";
+        if (videoList != null && videoList.size() > 0) {
+            url = videoList.get(position).getPoster_path();
+        }
+        if (TextUtils.isEmpty(url)) {
+            return Collections.emptyList();
+        }
+        return Collections.singletonList(url);
+    }
+
+    @Nullable
+    @Override
+    public RequestBuilder<?> getPreloadRequestBuilder(@NonNull Object item) {
+        return GlideApp.with(context)
+                .load(item);
     }
 
     class PopularMovieHolder extends RecyclerView.ViewHolder {
-        ImageView imgMovie;
+        ImageView imgVideo;
         TextView tvTitle, tvRelease;
+        ViewGroup viewWrapper;
 
         public PopularMovieHolder(View itemView) {
             super(itemView);
-            imgMovie = itemView.findViewById(R.id.img_movie);
-            tvTitle = itemView.findViewById(R.id.tv_movie_title);
+            viewWrapper = itemView.findViewById(R.id.view_wrapper);
+            imgVideo = itemView.findViewById(R.id.img_video);
+            tvTitle = itemView.findViewById(R.id.tv_video_title);
             tvRelease = itemView.findViewById(R.id.tv_release_date);
         }
     }
