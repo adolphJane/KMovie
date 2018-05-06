@@ -52,6 +52,8 @@ public class MainMovieAdapter extends MagicalRecyclerAdapter<BaseVideo> implemen
         if (bean != null) {
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "/w400" + bean.getPoster_path())
+                    .placeholder(R.drawable.item_img_placeholder)
+                    .error(R.drawable.item_img_error)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(baseHolder.imgVideo);

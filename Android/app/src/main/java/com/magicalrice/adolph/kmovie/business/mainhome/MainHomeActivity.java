@@ -146,10 +146,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     }
 
     public void updateTag(ViewPager viewPager,List<String> tagList,int position) {
-        binding.tagGroup.setParam(viewPager,tagList);
-        if (position != -1) {
-            binding.tagGroup.selectItem(position);
-        }
+        binding.tagGroup.setParam(viewPager,tagList,position);
     }
 
     @Override

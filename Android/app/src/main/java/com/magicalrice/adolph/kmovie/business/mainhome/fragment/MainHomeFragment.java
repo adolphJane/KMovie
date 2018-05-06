@@ -65,7 +65,7 @@ public class MainHomeFragment extends BaseFragment<FragmentMainHomeBinding> {
     }
 
     private void initView() {
-        adapter = new MainHomeAdapter(getFragmentManager());
+        adapter = new MainHomeAdapter(getChildFragmentManager());
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setOffscreenPageLimit(4);
     }

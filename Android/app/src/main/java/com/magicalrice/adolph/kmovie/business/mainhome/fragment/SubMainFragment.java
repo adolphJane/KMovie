@@ -47,9 +47,7 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
     private int totalPage = 0;
     private static final int REQUEST_COUNT = 20;
     private ArrayList<BaseVideo> videoList;
-    //    private ArrayList<BaseMovie> movieList;
     private MainMovieAdapter movieAdapter;
-    //    private MainTvAdapter tvAdapter;
     private Genre genre;
     private int page = 1;
     @Inject
@@ -61,14 +59,19 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         genre = getArguments().getParcelable("gener");
+        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
+        if (genre != null) {
+            if (type == 1 && savedInstanceState == null) {
+                viewModule.getMovies(genre.getId(), page);
+            } else if (type == 2 && savedInstanceState == null) {
+                viewModule.getTvs(genre.getId(), page);
+            }
+        }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-//        if (movieList != null && movieList.size() > 0) {
-//            outState.putParcelableArrayList("movieList", movieList);
-//        }
         if (videoList != null && videoList.size() > 0) {
             outState.putParcelableArrayList("videoList", videoList);
         }
@@ -81,104 +84,41 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> {
 
     @Override
     public void createView(View view) {
-        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
         PreloadSizeProvider sizeProvider = new ViewPreloadSizeProvider();
         RecyclerViewPreloader preloader = null;
-        if (type == 1) {
-            binding.recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        } else if (type == 2) {
-            binding.recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        }
-//        if (type == 1) {
+        binding.recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         videoList = new ArrayList<>();
         movieAdapter = new MainMovieAdapter(getActivity(), videoList);
         binding.recycler.setAdapter(movieAdapter);
         preloader = new RecyclerViewPreloader(this, movieAdapter, sizeProvider, 10);
-//        } else if (type == 2) {
-//        videoList = new ArrayList<>();
-//        tvAdapter = new MainTvAdapter(getActivity(), videoList);
-//        binding.recycler.setAdapter(tvAdapter);
-//        preloader = new RecyclerViewPreloader(this, tvAdapter, sizeProvider, 10);
-//        }
         if (preloader != null) {
             binding.recycler.addOnScrollListener(preloader);
         }
+
+        viewModule.videoData.observe(this, videoResultsPage -> {
+            if (binding.progressbar.getVisibility() == View.VISIBLE) {
+                binding.progressbar.setVisibility(View.GONE);
+            }
+            List<BaseVideo> temp = videoResultsPage.getResults();
+            videoList.addAll(temp);
+            movieAdapter.notifyItemRangeInserted(videoList.size() - temp.size(), temp.size());
+            LUtils.e("线程" + (Looper.myLooper() == Looper.getMainLooper()));
+        });
+        binding.progressbar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState != null) {
-//            if (type == 1) {
             List<BaseVideo> temp = savedInstanceState.getParcelableArrayList("videoList");
             if (temp != null && temp.size() > 0) {
                 videoList.addAll(temp);
                 movieAdapter.notifyDataSetChanged();
-            }
-//            } else if (type == 2) {
-//            List<BaseTvShow> temp = savedInstanceState.getParcelableArrayList("tvList");
-//            if (temp != null && temp.size() > 0) {
-//                vi.addAll(temp);
-//                tvAdapter.notifyDataSetChanged();
-//            }
-//            }
-        }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (genre != null) {
-            if (type == 1 && savedInstanceState == null) {
-                viewModule.getMovies(genre.getId(), page);
-
-            } else if (type == 2 && savedInstanceState == null) {
-                VideoResultsPage result = new VideoResultsPage();
-                result.setId(1);
-                result.setPage(30);
-                result.setTotal_pages(100);
-                result.setTotal_results(3132);
-                List<BaseVideo> videoList = new ArrayList<>();
-                for (int i = 0; i < 20; i++) {
-                    BaseVideo video = new BaseVideo();
-                    video.setTitle("name" + 1);
-                    video.setBackdrop_path("");
-                    video.setPoster_path("");
-                    video.setRelease_date("1995-6-" + i);
-                    video.setId(i);
-                    videoList.add(video);
+                if (binding.progressbar.getVisibility() == View.VISIBLE) {
+                    binding.progressbar.setVisibility(View.GONE);
                 }
-                result.setResults(videoList);
-                viewModule.videoData.setValue(result);
             }
-            viewModule.videoData.observe(this, videoResultsPage -> {
-                List<BaseVideo> temp = videoResultsPage.getResults();
-                videoList.addAll(temp);
-                movieAdapter.notifyItemRangeInserted(videoList.size() - temp.size(), temp.size());
-                LUtils.e("线程" + (Looper.myLooper() == Looper.getMainLooper()));
-            });
-//                viewModule.tvData.observe(this, tvShowResultsPage -> {
-//                    List<BaseTvShow> temp = tvShowResultsPage.getResults();
-//                    tvList.addAll(temp);
-//                    for (BaseTvShow bean : tvList) {
-//                        Toast.makeText(getActivity(),bean.getName(),Toast.LENGTH_SHORT).show();
-//                    }
-//                    LUtils.e("list:%d",tvList.size());
-//                    tvAdapter.notifyDataSetChanged();
-//                });
-//            if (type == 2 && savedInstanceState == null) {
-//                viewModule.getTvs(genre.getId(), page);
-//                viewModule.tvData.observe(this, tvShowResultsPage -> {
-//                    List<BaseTvShow> temp = tvShowResultsPage.getResults();
-//                    tvList.addAll(temp);
-//                    for (BaseTvShow bean : tvList) {
-//                        Toast.makeText(getActivity(),bean.getName(),Toast.LENGTH_SHORT).show();
-//                    }
-//                    LUtils.e("list:%d",tvList.size());
-//                    tvAdapter.notifyDataSetChanged();
-//                });
-//            }
-
         }
     }
 

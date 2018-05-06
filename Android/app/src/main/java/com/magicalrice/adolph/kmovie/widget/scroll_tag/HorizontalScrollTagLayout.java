@@ -30,7 +30,7 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
     private int selectPosition = 0, lastPosition = -1;
     private onScrollSelectTagListener listener;
     private boolean isTagClick;
-    private ArrayList<Integer> itemWidth;
+    private ArrayList<Integer> currentItemWidth;
     private int scrollLength = 0;
     private Paint mPaint;
 
@@ -44,7 +44,7 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
 
     public HorizontalScrollTagLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        itemWidth = new ArrayList<>();
+        currentItemWidth = new ArrayList<>();
         parentLayout = new LinearLayout(context);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         parentLayout.setLayoutParams(params);
@@ -56,17 +56,18 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
         mPaint.setAlpha(76);
     }
 
-    public void setParam(ViewPager viewPager, List<String> tagList) {
+    public void setParam(ViewPager viewPager, List<String> tagList,int choosePosition) {
         this.viewPager = viewPager;
-        initHeaderTags(tagList);
+        initHeaderTags(tagList,choosePosition);
         viewPager.addOnPageChangeListener(this);
     }
 
-    private void initHeaderTags(List<String> tagList) {
+    private void initHeaderTags(List<String> tagList,int choosePosition) {
         if (parentLayout == null) {
             throw new NullPointerException("parentLayout must be initialized.");
         }
         parentLayout.removeAllViews();
+        currentItemWidth.clear();
         for (int i = 0; i < tagList.size(); i++) {
             TextView textView = new TextView(getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -85,13 +86,17 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
             });
             parentLayout.addView(textView);
             if (i == 0) {
-                itemWidth.add((int) textView.getPaint().measureText(tagList.get(i)) + (int) ScreenUtils.dp2px(getContext(), 20));
+                currentItemWidth.add((int) textView.getPaint().measureText(tagList.get(i)) + (int) ScreenUtils.dp2px(getContext(), 20));
             } else {
-                itemWidth.add((int) textView.getPaint().measureText(tagList.get(i)) + (int) ScreenUtils.dp2px(getContext(), 20) + itemWidth.get(i - 1));
+                currentItemWidth.add((int) textView.getPaint().measureText(tagList.get(i)) + (int) ScreenUtils.dp2px(getContext(), 20) + currentItemWidth.get(i - 1));
             }
         }
         lastPosition = -1;
         updateSelectItem();
+        invalidate();
+        if (choosePosition != -1) {
+            selectItem(choosePosition);
+        }
     }
 
     public void selectItem(int position) {
@@ -121,11 +126,11 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
                 tv.setTypeface(Typeface.DEFAULT_BOLD);
                 int dx = 0;
                 int halfLayoutWidth = getMeasuredWidth() / 2;
-                if (itemWidth.get(selectPosition) < scrollLength + halfLayoutWidth) {
-                    dx = itemWidth.get(selectPosition) - scrollLength - halfLayoutWidth - tv.getWidth() / 2;
+                if (currentItemWidth.get(selectPosition) < scrollLength + halfLayoutWidth) {
+                    dx = currentItemWidth.get(selectPosition) - scrollLength - halfLayoutWidth - tv.getWidth() / 2;
 //                    LUtils.e("小位置%d,半屏宽%d,半tv宽度%d,滚动距离%d", itemWidth.get(selectPosition), halfLayoutWidth, tv.getWidth() / 2,scrollLength);
                 } else {
-                    dx = itemWidth.get(selectPosition) - scrollLength - halfLayoutWidth - tv.getWidth() / 2;
+                    dx = currentItemWidth.get(selectPosition) - scrollLength - halfLayoutWidth - tv.getWidth() / 2;
 //                    LUtils.e("大位置%d,半屏宽%d,半tv宽度%d,滚动距离%d", itemWidth.get(selectPosition), halfLayoutWidth, tv.getWidth() / 2,scrollLength);
                 }
                 smoothScrollBy(dx, 0);
@@ -164,8 +169,8 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (parentLayout != null && parentLayout.getChildAt(selectPosition) != null) {
-            RectF rectF = new RectF(0, getMeasuredHeight() - ScreenUtils.dp2px(getContext(), 13), itemWidth.get(itemWidth.size() - 1), getMeasuredHeight() - ScreenUtils.dp2px(getContext(), 10));
+        if (parentLayout != null && parentLayout.getChildAt(selectPosition) != null && currentItemWidth.size() > 0) {
+            RectF rectF = new RectF(0, getMeasuredHeight() - ScreenUtils.dp2px(getContext(), 13), currentItemWidth.get(currentItemWidth.size() - 1), getMeasuredHeight() - ScreenUtils.dp2px(getContext(), 10));
             canvas.drawRoundRect(rectF, ScreenUtils.dp2px(getContext(), 1), ScreenUtils.dp2px(getContext(), 1), mPaint);
         }
     }
