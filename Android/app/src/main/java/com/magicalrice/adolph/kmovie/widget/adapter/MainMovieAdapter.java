@@ -40,6 +40,13 @@ public class MainMovieAdapter extends MagicalRecyclerAdapter<BaseVideo> implemen
         this.videoList = videos;
     }
 
+    public void addAll(List<BaseVideo> videos) {
+        int lastIndex = videos.size();
+        if (this.videoList.addAll(videos)) {
+            notifyItemRangeInserted(lastIndex, videos.size());
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateBaseViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new PopularMovieHolder(mInflater.inflate(R.layout.item_movie_layout, parent, false));
@@ -62,17 +69,14 @@ public class MainMovieAdapter extends MagicalRecyclerAdapter<BaseVideo> implemen
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return videoList.size();
-    }
-
     @NonNull
     @Override
     public List getPreloadItems(int position) {
         String url = "";
         if (videoList != null && videoList.size() > 0) {
-            url = videoList.get(position).getPoster_path();
+            if (getFooterViewsCount() > 0) {
+                url = videoList.get(position - getFooterViewsCount()).getPoster_path();
+            }
         }
         if (TextUtils.isEmpty(url)) {
             return Collections.emptyList();

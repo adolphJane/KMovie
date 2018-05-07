@@ -44,7 +44,7 @@ public class LoadingFooter extends RelativeLayout {
     }
 
     private void init(Context context) {
-        inflate(context, R.layout.rl_layout_footer, this);
+        inflate(context, R.layout.rl_layout_list_footer, this);
         setOnClickListener(null);
         setState(NORMAL, true);
     }

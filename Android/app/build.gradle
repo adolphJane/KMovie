@@ -102,6 +102,8 @@ dependencies {
 
     //StreamSupport
     implementation "net.sourceforge.streamsupport:streamsupport:$rootProject.streamSupportVersion"
+    //recyclerview
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerviewVersion"
 }
 repositories {
     mavenCentral()

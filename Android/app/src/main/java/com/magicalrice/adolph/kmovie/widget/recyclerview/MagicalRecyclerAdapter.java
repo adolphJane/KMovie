@@ -6,6 +6,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.widget.recyclerview.LoadingFooter.State;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public abstract class MagicalRecyclerAdapter<T> extends RecyclerView.Adapter<Rec
     public int getItemViewType(int position) {
         int itemCount = mItemList == null ? 0 : mItemList.size();
         int headerViewCount = getHeaderViewsCount();
+        LUtils.e("Size%d,isFooter",getItemCount());
         if (position < headerViewCount) {
             return TYPE_HEADER_VIEW + position;
         } else if (headerViewCount <= position && position < headerViewCount + itemCount) {
