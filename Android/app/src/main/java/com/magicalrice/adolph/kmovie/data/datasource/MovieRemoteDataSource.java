@@ -34,6 +34,11 @@ public class MovieRemoteDataSource {
                 .compose(RxUtils.io_main());
     }
 
+    public Observable<TvShowResultsPage> getPopularTv(int page) {
+        return tmdb.tvService().popular(page,"zh")
+                .compose(RxUtils.io_main());
+    }
+
     public Observable<GenreResults> getMovieGenre() {
         return tmdb.genreService().movie("zh")
                 .compose(RxUtils.io_main());

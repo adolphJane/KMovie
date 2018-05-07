@@ -15,6 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:scrollbars="vertical"
+            android:scrollbarSize="@dimen/dp_4"
+            android:scrollbarThumbVertical="@drawable/shape_color_red_3dp_corners"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <ProgressBar

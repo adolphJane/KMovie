@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+    </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_movie"
+                android:layout_below="@id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+                <ImageView
+                    android:id="@+id/img_poster"
+                    android:layout_width="175dp"
+                    android:layout_height="230dp"
+                    android:layout_marginRight="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_movie_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="电影名"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/img_poster"
+                    android:layout_alignTop="@id/img_poster" />
+
+                <TextView
+                    android:id="@+id/tv_movie_director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="导演:"
+                    android:layout_below="@id/tv_movie_title"
+                    android:layout_toRightOf="@id/img_poster"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_movie_region"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="国家/地区"
+                    android:layout_below="@id/tv_movie_director"
+                    android:layout_toRightOf="@id/img_poster"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_content_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="剧情简介:"
+                    android:layout_below="@id/tv_movie_region"
+                    android:layout_toRightOf="@id/img_poster"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_content_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="电影名"
+                    android:layout_below="@id/tv_content_title"
+                    android:layout_toRightOf="@id/img_poster"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_movie"
+                android:orientation="vertical"
+                android:paddingTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主演" />
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</layout>

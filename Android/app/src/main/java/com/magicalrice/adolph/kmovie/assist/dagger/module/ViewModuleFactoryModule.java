@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.datasource.TvRemoteDataSource;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 
@@ -22,14 +22,14 @@ public class ViewModuleFactoryModule {
     @Provides
     @Singleton
     public LoginViewModuleFactory provideLoginFactory(Context context, LoginRemoteDataSource loginSource) {
-        LoginViewModuleFactory factory = new LoginViewModuleFactory((Application) context,loginSource);
+        LoginViewModuleFactory factory = new LoginViewModuleFactory((Application) context, loginSource);
         return factory;
     }
 
     @Provides
     @Singleton
-    public MainViewModuleFactory provideMainFactory(Context context, MovieRemoteDataSource movieSource, TvRemoteDataSource tvSource) {
-        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context,movieSource,tvSource);
+    public MainViewModuleFactory provideMainFactory(Context context, MovieRemoteDataSource movieSource, MovieDetailRemoteDataSource detailSource) {
+        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context, movieSource, detailSource);
         return factory;
     }
 }

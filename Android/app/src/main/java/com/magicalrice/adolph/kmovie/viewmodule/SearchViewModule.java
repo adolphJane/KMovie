@@ -5,11 +5,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
 /**
- * Created by Adolph on 2018/5/2.
+ * Created by Adolph on 2018/5/7.
  */
 
-public class MainTvViewModule extends AndroidViewModel {
-    public MainTvViewModule(@NonNull Application application) {
+public class SearchViewModule extends AndroidViewModel {
+    public SearchViewModule(@NonNull Application application) {
         super(application);
     }
 }

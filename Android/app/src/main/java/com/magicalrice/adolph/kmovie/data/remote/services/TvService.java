@@ -62,7 +62,7 @@ public interface TvService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
@@ -167,7 +167,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/credits")
-    Call<Credits> credits(
+    Observable<Credits> credits(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );

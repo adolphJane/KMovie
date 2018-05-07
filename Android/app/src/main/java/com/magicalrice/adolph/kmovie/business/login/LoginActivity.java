@@ -41,6 +41,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
         binding.setListener(this);
+        canLoginDirect();
     }
 
     @Override
@@ -85,6 +86,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         viewModule.guestLogin()
                 .subscribe(requestToken -> {
                     SpUtils.getInstance(LoginActivity.this).put("base_token", requestToken.getRequest_token());
+                    SpUtils.getInstance(this).put("login_type", 1);
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     MovieApplication.getInstance().setHasToken(true);
                     startActivity(new Intent(LoginActivity.this, MainHomeActivity.class));
@@ -105,6 +107,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
                     } else {
                         SpUtils.getInstance(LoginActivity.this).put("user_token", requestToken.getRequest_token());
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        SpUtils.getInstance(this).put("login_type", 2);
                     }
                     binding.setShowProgress(false);
                 });
@@ -113,5 +116,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     public void onInfoShow() {
         Toast.makeText(this, "请使用TheMovieDB的帐号进行登陆", Toast.LENGTH_SHORT).show();
+    }
+
+    private void canLoginDirect() {
+        int type = (int)SpUtils.getInstance(this).get("login_type",0);
+        if (type == 0) {
+            return;
+        } else if (type == 1) {
+            onVisitorLogin();
+        } else if (type == 2) {
+            onUserLogin();
+        }
     }
 }
