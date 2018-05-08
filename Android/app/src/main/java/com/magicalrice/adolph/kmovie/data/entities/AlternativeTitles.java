@@ -6,10 +6,23 @@ import java.util.List;
 
 
 public class AlternativeTitles {
-
     @SerializedName(value = "titles", alternate = {"results"})
-    public List<AlternativeTitle> titles;
+    private List<AlternativeTitle> titles;
+    private int id;
 
-    public Integer id;
+    public List<AlternativeTitle> getTitles() {
+        return titles;
+    }
 
+    public void setTitles(List<AlternativeTitle> titles) {
+        this.titles = titles;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

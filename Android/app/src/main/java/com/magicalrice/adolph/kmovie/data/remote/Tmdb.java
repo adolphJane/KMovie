@@ -81,8 +81,8 @@ public class Tmdb {
                 .responseBodyConverter(Status.class, Status.class.getAnnotations())
                 .convert(responseBody);
 
-        Integer code = status.status_code;
-        String message = status.status_message;
+        Integer code = status.getStatus_code();
+        String message = status.getStatus_message();
         switch (code) {
             case 2:
             case 4:

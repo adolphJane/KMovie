@@ -13,7 +13,7 @@ public class Movie extends BaseMovie {
     private int revenue;
     private int runtime;
     private List<SpokenLanguage> spoken_languages;
-    private Status status;
+    private String status;
     private String tagline;
 
     // Following are used with append_to_response
@@ -102,11 +102,11 @@ public class Movie extends BaseMovie {
         this.spoken_languages = spoken_languages;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

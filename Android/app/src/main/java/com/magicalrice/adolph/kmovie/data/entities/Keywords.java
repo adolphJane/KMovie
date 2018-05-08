@@ -6,9 +6,24 @@ import java.util.List;
 
 public class Keywords {
 
-    public Integer id;
+    private int id;
 
     @SerializedName(value = "keywords", alternate = {"results"})
-    public List<BaseKeyword> keywords;
+    private List<BaseKeyword> keywords;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<BaseKeyword> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<BaseKeyword> keywords) {
+        this.keywords = keywords;
+    }
 }

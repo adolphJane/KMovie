@@ -3,26 +3,23 @@ package com.magicalrice.adolph.kmovie.business.mainhome;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MainHomeFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.MeFragment;
+import com.magicalrice.adolph.kmovie.business.mainhome.fragment.SearchFragment;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMainHomeBinding;
-import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.utils.StatusBarUtil;
 import com.magicalrice.adolph.kmovie.viewmodule.MainHomeViewModule;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.widget.scroll_tag.onScrollSelectTagListener;
-import com.magicalrice.adolph.kmovie.widget.tools.AppBarStateChangeListener;
 
 import java.util.List;
 
@@ -63,13 +60,6 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     private void setUpToolBar() {
         binding.setClickListener(this);
         binding.tagGroup.addOnScrollSelectTagListener(this);
-        binding.appbar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, int state) {
-                LUtils.e("State%d",state);
-
-            }
-        });
     }
 
     @Override
@@ -162,7 +152,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
 
     @Override
     public void onSearchClick() {
-
+        SearchFragment.showFragment(this);
     }
 
     @Override

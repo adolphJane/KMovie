@@ -17,4 +17,13 @@
         <item name="tabIndicatorHeight">0dp</item>
         <item name="tabBackground">@android:color/transparent</item>
     </style>
+
+    <style name="dialog_fragment" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

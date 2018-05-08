@@ -28,6 +28,10 @@ public class AppendToResponse {
         this.items = items;
     }
 
+    public AppendToResponseItem[] getItems() {
+        return items;
+    }
+
     @Override
     public String toString() {
         if (items != null && items.length > 0) {

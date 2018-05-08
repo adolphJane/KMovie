@@ -96,6 +96,8 @@ public class HorizontalScrollTagLayout extends HorizontalScrollView implements V
         invalidate();
         if (choosePosition != -1) {
             selectItem(choosePosition);
+        } else {
+            selectItem(0);
         }
     }
 

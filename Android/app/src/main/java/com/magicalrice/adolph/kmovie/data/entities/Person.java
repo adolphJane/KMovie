@@ -7,21 +7,80 @@ import java.util.List;
 
 public class Person extends BasePerson {
 
-    public List<JsonPrimitive> also_known_as;
-    public String biography;
-    public Date birthday;
-    public Date deathday;
-    public Integer gender;
-    public String homepage;
-    public String imdb_id;
-    public String place_of_birth;
+    private List<JsonPrimitive> also_known_as;
+    private String biography;
+    private Date birthday;
+    private Date deathday;
+    private int gender;
+    private String homepage;
+    private String imdb_id;
+    private String place_of_birth;
 
-    public PersonExternalIds external_ids;
-    public PersonCredits combined_credits;
-    public PersonCredits movie_credits;
-    public PersonCredits tv_credits;
-    public PersonImages images;
-    public TaggedImagesResultsPage tagged_images;
-    public Changes changes;
+    private PersonExternalIds external_ids;
+    private PersonCredits combined_credits;
+    private PersonCredits movie_credits;
+    private PersonCredits tv_credits;
+    private PersonImages images;
+    private TaggedImagesResultsPage tagged_images;
+    private Changes changes;
 
+    public void setAlso_known_as(List<JsonPrimitive> also_known_as) {
+        this.also_known_as = also_known_as;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setDeathday(Date deathday) {
+        this.deathday = deathday;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public void setImdb_id(String imdb_id) {
+        this.imdb_id = imdb_id;
+    }
+
+    public void setPlace_of_birth(String place_of_birth) {
+        this.place_of_birth = place_of_birth;
+    }
+
+    public void setExternal_ids(PersonExternalIds external_ids) {
+        this.external_ids = external_ids;
+    }
+
+    public void setCombined_credits(PersonCredits combined_credits) {
+        this.combined_credits = combined_credits;
+    }
+
+    public void setMovie_credits(PersonCredits movie_credits) {
+        this.movie_credits = movie_credits;
+    }
+
+    public void setTv_credits(PersonCredits tv_credits) {
+        this.tv_credits = tv_credits;
+    }
+
+    public void setImages(PersonImages images) {
+        this.images = images;
+    }
+
+    public void setTagged_images(TaggedImagesResultsPage tagged_images) {
+        this.tagged_images = tagged_images;
+    }
+
+    public void setChanges(Changes changes) {
+        this.changes = changes;
+    }
 }
