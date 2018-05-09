@@ -16,11 +16,6 @@ public class LoginViewModuleFactory extends ViewModelProvider.AndroidViewModelFa
     private LoginRemoteDataSource loginDataSource;
     private Application application;
 
-    /**
-     * Creates a {@code AndroidViewModelFactory}
-     *
-     * @param application an application to pass in {@link AndroidViewModel}
-     */
     public LoginViewModuleFactory(@NonNull Application application, LoginRemoteDataSource loginDataSource) {
         super(application);
         this.application = application;

@@ -38,6 +38,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");
         }
+        binding.setShowTag(true);
         setUpTabLayout();
         setUpToolBar();
         viewModule = ViewModelProviders.of(this,factory).get(MainHomeViewModule.class);
@@ -148,6 +149,10 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
 
     public void updateTag(ViewPager viewPager,List<String> tagList,int position) {
         binding.tagGroup.setParam(viewPager,tagList,position);
+    }
+
+    public void changeTabLayoutShow(boolean isShow) {
+        binding.setShowTag(isShow);
     }
 
     @Override

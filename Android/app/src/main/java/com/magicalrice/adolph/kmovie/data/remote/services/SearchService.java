@@ -8,6 +8,7 @@ import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -21,7 +22,7 @@ public interface SearchService {
      * @param page  <em>Optional.</em> Minimum value is 1, expected value is an integer.
      */
     @GET("search/company")
-    Call<CompanyResultsPage> company(
+    Observable<CompanyResultsPage> company(
             @Query("query") String query,
             @Query("page") Integer page
     );
@@ -34,7 +35,7 @@ public interface SearchService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("search/collection")
-    Call<CollectionResultsPage> collection(
+    Observable<CollectionResultsPage> collection(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("language") String language
@@ -47,7 +48,7 @@ public interface SearchService {
      * @param page  <em>Optional.</em> Minimum value is 1, expected value is an integer.
      */
     @GET("search/keyword")
-    Call<KeywordResultsPage> keyword(
+    Observable<KeywordResultsPage> keyword(
             @Query("query") String query,
             @Query("page") Integer page
     );
@@ -75,6 +76,14 @@ public interface SearchService {
             @Query("year") Integer year,
             @Query("primary_release_year") Integer primaryReleaseYear,
             @Query("search_type") String searchType
+    );
+
+    @GET("search/movie")
+    Observable<MovieResultsPage> movieSearch(
+            @Query("query") String query,
+            @Query("page") Integer page,
+            @Query("language") String language,
+            @Query("include_adult") Boolean includeAdult
     );
 
     /**
@@ -106,7 +115,7 @@ public interface SearchService {
      *                     those wanting more of an "autocomplete" type search, set this option to 'ngram'.
      */
     @GET("search/person")
-    Call<PersonResultsPage> person(
+    Observable<PersonResultsPage> person(
             @Query("query") String query,
             @Query("page") Integer page,
             @Query("include_adult") Boolean includeAdult,
@@ -131,5 +140,12 @@ public interface SearchService {
             @Query("language") String language,
             @Query("first_air_date_year") Integer firstAirDateYear,
             @Query("search_type") String searchType
+    );
+
+    @GET("search/tv")
+    Observable<TvShowResultsPage> tvSearch(
+            @Query("query") String query,
+            @Query("page") Integer page,
+            @Query("language") String language
     );
 }

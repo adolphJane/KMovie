@@ -56,7 +56,7 @@ public class MainVideoAdapter extends BaseQuickAdapter<BaseVideo, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, BaseVideo item) {
-        if (item != null) {
+        if (item != null && item.getPoster_path() != null) {
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + item.getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
