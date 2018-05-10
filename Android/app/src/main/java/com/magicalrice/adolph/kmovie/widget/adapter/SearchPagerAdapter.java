@@ -1,6 +1,7 @@
 package com.magicalrice.adolph.kmovie.widget.adapter;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class SearchPagerAdapter extends FragmentPagerAdapter{
     private final List<Fragment> mFragmentList = new ArrayList<>();
+    private final List<String> mFragmentTitle = new ArrayList<>();
 
     public SearchPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -38,10 +40,10 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
                     fragment = new SubSearchFragment<TvShowResultsPage,BaseTvShow>();
                     break;
                 case 2:
-                    fragment = new SubSearchFragment<CompanyResultsPage,BaseCompany>();
+                    fragment = new SubSearchFragment<CollectionResultsPage,BaseCollection>();
                     break;
                 case 3:
-                    fragment = new SubSearchFragment<CollectionResultsPage,BaseCollection>();
+                    fragment = new SubSearchFragment<CompanyResultsPage,BaseCompany>();
                     break;
                 case 4:
                     fragment = new SubSearchFragment<PersonResultsPage,BasePerson>();
@@ -57,6 +59,12 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
             bundle.putInt("type",i + 1);
             fragment.setArguments(bundle);
             mFragmentList.add(fragment);
+            mFragmentTitle.add("电影");
+            mFragmentTitle.add("电视节目");
+            mFragmentTitle.add("剧集");
+            mFragmentTitle.add("人物");
+            mFragmentTitle.add("公司");
+            mFragmentTitle.add("关键词");
         }
     }
 
@@ -68,5 +76,11 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
     @Override
     public int getCount() {
         return mFragmentList.size();
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mFragmentTitle.get(position);
     }
 }

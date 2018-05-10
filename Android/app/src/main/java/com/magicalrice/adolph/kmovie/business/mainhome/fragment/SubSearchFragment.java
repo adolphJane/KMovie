@@ -5,27 +5,24 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
+import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.databinding.FragmentSubSearchBinding;
-import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.SearchViewModule;
 import com.magicalrice.adolph.kmovie.widget.adapter.SearchResultsAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Created by Adolph on 2018/5/9.
  */
 
-public class SubSearchFragment<T,K> extends BaseFragment<FragmentSubSearchBinding> {
-    @Inject
-    MainViewModuleFactory factory;
+public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBinding> {
+
     private SearchViewModule viewModule;
     private SearchResultsAdapter<K> adapter;
     private int type;
@@ -38,7 +35,9 @@ public class SubSearchFragment<T,K> extends BaseFragment<FragmentSubSearchBindin
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
-        viewModule = ViewModelProviders.of(this,factory).get(SearchViewModule.class);
+        if (getActivity() != null) {
+            viewModule = ViewModelProviders.of(getActivity(), ((MainHomeActivity)getActivity()).getFactory()).get(SearchViewModule.class);
+        }
     }
 
     @Override
@@ -49,46 +48,89 @@ public class SubSearchFragment<T,K> extends BaseFragment<FragmentSubSearchBindin
     @Override
     public void createView(View view) {
         dataList = new ArrayList<>();
-        adapter = new SearchResultsAdapter<>(R.layout.item_search_layout,dataList,type,getContext());
+        adapter = new SearchResultsAdapter<>(R.layout.item_search_layout, dataList, type, getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.searchResultsList.setAdapter(adapter);
         binding.searchResultsList.setLayoutManager(manager);
         initData();
     }
 
     private void initData() {
-        viewModule.queryData.observe(this,s -> {
-            viewModule.search(type,s,page);
+        viewModule.queryData.observe(this, s -> {
+            viewModule.search(type, s, page);
         });
         switch (type) {
             case 1:
-                viewModule.movieData.observe(this,movieResultsPage -> {
-
+                viewModule.movieSearchData.observe(this, movieResultsPage -> {
+                    data = (T) movieResultsPage;
+//                    dataList.addAll((Collection<? extends K>) movieResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) movieResultsPage.getResults());
+                    if (movieResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
             case 2:
-                viewModule.tvData.observe(this,tvShowResultsPage -> {
-
+                viewModule.tvSearchData.observe(this, tvShowResultsPage -> {
+                    data = (T) tvShowResultsPage;
+//                    dataList.addAll((Collection<? extends K>) tvShowResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) tvShowResultsPage.getResults());
+                    if (tvShowResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
             case 3:
-                viewModule.collectionData.observe(this,collectionResultsPage -> {
-
+                viewModule.collectionSearchData.observe(this, collectionResultsPage -> {
+                    data = (T) collectionResultsPage;
+//                    dataList.addAll((Collection<? extends K>) collectionResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) collectionResultsPage.getResults());
+                    if (collectionResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
             case 4:
-                viewModule.personData.observe(this,personResultsPage -> {
-
+                viewModule.personSearchData.observe(this, personResultsPage -> {
+                    data = (T) personResultsPage;
+//                    dataList.addAll((Collection<? extends K>) personResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) personResultsPage.getResults());
+                    if (personResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
             case 5:
-                viewModule.companyData.observe(this,companyResultsPage -> {
-
+                viewModule.companySearchData.observe(this, companyResultsPage -> {
+                    data = (T) companyResultsPage;
+//                    dataList.addAll((Collection<? extends K>) companyResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) companyResultsPage.getResults());
+                    if (companyResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
             case 6:
-                viewModule.keywordData.observe(this,keywordResultsPage -> {
-
+                viewModule.keywordSearchData.observe(this, keywordResultsPage -> {
+                    data = (T) keywordResultsPage;
+//                    dataList.addAll((Collection<? extends K>) keywordResultsPage.getResults());
+                    adapter.addData((Collection<? extends K>) keywordResultsPage.getResults());
+                    if (keywordResultsPage.getResults().size() > 0) {
+                        binding.setShowNoResults(false);
+                    } else {
+                        binding.setShowNoResults(true);
+                    }
                 });
                 break;
         }

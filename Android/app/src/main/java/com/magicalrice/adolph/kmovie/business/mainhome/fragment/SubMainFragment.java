@@ -12,6 +12,7 @@ import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
+import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
@@ -32,7 +33,7 @@ import javax.inject.Inject;
  * Created by Adolph on 2018/5/2.
  */
 
-public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> implements BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
+public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBinding> implements BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
     private MainHomeViewModule viewModule;
     private int totalPage = 0;
     private static final int REQUEST_COUNT = 20;
@@ -127,7 +128,7 @@ public class SubMainFragment extends BaseFragment<FragmentSubMainHomeBinding> im
             page++;
             totalPage = videoResultsPage.getTotal_pages();
             List<BaseVideo> temp = videoResultsPage.getResults();
-            videoList.addAll(temp);
+//            videoList.addAll(temp);
             if (temp.size() > 0) {
                 movieAdapter.addData(temp);
             }

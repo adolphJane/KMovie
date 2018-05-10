@@ -50,9 +50,11 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModule = ViewModelProviders.of(this, factory).get(SearchViewModule.class);
-        viewModule.getHistoryList();
-        ((MainHomeActivity)getActivity()).changeTabLayoutShow(false);
+        if (getActivity() != null) {
+            viewModule = ViewModelProviders.of(getActivity(), factory).get(SearchViewModule.class);
+            viewModule.getHistoryList();
+            ((MainHomeActivity) getActivity()).changeTabLayoutShow(false);
+        }
     }
 
     @Override
@@ -87,7 +89,7 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((MainHomeActivity)getActivity()).changeTabLayoutShow(true);
+        ((MainHomeActivity) getActivity()).changeTabLayoutShow(true);
     }
 
     private void initData() {
@@ -100,12 +102,12 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
             updateHistory(strings);
         });
 
-        binding.inputSearch.setOnEditorActionListener((v, actionId,event) -> {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    changeStatus(v.getText().toString());
-                    return true;
-                }
-                return false;
+        binding.inputSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                changeStatus(v.getText().toString());
+                return true;
+            }
+            return false;
         });
     }
 
@@ -152,11 +154,11 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
             imageView.setOnClickListener(v -> {
                 viewModule.deleteTag(finalI);
             });
-            imgParams.addRule(RelativeLayout.ALIGN_RIGHT,preId);
-            imgParams.addRule(RelativeLayout.ALIGN_TOP,preId);
-            imgParams.setMargins(0,-(int)ScreenUtils.dp2px(getContext(),4),-(int)ScreenUtils.dp2px(getContext(),4),0);
+            imgParams.addRule(RelativeLayout.ALIGN_RIGHT, preId);
+            imgParams.addRule(RelativeLayout.ALIGN_TOP, preId);
+            imgParams.setMargins(0, -(int) ScreenUtils.dp2px(getContext(), 4), -(int) ScreenUtils.dp2px(getContext(), 4), 0);
             binding.rlSearchHistory.addView(textView, tvParams);
-            binding.rlSearchHistory.addView(imageView,imgParams);
+            binding.rlSearchHistory.addView(imageView, imgParams);
         }
     }
 

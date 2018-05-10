@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.magicalrice.adolph.kmovie.R;
+import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.databinding.FragmentMainHomeBinding;
@@ -25,7 +26,7 @@ import java8.util.stream.StreamSupport;
  * Created by Adolph on 2018/5/2.
  */
 
-public class MainHomeFragment extends BaseFragment<FragmentMainHomeBinding> {
+public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding> {
     private MainHomeViewModule viewModule;
     private MainHomeAdapter adapter;
     private List<String> genreList = new ArrayList<>();

@@ -3,7 +3,6 @@ package com.magicalrice.adolph.kmovie.viewmodule;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -29,12 +28,12 @@ public class SearchViewModule extends AndroidViewModel {
     private SearchRemoteDataSource dataSource;
     public MutableLiveData<String> queryData = new MutableLiveData<>();
     public MutableLiveData<List<String>> historyData = new MutableLiveData<>();
-    public MutableLiveData<MovieResultsPage> movieData = new MutableLiveData<>();
-    public MutableLiveData<TvShowResultsPage> tvData = new MutableLiveData<>();
-    public MutableLiveData<CompanyResultsPage> companyData = new MutableLiveData<>();
-    public MutableLiveData<CollectionResultsPage> collectionData = new MutableLiveData<>();
-    public MutableLiveData<PersonResultsPage> personData = new MutableLiveData<>();
-    public MutableLiveData<KeywordResultsPage> keywordData = new MutableLiveData<>();
+    public MutableLiveData<MovieResultsPage> movieSearchData = new MutableLiveData<>();
+    public MutableLiveData<TvShowResultsPage> tvSearchData = new MutableLiveData<>();
+    public MutableLiveData<CompanyResultsPage> companySearchData = new MutableLiveData<>();
+    public MutableLiveData<CollectionResultsPage> collectionSearchData = new MutableLiveData<>();
+    public MutableLiveData<PersonResultsPage> personSearchData = new MutableLiveData<>();
+    public MutableLiveData<KeywordResultsPage> keywordSearchData = new MutableLiveData<>();
 
     public SearchViewModule(@NonNull Application application, SearchRemoteDataSource dataSource) {
         super(application);
@@ -65,7 +64,7 @@ public class SearchViewModule extends AndroidViewModel {
 
     public void updateQuery(String query) {
         if (!TextUtils.isEmpty(query)) {
-            queryData.setValue(query);
+            queryData.postValue(query);
         }
     }
 
@@ -73,37 +72,37 @@ public class SearchViewModule extends AndroidViewModel {
         switch (type) {
             case 1:
                 dataSource.searchMovie(query, page).subscribe(movieResultsPage -> {
-                    movieData.setValue(movieResultsPage);
+                    movieSearchData.setValue(movieResultsPage);
                 }, throwable -> {
                 });
                 break;
             case 2:
                 dataSource.searchTv(query, page).subscribe(tvShowResultsPage -> {
-                    tvData.setValue(tvShowResultsPage);
+                    tvSearchData.setValue(tvShowResultsPage);
                 }, throwable -> {
                 });
                 break;
             case 3:
                 dataSource.searchCollections(query, page).subscribe(collectionResultsPage -> {
-                    collectionData.setValue(collectionResultsPage);
+                    collectionSearchData.setValue(collectionResultsPage);
                 }, throwable -> {
                 });
                 break;
             case 4:
                 dataSource.searchPeople(query, page).subscribe(personResultsPage -> {
-                    personData.setValue(personResultsPage);
+                    personSearchData.setValue(personResultsPage);
                 }, throwable -> {
                 });
                 break;
             case 5:
                 dataSource.searchCompany(query, page).subscribe(companyResultsPage -> {
-                    companyData.setValue(companyResultsPage);
+                    companySearchData.setValue(companyResultsPage);
                 }, throwable -> {
                 });
                 break;
             case 6:
                 dataSource.searchKeywords(query, page).subscribe(keywordResultsPage -> {
-                    keywordData.setValue(keywordResultsPage);
+                    keywordSearchData.setValue(keywordResultsPage);
                 }, throwable -> {
                 });
                 break;

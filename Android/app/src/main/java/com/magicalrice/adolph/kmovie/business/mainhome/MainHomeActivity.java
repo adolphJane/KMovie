@@ -151,6 +151,10 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
         binding.tagGroup.setParam(viewPager,tagList,position);
     }
 
+    public MainViewModuleFactory getFactory() {
+        return factory;
+    }
+
     public void changeTabLayoutShow(boolean isShow) {
         binding.setShowTag(isShow);
     }
