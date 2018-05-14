@@ -3,6 +3,11 @@ package com.magicalrice.adolph.kmovie.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -51,6 +56,13 @@ public class SpUtils {
                 editor.putFloat(key, (Float) object);
             } else if (object instanceof Long) {
                 editor.putLong(key, (Long) object);
+            } else if (object instanceof List) {
+                if (((List) object).size() >= 0) {
+                    Gson gson = new Gson();
+                    String str = gson.toJson(object);
+                    editor.putString(key, str);
+                    editor.commit();
+                }
             } else {
                 editor.putString(key, object.toString());
             }
@@ -58,15 +70,15 @@ public class SpUtils {
         }
     }
 
-        /**
-         * 获取保存数据的方法，我们根据默认值的到保存的数据的具体类型，然后调用相对于的方法获取值
-         *
-         * @param key           键的值
-         * @param defaultObject 默认值
-         * @return
-         */
+    /**
+     * 获取保存数据的方法，我们根据默认值的到保存的数据的具体类型，然后调用相对于的方法获取值
+     *
+     * @param key           键的值
+     * @param defaultObject 默认值
+     * @return
+     */
 
-    public Object get(String key, Object defaultObject) {
+    public <T> Object get(String key, Object defaultObject) {
         if (defaultObject instanceof String) {
             return sharedPreferences.getString(key, (String) defaultObject);
         } else if (defaultObject instanceof Integer) {
@@ -77,6 +89,15 @@ public class SpUtils {
             return sharedPreferences.getFloat(key, (Float) defaultObject);
         } else if (defaultObject instanceof Long) {
             return sharedPreferences.getLong(key, (Long) defaultObject);
+        } else if (defaultObject instanceof List) {
+            List<T> datalist= new ArrayList<T>();
+            String str = sharedPreferences.getString(key,null);
+            if (str == null) {
+                return null;
+            }
+            Gson gson = new Gson();
+            datalist = gson.fromJson(str,new TypeToken<List<T>>(){}.getType());
+            return datalist;
         } else {
             return sharedPreferences.getString(key, null);
         }

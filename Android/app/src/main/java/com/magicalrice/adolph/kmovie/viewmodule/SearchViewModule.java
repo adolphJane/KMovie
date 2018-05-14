@@ -44,20 +44,12 @@ public class SearchViewModule extends AndroidViewModel {
 
     public void getHistoryList() {
         if (historyName != null && historyName.size() == 0) {
-            List<String> temp = (List<String>) SpUtils.getInstance(application.getApplicationContext()).get("search_history", null);
+            List<String> temp = (List<String>) SpUtils.getInstance(application.getApplicationContext()).get("search_history", new ArrayList<>());
             if (temp != null) {
                 historyName.addAll(temp);
             }
         }
         if (historyName != null && historyName.size() > 0) {
-            historyData.setValue(historyName);
-        }
-    }
-
-    public void deleteTag(int position) {
-        if (historyName != null && historyName.size() > position) {
-            historyName.remove(position);
-            SpUtils.getInstance(application.getApplicationContext()).put("search_history", historyName);
             historyData.setValue(historyName);
         }
     }
@@ -73,39 +65,55 @@ public class SearchViewModule extends AndroidViewModel {
             case 1:
                 dataSource.searchMovie(query, page).subscribe(movieResultsPage -> {
                     movieSearchData.setValue(movieResultsPage);
+                    updateHistory(query,true);
                 }, throwable -> {
                 });
                 break;
             case 2:
                 dataSource.searchTv(query, page).subscribe(tvShowResultsPage -> {
                     tvSearchData.setValue(tvShowResultsPage);
+                    updateHistory(query,true);
                 }, throwable -> {
                 });
                 break;
             case 3:
                 dataSource.searchCollections(query, page).subscribe(collectionResultsPage -> {
                     collectionSearchData.setValue(collectionResultsPage);
+                    updateHistory(query,true);
                 }, throwable -> {
                 });
                 break;
             case 4:
                 dataSource.searchPeople(query, page).subscribe(personResultsPage -> {
                     personSearchData.setValue(personResultsPage);
+                    updateHistory(query,true);
                 }, throwable -> {
                 });
                 break;
             case 5:
                 dataSource.searchCompany(query, page).subscribe(companyResultsPage -> {
                     companySearchData.setValue(companyResultsPage);
-                }, throwable -> {
-                });
-                break;
-            case 6:
-                dataSource.searchKeywords(query, page).subscribe(keywordResultsPage -> {
-                    keywordSearchData.setValue(keywordResultsPage);
+                    updateHistory(query,true);
                 }, throwable -> {
                 });
                 break;
         }
+    }
+
+    public void updateHistory(String query, boolean isAdded) {
+        if (isAdded) {
+            if (historyName.size() > 5) {
+                historyName = historyName.subList(historyName.size() - 5, historyName.size() - 1);
+            } else if (historyName.size() == 5) {
+                historyName.remove(0);
+            }
+            historyName.add(query);
+        } else {
+            if (historyName != null && historyName.contains(query)) {
+                historyName.remove(query);
+            }
+        }
+        SpUtils.getInstance(application).put("search_history", historyName);
+        historyData.setValue(historyName);
     }
 }

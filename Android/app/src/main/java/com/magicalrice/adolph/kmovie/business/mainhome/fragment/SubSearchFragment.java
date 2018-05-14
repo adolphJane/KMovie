@@ -64,7 +64,6 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 1:
                 viewModule.movieSearchData.observe(this, movieResultsPage -> {
                     data = (T) movieResultsPage;
-//                    dataList.addAll((Collection<? extends K>) movieResultsPage.getResults());
                     adapter.addData((Collection<? extends K>) movieResultsPage.getResults());
                     if (movieResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
@@ -76,7 +75,6 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 2:
                 viewModule.tvSearchData.observe(this, tvShowResultsPage -> {
                     data = (T) tvShowResultsPage;
-//                    dataList.addAll((Collection<? extends K>) tvShowResultsPage.getResults());
                     adapter.addData((Collection<? extends K>) tvShowResultsPage.getResults());
                     if (tvShowResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
@@ -88,7 +86,6 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 3:
                 viewModule.collectionSearchData.observe(this, collectionResultsPage -> {
                     data = (T) collectionResultsPage;
-//                    dataList.addAll((Collection<? extends K>) collectionResultsPage.getResults());
                     adapter.addData((Collection<? extends K>) collectionResultsPage.getResults());
                     if (collectionResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
@@ -100,7 +97,6 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 4:
                 viewModule.personSearchData.observe(this, personResultsPage -> {
                     data = (T) personResultsPage;
-//                    dataList.addAll((Collection<? extends K>) personResultsPage.getResults());
                     adapter.addData((Collection<? extends K>) personResultsPage.getResults());
                     if (personResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
@@ -112,21 +108,8 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 5:
                 viewModule.companySearchData.observe(this, companyResultsPage -> {
                     data = (T) companyResultsPage;
-//                    dataList.addAll((Collection<? extends K>) companyResultsPage.getResults());
                     adapter.addData((Collection<? extends K>) companyResultsPage.getResults());
                     if (companyResultsPage.getResults().size() > 0) {
-                        binding.setShowNoResults(false);
-                    } else {
-                        binding.setShowNoResults(true);
-                    }
-                });
-                break;
-            case 6:
-                viewModule.keywordSearchData.observe(this, keywordResultsPage -> {
-                    data = (T) keywordResultsPage;
-//                    dataList.addAll((Collection<? extends K>) keywordResultsPage.getResults());
-                    adapter.addData((Collection<? extends K>) keywordResultsPage.getResults());
-                    if (keywordResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {
                         binding.setShowNoResults(true);

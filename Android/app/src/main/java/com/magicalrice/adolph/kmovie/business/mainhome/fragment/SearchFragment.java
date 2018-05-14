@@ -11,7 +11,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -41,7 +43,7 @@ import javax.inject.Inject;
  * Created by Adolph on 2018/5/8.
  */
 
-public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBinding> {
+public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBinding> implements TextWatcher {
     @Inject
     MainViewModuleFactory factory;
     private SearchViewModule viewModule;
@@ -74,6 +76,11 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
     public void createView(View view) {
         binding.setHasHistory(false);
         binding.setSearchStatus(searchStatus);
+        binding.cancel.setOnClickListener(v -> dismissAllowingStateLoss());
+        binding.deleteSearch.setOnClickListener(v -> {
+            binding.inputSearch.setText("");
+        });
+        binding.inputSearch.addTextChangedListener(this);
         initSearchResultsView();
         initData();
     }
@@ -141,18 +148,17 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
                 }
             }
             textViewWidth += textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(getContext(), 15);
-            tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(getContext(), 5)) * (lines - 1)), 0, 0);
+            tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(getContext(), 5)) * lines - 1), 0, 0);
             textView.setId(historyTag + i);
             preId = textView.getId();
             ImageView imageView = new ImageView(getContext());
             RelativeLayout.LayoutParams imgParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             imageView.setImageResource(R.drawable.ico_history_delete);
-            int finalI = i;
             textView.setOnClickListener(v -> {
                 changeStatus(name);
             });
             imageView.setOnClickListener(v -> {
-                viewModule.deleteTag(finalI);
+                viewModule.updateHistory(name,false);
             });
             imgParams.addRule(RelativeLayout.ALIGN_RIGHT, preId);
             imgParams.addRule(RelativeLayout.ALIGN_TOP, preId);
@@ -191,5 +197,22 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
                 activity.getSupportFragmentManager().beginTransaction().add(fragment, "search").commitAllowingStateLoss();
             }
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() == 0) {
+            binding.setSearchStatus(1);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

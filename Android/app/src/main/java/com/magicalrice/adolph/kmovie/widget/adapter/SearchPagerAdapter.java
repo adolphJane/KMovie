@@ -30,7 +30,7 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
 
     public SearchPagerAdapter(FragmentManager fm) {
         super(fm);
-        for (int i = 0;i < 6;i++) {
+        for (int i = 0;i < 5;i++) {
             SubSearchFragment fragment;
             switch (i) {
                 case 0:
@@ -48,9 +48,6 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
                 case 4:
                     fragment = new SubSearchFragment<PersonResultsPage,BasePerson>();
                     break;
-                case 5:
-                    fragment = new SubSearchFragment<KeywordResultsPage,BaseKeyword>();
-                    break;
                 default:
                     fragment = new SubSearchFragment();
                     break;
@@ -64,7 +61,6 @@ public class SearchPagerAdapter extends FragmentPagerAdapter{
             mFragmentTitle.add("剧集");
             mFragmentTitle.add("人物");
             mFragmentTitle.add("公司");
-            mFragmentTitle.add("关键词");
         }
     }
 
