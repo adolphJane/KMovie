@@ -207,7 +207,8 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (s.length() == 0) {
-            binding.setSearchStatus(1);
+            searchStatus = 1;
+            binding.setSearchStatus(searchStatus);
         }
     }
 

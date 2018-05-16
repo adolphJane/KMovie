@@ -46,6 +46,7 @@ public class SearchViewModule extends AndroidViewModel {
         if (historyName != null && historyName.size() == 0) {
             List<String> temp = (List<String>) SpUtils.getInstance(application.getApplicationContext()).get("search_history", new ArrayList<>());
             if (temp != null) {
+                historyName.clear();
                 historyName.addAll(temp);
             }
         }
@@ -65,35 +66,35 @@ public class SearchViewModule extends AndroidViewModel {
             case 1:
                 dataSource.searchMovie(query, page).subscribe(movieResultsPage -> {
                     movieSearchData.setValue(movieResultsPage);
-                    updateHistory(query,true);
+                    updateHistory(query, true);
                 }, throwable -> {
                 });
                 break;
             case 2:
                 dataSource.searchTv(query, page).subscribe(tvShowResultsPage -> {
                     tvSearchData.setValue(tvShowResultsPage);
-                    updateHistory(query,true);
+                    updateHistory(query, true);
                 }, throwable -> {
                 });
                 break;
             case 3:
                 dataSource.searchCollections(query, page).subscribe(collectionResultsPage -> {
                     collectionSearchData.setValue(collectionResultsPage);
-                    updateHistory(query,true);
+                    updateHistory(query, true);
                 }, throwable -> {
                 });
                 break;
             case 4:
                 dataSource.searchPeople(query, page).subscribe(personResultsPage -> {
                     personSearchData.setValue(personResultsPage);
-                    updateHistory(query,true);
+                    updateHistory(query, true);
                 }, throwable -> {
                 });
                 break;
             case 5:
                 dataSource.searchCompany(query, page).subscribe(companyResultsPage -> {
                     companySearchData.setValue(companyResultsPage);
-                    updateHistory(query,true);
+                    updateHistory(query, true);
                 }, throwable -> {
                 });
                 break;
@@ -107,7 +108,9 @@ public class SearchViewModule extends AndroidViewModel {
             } else if (historyName.size() == 5) {
                 historyName.remove(0);
             }
-            historyName.add(query);
+            if (!historyName.contains(query)) {
+                historyName.add(query);
+            }
         } else {
             if (historyName != null && historyName.contains(query)) {
                 historyName.remove(query);

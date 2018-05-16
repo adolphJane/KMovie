@@ -9,12 +9,16 @@ import android.view.View;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
+import com.magicalrice.adolph.kmovie.data.entities.CollectionResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.CompanyResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.databinding.FragmentSubSearchBinding;
 import com.magicalrice.adolph.kmovie.viewmodule.SearchViewModule;
 import com.magicalrice.adolph.kmovie.widget.adapter.SearchResultsAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,7 +40,7 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         if (getActivity() != null) {
-            viewModule = ViewModelProviders.of(getActivity(), ((MainHomeActivity)getActivity()).getFactory()).get(SearchViewModule.class);
+            viewModule = ViewModelProviders.of(getActivity(), ((MainHomeActivity) getActivity()).getFactory()).get(SearchViewModule.class);
         }
     }
 
@@ -64,7 +68,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 1:
                 viewModule.movieSearchData.observe(this, movieResultsPage -> {
                     data = (T) movieResultsPage;
-                    adapter.addData((Collection<? extends K>) movieResultsPage.getResults());
+                    if (data != null && ((MovieResultsPage) data).getResults() != null && ((MovieResultsPage) data).getResults().size() > 0) {
+                        adapter.setNewData((List<K>) movieResultsPage.getResults());
+                    }
                     if (movieResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {
@@ -75,7 +81,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 2:
                 viewModule.tvSearchData.observe(this, tvShowResultsPage -> {
                     data = (T) tvShowResultsPage;
-                    adapter.addData((Collection<? extends K>) tvShowResultsPage.getResults());
+                    if (data != null && ((TvShowResultsPage) data).getResults() != null && ((TvShowResultsPage) data).getResults().size() > 0) {
+                        adapter.setNewData((List<K>) tvShowResultsPage.getResults());
+                    }
                     if (tvShowResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {
@@ -86,7 +94,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 3:
                 viewModule.collectionSearchData.observe(this, collectionResultsPage -> {
                     data = (T) collectionResultsPage;
-                    adapter.addData((Collection<? extends K>) collectionResultsPage.getResults());
+                    if (data != null && ((CollectionResultsPage) data).getResults() != null && ((CollectionResultsPage) data).getResults().size() > 0) {
+                        adapter.setNewData((List<K>) collectionResultsPage.getResults());
+                    }
                     if (collectionResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {
@@ -97,7 +107,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 4:
                 viewModule.personSearchData.observe(this, personResultsPage -> {
                     data = (T) personResultsPage;
-                    adapter.addData((Collection<? extends K>) personResultsPage.getResults());
+                    if (data != null && ((PersonResultsPage) data).getResults() != null && ((PersonResultsPage) data).getResults().size() > 0) {
+                        adapter.setNewData((List<K>) personResultsPage.getResults());
+                    }
                     if (personResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {
@@ -108,7 +120,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
             case 5:
                 viewModule.companySearchData.observe(this, companyResultsPage -> {
                     data = (T) companyResultsPage;
-                    adapter.addData((Collection<? extends K>) companyResultsPage.getResults());
+                    if (data != null && ((CompanyResultsPage) data).getResults() != null && ((CompanyResultsPage) data).getResults().size() > 0) {
+                        adapter.setNewData((List<K>) companyResultsPage.getResults());
+                    }
                     if (companyResultsPage.getResults().size() > 0) {
                         binding.setShowNoResults(false);
                     } else {

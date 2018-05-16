@@ -76,24 +76,92 @@
                     />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_role"
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/rl_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类型" />
+
+            <RelativeLayout
+                android:id="@+id/rl_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_movie"
-                android:orientation="vertical"
+                android:layout_below="@id/tv_type">
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_show_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_type"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="上映信息"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ry_show_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_show_time"
+                android:layout_marginTop="10dp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_movie_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ry_show_time"
                 android:paddingTop="15dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:paddingLeft="15dp">
+                <TextView
+                    android:id="@+id/tv_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="资料"/>
+                <TextView
+                    android:id="@+id/tv_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主演"
+                    android:layout_toRightOf="@id/tv_info"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:id="@+id/tv_photos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="剧照"
+                    android:layout_toRightOf="@id/tv_star"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:id="@+id/tv_poster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="海报"
+                    android:layout_toRightOf="@id/tv_photos"
+                    android:layout_marginLeft="15dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_related_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_movie_info">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="主演" />
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-
-            </LinearLayout>
+                    android:text="相关电影"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐电影"/>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </layout>
