@@ -130,7 +130,7 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
             }
             TextView textView = new TextView(getContext());
             textView.setBackgroundResource(R.drawable.shape_color_black4_20dp_corners);
-            textView.setPadding((int) ScreenUtils.dp2px(getContext(), 10), (int) ScreenUtils.dp2px(getContext(), 5), (int) ScreenUtils.dp2px(getContext(), 10), (int) ScreenUtils.dp2px(getContext(), 5));
+            textView.setPadding((int) ScreenUtils.dp2px(getContext(), 10), (int) ScreenUtils.dp2px(getContext(), 3), (int) ScreenUtils.dp2px(getContext(), 10), (int) ScreenUtils.dp2px(getContext(), 3));
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white_4));
             textView.setText(name);
@@ -148,7 +148,7 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
                 }
             }
             textViewWidth += textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(getContext(), 15);
-            tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(getContext(), 5)) * lines - 1), 0, 0);
+            tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(getContext(), 5)) * lines), 0, 0);
             textView.setId(historyTag + i);
             preId = textView.getId();
             ImageView imageView = new ImageView(getContext());

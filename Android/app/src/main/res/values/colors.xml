@@ -15,7 +15,8 @@
     <color name="white_3">#14FFFFFF</color>
     <color name="white_4">#4dFFFFFF</color>
     <color name="white_5">#80FFFFFF</color>
-    <color name="white_6">#b3FFFFFF</color>
+    <color name="white_6">#b3FFFFFF</color>     <!--70%白色-->
+    <color name="white_7">#66FFFFFF</color>     <!--40%白色-->
     <color name="black_1">#ff161616</color>
     <color name="black_2">#ff202020</color>
     <color name="black_3">#66000000</color>

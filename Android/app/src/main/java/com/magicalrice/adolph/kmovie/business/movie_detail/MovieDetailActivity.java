@@ -3,7 +3,6 @@ package com.magicalrice.adolph.kmovie.business.movie_detail;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -11,26 +10,40 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.widget.ImageView;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.base.GlideApp;
+import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
+import com.magicalrice.adolph.kmovie.data.entities.Genre;
+import com.magicalrice.adolph.kmovie.data.entities.Keywords;
+import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieDetailBinding;
+import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieDetailViewModule;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 /**
  * Created by Adolph on 2018/5/7.
  */
 
-public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding> {
+public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding> implements MovieDetailEvent {
     private MovieDetailViewModule viewModule;
     private int type;
     private int movieId;
@@ -56,6 +69,9 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     }
 
     private void initData() {
+        binding.setSelectOne(1);
+        binding.setSelectTwo(1);
+        binding.setEvent(this);
         viewModule.getMovieDetail(movieId);
         viewModule.movieDetailBean.observe(this, movieDetailBean -> {
             updateView(movieDetailBean);
@@ -63,16 +79,33 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     }
 
     private void updateView(MovieDetailBean bean) {
-        GlideApp.with(this)
-                .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + bean.getMovie().getPoster_path())
-                .placeholder(R.drawable.item_img_placeholder)
-                .error(R.drawable.item_img_error)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(binding.imgPoster);
-        binding.tvMovieTitle.setText(bean.getMovie().getTitle());
-        binding.tvMovieDirector.setText(flipTextColor("导演:"+bean.getMovie().getPopularity()));
-        binding.tvMovieRegion.setText(flipTextColor("国家/地区:" + bean.getMovie().getRelease_date()));
+        if (bean == null) {
+            return;
+        }
+        Movie movie = bean.getMovie();
+        Keywords keywords = bean.getKeywords();
+        if (movie != null) {
+            GlideApp.with(this)
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + bean.getMovie().getPoster_path())
+                    .placeholder(R.drawable.item_img_placeholder)
+                    .error(R.drawable.item_img_error)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(binding.imgPoster);
+            binding.tvMovieTitle.setText(bean.getMovie().getTitle());
+            binding.tvMovieDirector.setText(flipTextColor("导演:" + bean.getMovie().getPopularity()));
+            binding.tvMovieRegion.setText(flipTextColor("国家/地区:" + bean.getMovie().getRelease_date()));
+            List<Genre> genres = movie.getGenres();
+            if (genres != null && genres.size() > 0) {
+                showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()),binding.rlGenre);
+            }
+        }
+        if (keywords != null) {
+            List<BaseKeyword> keyList = keywords.getKeywords();
+            if (keyList != null && keyList.size() > 0) {
+                showGenreTag(StreamSupport.stream(keyList).map(baseKeyword -> baseKeyword.getName()).collect(Collectors.toList()),binding.rlKeyword);
+            }
+        }
     }
 
     public static void startActivity(FragmentActivity activity, int movieId, int type) {
@@ -82,17 +115,68 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         activity.startActivity(intent);
     }
 
+    private void showGenreTag(List<String> words, RelativeLayout parent) {
+        if (words != null && words.size() > 0 && parent != null) {
+            parent.post(() -> {
+                int preId = 0, textViewWidth = 0, lines = 1;
+                int wordTagId = 10001;
+                int width = parent.getMeasuredWidth();
+                for (int i = 0; i < words.size(); i++) {
+                    String word = words.get(i);
+                    TextView textView = new TextView(this);
+                    textView.setBackgroundResource(R.drawable.shape_color_black4_20dp_corners);
+                    textView.setPadding((int) ScreenUtils.dp2px(this, 10), (int) ScreenUtils.dp2px(this, 3), (int) ScreenUtils.dp2px(this, 10), (int) ScreenUtils.dp2px(this, 3));
+                    textView.setGravity(Gravity.CENTER);
+                    textView.setTextColor(ContextCompat.getColor(this, R.color.white_4));
+                    textView.setText(word);
+                    RelativeLayout.LayoutParams tvParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    textView.measure(spec, spec);
+                    if (lines == 1) {
+                        tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(this, 5)) * (lines - 1)), 0, 0);
+                    } else {
+                        tvParams.setMargins(0, (int) (ScreenUtils.dp2px(this, 5) * (lines - 1)), 0, 0);
+                    }
+                    if (preId > 0) {
+                        //测量textview
+                        if (width >= textViewWidth + textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(this, 15)) {
+                            tvParams.addRule(RelativeLayout.RIGHT_OF, preId);
+                            tvParams.setMarginStart((int) ScreenUtils.dp2px(this, 15));
+                        } else {
+                            lines++;
+                            textViewWidth = 0;
+                        }
+                    }
+                    textViewWidth += textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(this, 15);
+                    textView.setId(wordTagId + i);
+                    preId = textView.getId();
+                    parent.addView(textView, tvParams);
+                }
+            });
+        }
+    }
+
     private CharSequence flipTextColor(String content) {
         if (TextUtils.isEmpty(content)) {
-            return null;
+            return "";
         }
         if (content.contains(":")) {
             SpannableString ss = new SpannableString(content);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.yellow_1));
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.yellow_1));
             int end = content.indexOf(":");
-            ss.setSpan(colorSpan,0,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ss.setSpan(colorSpan, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return ss;
         }
-        return null;
+        return content;
+    }
+
+    @Override
+    public void switchBaseInfo(int position) {
+        binding.setSelectOne(position);
+    }
+
+    @Override
+    public void switchMovieInfo(int position) {
+        binding.setSelectTwo(position);
     }
 }

@@ -1,6 +1,7 @@
 package com.magicalrice.adolph.kmovie.assist.dagger.module;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -8,6 +9,8 @@ import com.google.gson.GsonBuilder;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.RequestInterceptor;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
+import com.magicalrice.adolph.kmovie.data.repository.CountryDataSource;
+import com.magicalrice.adolph.kmovie.utils.SpUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Adolph on 2018/2/28.
  */
 @Module
-public class NetModule {
+public class UtilsModule {
 
     @Singleton
     @Provides
@@ -82,5 +85,18 @@ public class NetModule {
     Tmdb provideTmdb(Retrofit retrofit) {
         Tmdb tmdb = new Tmdb(retrofit);
         return tmdb;
+    }
+
+    @Singleton
+    @Provides
+    SpUtils provideSharePreference(Context context) {
+        return SpUtils.getInstance(context);
+    }
+
+    @Singleton
+    @Provides
+    CountryDataSource provideCountryData() {
+        CountryDataSource dataSource = new CountryDataSource();
+        return dataSource;
     }
 }
