@@ -90,13 +90,14 @@ public class UtilsModule {
     @Singleton
     @Provides
     SpUtils provideSharePreference(Context context) {
-        return SpUtils.getInstance(context);
+        SpUtils spUtils = new SpUtils(context);
+        return spUtils;
     }
 
     @Singleton
     @Provides
-    CountryDataSource provideCountryData() {
-        CountryDataSource dataSource = new CountryDataSource();
+    CountryDataSource provideCountryData(SpUtils spUtils,Gson gson,Context context) {
+        CountryDataSource dataSource = new CountryDataSource(spUtils,gson,context);
         return dataSource;
     }
 }

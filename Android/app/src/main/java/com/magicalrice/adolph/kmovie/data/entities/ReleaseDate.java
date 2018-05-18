@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class ReleaseDate {
 
-    public static Integer TYPE_PREMIERE = 1;
-    public static Integer TYPE_THEATRICAL_LIMITED = 2;
-    public static Integer TYPE_THEATRICAL = 3;
-    public static Integer TYPE_DIGITAL = 4;
-    public static Integer TYPE_PHYSICAL = 5;
-    public static Integer TYPE_TV = 6;
+    public static Integer TYPE_PREMIERE = 1;                //首映
+    public static Integer TYPE_THEATRICAL_LIMITED = 2;      //剧场有限
+    public static Integer TYPE_THEATRICAL = 3;              //剧场
+    public static Integer TYPE_DIGITAL = 4;                 //数字
+    public static Integer TYPE_PHYSICAL = 5;                //物理
+    public static Integer TYPE_TV = 6;                      //电视
 
     private String certification;
     private String iso_639_1;
@@ -55,5 +55,25 @@ public class ReleaseDate {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getTypeName() {
+        if (type != 0) {
+            switch (type) {
+                case 1:
+                    return "首映场";
+                case 2:
+                    return "剧场有限";
+                case 3:
+                    return "剧场";
+                case 4:
+                    return "数字场";
+                case 5:
+                    return "物理场";
+                case 6:
+                    return "电视";
+            }
+        }
+        return "";
     }
 }

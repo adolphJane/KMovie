@@ -23,15 +23,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class CountryDataSource {
-    @Inject
-    SpUtils spUtils;
-    @Inject
-    Gson gson;
-    @Inject
-    Context context;
+    private SpUtils spUtils;
+    private Gson gson;
 
     @Inject
-    public CountryDataSource() {
+    public CountryDataSource(SpUtils spUtils,Gson gson,Context context) {
+        this.spUtils = spUtils;
+        this.gson = gson;
         Observable.create(emitter -> {
             String country = (String) spUtils.get("country", "");
             if (TextUtils.isEmpty(country)) {
@@ -51,12 +49,14 @@ public class CountryDataSource {
 
     public CountryISO1336 getCountryByISO3166(String iso) {
         String s = (String) spUtils.get("country","");
-        CountryISO1336 bean = null;
+        CountryISO1336 bean = new CountryISO1336();
         if (!TextUtils.isEmpty(s)) {
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                String country = String.valueOf(jsonObject.get(iso));
-                bean = gson.fromJson(country,CountryISO1336.class);
+                JSONObject jsonObject1 = jsonObject.getJSONObject(iso);
+                bean.setEngName(jsonObject1.getString("engName"));
+                bean.setChiName(jsonObject1.getString("chiName"));
+                bean.setImgPath(jsonObject1.getString("imgPath"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

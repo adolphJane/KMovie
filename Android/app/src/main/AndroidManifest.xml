@@ -14,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <!--单元测试配置-->
+        <uses-library android:name="android.test.runner" />
+
         <activity android:name=".business.login.LoginActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">

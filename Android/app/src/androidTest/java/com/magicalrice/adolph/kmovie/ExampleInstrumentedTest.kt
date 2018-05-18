@@ -3,6 +3,7 @@ package com.magicalrice.adolph.kmovie
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb
+import com.magicalrice.adolph.kmovie.utils.Utils
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +26,7 @@ class ExampleInstrumentedTest {
 
     @Test
     fun assertMovie() {
-
+        var money = Utils.getRevenue(10000000)
+        assertEquals(money,"$,10000,000")
     }
 }

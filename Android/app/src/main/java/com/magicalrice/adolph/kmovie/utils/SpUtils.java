@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -26,6 +28,7 @@ public class SpUtils {
     public static final String FILE_NAME = "shared_data";
     private static SharedPreferences.Editor editor;
 
+    @Inject
     public SpUtils(Context context) {
         sharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();

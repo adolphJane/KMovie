@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -26,11 +27,16 @@ import com.magicalrice.adolph.kmovie.data.entities.Genre;
 import com.magicalrice.adolph.kmovie.data.entities.Keywords;
 import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResult;
+import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
+import com.magicalrice.adolph.kmovie.data.repository.CountryDataSource;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieDetailBinding;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
+import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieDetailViewModule;
+import com.magicalrice.adolph.kmovie.widget.adapter.ReleaseDateAdapter;
 
 import java.util.List;
 
@@ -45,10 +51,13 @@ import java8.util.stream.StreamSupport;
 
 public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding> implements MovieDetailEvent {
     private MovieDetailViewModule viewModule;
+    private ReleaseDateAdapter dateAdapter;
     private int type;
     private int movieId;
     @Inject
     MainViewModuleFactory factory;
+    @Inject
+    CountryDataSource countrySource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +93,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         }
         Movie movie = bean.getMovie();
         Keywords keywords = bean.getKeywords();
+        ReleaseDatesResults datesResults = bean.getDatesResults();
         if (movie != null) {
             GlideApp.with(this)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + bean.getMovie().getPoster_path())
@@ -99,11 +109,26 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             if (genres != null && genres.size() > 0) {
                 showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()),binding.rlGenre);
             }
+            ((TextView)findViewById(R.id.tv_original_title_data)).setText(TextUtils.isEmpty(movie.getOriginal_title()) ? "无" : movie.getOriginal_title());
+            ((TextView)findViewById(R.id.tv_original_lanuage_data)).setText(TextUtils.isEmpty(movie.getOriginal_language()) ? "无" : movie.getOriginal_language());
+            ((TextView)findViewById(R.id.tv_time_data)).setText(movie.getRuntime() == 0 ? "无" : Utils.getTime(movie.getRuntime()));
+            ((TextView)findViewById(R.id.tv_budget_data)).setText(movie.getBudget() == 0 ? "无" : Utils.getRevenue(movie.getBudget()) + "");
+//            ((TextView)findViewById(R.id.tv_box_office_data)).setText(movie.getRevenue() == 0 ? "无" : Utils.getRevenue(movie.getRevenue()) + "");
+            ((TextView)findViewById(R.id.tv_homepage_data)).setText(TextUtils.isEmpty(movie.getHomepage()) ? "无" : movie.getHomepage());
         }
         if (keywords != null) {
             List<BaseKeyword> keyList = keywords.getKeywords();
             if (keyList != null && keyList.size() > 0) {
                 showGenreTag(StreamSupport.stream(keyList).map(baseKeyword -> baseKeyword.getName()).collect(Collectors.toList()),binding.rlKeyword);
+            }
+        }
+        if (datesResults != null) {
+            List<ReleaseDatesResult> dataList = datesResults.getResults();
+            if (dataList != null && dataList.size() > 0) {
+                dateAdapter = new ReleaseDateAdapter(R.layout.item_release_date_layout,dataList,countrySource);
+                LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+                binding.ryShowTime.setLayoutManager(manager);
+                binding.ryShowTime.setAdapter(dateAdapter);
             }
         }
     }
@@ -178,5 +203,9 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     public void switchMovieInfo(int position) {
         binding.setSelectTwo(position);
+    }
+
+    private void showInfo() {
+
     }
 }
