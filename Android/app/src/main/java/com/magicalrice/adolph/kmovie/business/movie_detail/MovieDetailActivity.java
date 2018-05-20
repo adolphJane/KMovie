@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +24,12 @@ import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.base.GlideApp;
 import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
+import com.magicalrice.adolph.kmovie.data.entities.CastMember;
+import com.magicalrice.adolph.kmovie.data.entities.Credits;
+import com.magicalrice.adolph.kmovie.data.entities.CrewMember;
 import com.magicalrice.adolph.kmovie.data.entities.Genre;
+import com.magicalrice.adolph.kmovie.data.entities.Image;
+import com.magicalrice.adolph.kmovie.data.entities.Images;
 import com.magicalrice.adolph.kmovie.data.entities.Keywords;
 import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
@@ -36,7 +42,9 @@ import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieDetailViewModule;
+import com.magicalrice.adolph.kmovie.widget.adapter.MoviePhotoAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.ReleaseDateAdapter;
+import com.magicalrice.adolph.kmovie.widget.adapter.StarAdapter;
 
 import java.util.List;
 
@@ -52,6 +60,8 @@ import java8.util.stream.StreamSupport;
 public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding> implements MovieDetailEvent {
     private MovieDetailViewModule viewModule;
     private ReleaseDateAdapter dateAdapter;
+    private StarAdapter starAdapter;
+    private MoviePhotoAdapter photoBackAdapter,photoPosterAdapter;
     private int type;
     private int movieId;
     @Inject
@@ -81,7 +91,11 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         binding.setSelectOne(1);
         binding.setSelectTwo(1);
         binding.setEvent(this);
-        viewModule.getMovieDetail(movieId);
+        if (type == 1) {
+            viewModule.getMovieDetail(movieId);
+        } else if (type == 2) {
+
+        }
         viewModule.movieDetailBean.observe(this, movieDetailBean -> {
             updateView(movieDetailBean);
         });
@@ -94,6 +108,9 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         Movie movie = bean.getMovie();
         Keywords keywords = bean.getKeywords();
         ReleaseDatesResults datesResults = bean.getDatesResults();
+        Credits credits = bean.getCredits();
+        Images images = bean.getImages();
+        binding.ryPhotos.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         if (movie != null) {
             GlideApp.with(this)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + bean.getMovie().getPoster_path())
@@ -103,8 +120,8 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.imgPoster);
             binding.tvMovieTitle.setText(bean.getMovie().getTitle());
-            binding.tvMovieDirector.setText(flipTextColor("导演:" + bean.getMovie().getPopularity()));
-            binding.tvMovieRegion.setText(flipTextColor("国家/地区:" + bean.getMovie().getRelease_date()));
+            binding.tvMovieRelease.setText(flipTextColor("发行日期:" + bean.getMovie().getRelease_date()));
+            binding.tvContentContent.setText(TextUtils.isEmpty(movie.getOverview()) ? "无" : "    " + movie.getOverview());
             List<Genre> genres = movie.getGenres();
             if (genres != null && genres.size() > 0) {
                 showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()),binding.rlGenre);
@@ -113,7 +130,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             ((TextView)findViewById(R.id.tv_original_lanuage_data)).setText(TextUtils.isEmpty(movie.getOriginal_language()) ? "无" : movie.getOriginal_language());
             ((TextView)findViewById(R.id.tv_time_data)).setText(movie.getRuntime() == 0 ? "无" : Utils.getTime(movie.getRuntime()));
             ((TextView)findViewById(R.id.tv_budget_data)).setText(movie.getBudget() == 0 ? "无" : Utils.getRevenue(movie.getBudget()) + "");
-//            ((TextView)findViewById(R.id.tv_box_office_data)).setText(movie.getRevenue() == 0 ? "无" : Utils.getRevenue(movie.getRevenue()) + "");
+            ((TextView)findViewById(R.id.tv_box_office_data)).setText(movie.getRevenue() == 0 ? "无" : Utils.getRevenue(movie.getRevenue()) + "");
             ((TextView)findViewById(R.id.tv_homepage_data)).setText(TextUtils.isEmpty(movie.getHomepage()) ? "无" : movie.getHomepage());
         }
         if (keywords != null) {
@@ -126,9 +143,38 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             List<ReleaseDatesResult> dataList = datesResults.getResults();
             if (dataList != null && dataList.size() > 0) {
                 dateAdapter = new ReleaseDateAdapter(R.layout.item_release_date_layout,dataList,countrySource);
-                LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-                binding.ryShowTime.setLayoutManager(manager);
+                binding.ryShowTime.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
                 binding.ryShowTime.setAdapter(dateAdapter);
+            }
+        }
+
+        if (credits != null) {
+            List<CastMember> memberList = credits.getCast();
+            if (memberList != null && memberList.size() > 0) {
+                starAdapter = new StarAdapter(R.layout.item_movie_star_layout,memberList);
+                binding.ryPhotos.setAdapter(starAdapter);
+            }
+            List<CrewMember> memberList1 = credits.getCrew();
+            if (memberList1 != null && memberList1.size() > 0) {
+                if (memberList1.get(0).getJob().equalsIgnoreCase("Director")) {
+                    binding.tvMovieDirector.setText(flipTextColor("导演:" + memberList1.get(0).getName()));
+                } else {
+                    binding.tvMovieDirector.setText(flipTextColor("导演:无"));
+                }
+            }
+        }
+
+        if (images != null) {
+            List<Image> imgBackList = images.getBackdrops();
+            if (imgBackList != null) {
+                photoBackAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo,imgBackList);
+                photoBackAdapter.setEmptyView(R.layout.item_empty_view,binding.rlMovieInfo);
+            }
+
+            List<Image> imgPosterList = images.getPosters();
+            if (imgPosterList != null) {
+                photoPosterAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo,imgPosterList);
+                photoPosterAdapter.setEmptyView(R.layout.item_empty_view,binding.rlMovieInfo);
             }
         }
     }
@@ -149,7 +195,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                 for (int i = 0; i < words.size(); i++) {
                     String word = words.get(i);
                     TextView textView = new TextView(this);
-                    textView.setBackgroundResource(R.drawable.shape_color_black4_20dp_corners);
+                    textView.setBackgroundResource(R.drawable.shape_color_black6_20dp_corners);
                     textView.setPadding((int) ScreenUtils.dp2px(this, 10), (int) ScreenUtils.dp2px(this, 3), (int) ScreenUtils.dp2px(this, 10), (int) ScreenUtils.dp2px(this, 3));
                     textView.setGravity(Gravity.CENTER);
                     textView.setTextColor(ContextCompat.getColor(this, R.color.white_4));
@@ -157,11 +203,6 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                     RelativeLayout.LayoutParams tvParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                     textView.measure(spec, spec);
-                    if (lines == 1) {
-                        tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(this, 5)) * (lines - 1)), 0, 0);
-                    } else {
-                        tvParams.setMargins(0, (int) (ScreenUtils.dp2px(this, 5) * (lines - 1)), 0, 0);
-                    }
                     if (preId > 0) {
                         //测量textview
                         if (width >= textViewWidth + textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(this, 15)) {
@@ -172,6 +213,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                             textViewWidth = 0;
                         }
                     }
+                    tvParams.setMargins(0, (int) ((textView.getMeasuredHeight() + ScreenUtils.dp2px(this, 5)) * (lines - 1)), 0, 0);
                     textViewWidth += textView.getMeasuredWidth() + (int) ScreenUtils.dp2px(this, 15);
                     textView.setId(wordTagId + i);
                     preId = textView.getId();
@@ -198,6 +240,19 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     public void switchBaseInfo(int position) {
         binding.setSelectOne(position);
+        switch (position) {
+            case 1:
+                break;
+            case 2:
+                binding.ryPhotos.setAdapter(starAdapter);
+                break;
+            case 3:
+                binding.ryPhotos.setAdapter(photoBackAdapter);
+                break;
+            case 4:
+                binding.ryPhotos.setAdapter(photoPosterAdapter);
+                break;
+        }
     }
 
     @Override

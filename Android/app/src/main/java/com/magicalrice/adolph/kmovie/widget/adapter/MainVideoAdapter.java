@@ -26,12 +26,10 @@ import java.util.List;
 
 public class MainVideoAdapter extends BaseQuickAdapter<BaseVideo, BaseViewHolder> implements ListPreloader.PreloadModelProvider {
     private List<BaseVideo> videoList;
-    private Context context;
 
-    public MainVideoAdapter(int layoutResId, @Nullable List<BaseVideo> data, Context context) {
+    public MainVideoAdapter(int layoutResId, @Nullable List<BaseVideo> data) {
         super(layoutResId, data);
         this.videoList = data;
-        this.context = context;
     }
 
     @NonNull
@@ -50,14 +48,14 @@ public class MainVideoAdapter extends BaseQuickAdapter<BaseVideo, BaseViewHolder
     @Nullable
     @Override
     public RequestBuilder<?> getPreloadRequestBuilder(@NonNull Object item) {
-        return GlideApp.with(context)
+        return GlideApp.with(mContext)
                 .load(item);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, BaseVideo item) {
-        if (item != null && !TextUtils.isEmpty(item.getPoster_path())) {
-            GlideApp.with(context)
+        if (item != null) {
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + item.getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)

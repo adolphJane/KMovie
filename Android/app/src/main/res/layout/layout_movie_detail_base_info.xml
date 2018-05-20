@@ -5,21 +5,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="75dp"
-        android:layout_alignParentLeft="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_weight="1">
         <TextView
             android:id="@+id/tv_original_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="原始标题"
+            android:textSize="14sp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_original_title_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
 
         <TextView
@@ -27,14 +28,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="原始语言"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_original_lanuage_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
     </LinearLayout>
 
@@ -42,20 +45,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:minWidth="75dp"
-        android:layout_centerHorizontal="true">
+        android:layout_weight="1">
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="时长"
+            android:textSize="14sp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_time_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
 
         <TextView
@@ -63,14 +67,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="预算"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_budget_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
     </LinearLayout>
 
@@ -78,20 +84,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:minWidth="75dp"
-        android:layout_alignParentRight="true">
+        android:layout_weight="1">
         <TextView
             android:id="@+id/tv_box_office"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="票房"
+            android:textSize="14sp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_box_office_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
 
         <TextView
@@ -99,14 +106,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="主页"
-            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white_6"/>
 
         <TextView
             android:id="@+id/tv_homepage_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
             android:textColor="@color/white_7"/>
     </LinearLayout>
 </merge>

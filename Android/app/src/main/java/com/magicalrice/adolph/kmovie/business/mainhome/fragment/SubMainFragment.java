@@ -78,7 +78,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         RecyclerViewPreloader preloader = null;
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
         videoList = new ArrayList<>();
-        movieAdapter = new MainVideoAdapter(R.layout.item_movie_layout, videoList, getActivity());
+        movieAdapter = new MainVideoAdapter(R.layout.item_movie_layout, videoList);
         movieAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         movieAdapter.setEnableLoadMore(true);
         movieAdapter.setLoadMoreView(new MagicalLoadMoreView());

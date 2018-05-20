@@ -1,16 +1,16 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
 public abstract class BaseMember {
-    private Integer id;
+    private int id;
     private String credit_id;
     private String name;
     private String profile_path;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

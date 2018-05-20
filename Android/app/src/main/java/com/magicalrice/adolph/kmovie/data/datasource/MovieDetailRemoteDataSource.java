@@ -9,6 +9,7 @@ import com.magicalrice.adolph.kmovie.data.entities.RatingObject;
 import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
 import com.magicalrice.adolph.kmovie.data.entities.Status;
 import com.magicalrice.adolph.kmovie.data.entities.TvShow;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.utils.RxUtils;
@@ -53,25 +54,51 @@ public class MovieDetailRemoteDataSource {
         return tmdb.moviesService().keywords(movieId).compose(RxUtils.io_main());
     }
 
+    public Observable<Keywords> getTvKeywords(int tvId) {
+        return tmdb.tvService().keywords(tvId).compose(RxUtils.io_main());
+    }
+
     public Observable<Images> getMovieImages(int movieId) {
         return tmdb.moviesService().images(movieId,"zh").compose(RxUtils.io_main());
+    }
+
+    public Observable<Images> getTvImages(int tvId) {
+        return tmdb.tvService().images(tvId,"zh").compose(RxUtils.io_main());
     }
 
     public Observable<MovieResultsPage> getMovieSimilar(int movieId,int page) {
         return tmdb.moviesService().similar(movieId,page,"zh").compose(RxUtils.io_main());
     }
 
+    public Observable<TvShowResultsPage> getTvSimilar(int tvId,int page) {
+        return tmdb.tvService().similar(tvId,page,"zh").compose(RxUtils.io_main());
+    }
+
     public Observable<MovieResultsPage> getMovieRecommendations(int movieId,int page) {
         return tmdb.moviesService().recommendations(movieId,page,"zh").compose(RxUtils.io_main());
     }
 
-    public Observable<Status> postAddRating(int movieId,double rating) {
+    public Observable<TvShowResultsPage> getTvRecommendations(int tvId,int page) {
+        return tmdb.tvService().recommendations(tvId,page,"zh").compose(RxUtils.io_main());
+    }
+
+    public Observable<Status> postMovieAddRating(int movieId,double rating) {
         RatingObject object = new RatingObject();
         object.setValue(rating);
         return tmdb.moviesService().addRating(movieId, AuthenticationType.ACCOUNT,object).compose(RxUtils.io_main());
     }
 
-    public Observable<Status> deleteRating(int movieId) {
+    public Observable<Status> deleteMovieRating(int movieId) {
         return tmdb.moviesService().deleteRating(movieId, AuthenticationType.ACCOUNT).compose(RxUtils.io_main());
+    }
+
+    public Observable<Status> postTvAddRating(int tvId,double rating) {
+        RatingObject object = new RatingObject();
+        object.setValue(rating);
+        return tmdb.tvService().addRating(tvId, AuthenticationType.ACCOUNT,object).compose(RxUtils.io_main());
+    }
+
+    public Observable<Status> deleteTvRating(int tvId) {
+        return tmdb.tvService().deleteRating(tvId, AuthenticationType.ACCOUNT).compose(RxUtils.io_main());
     }
 }

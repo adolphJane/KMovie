@@ -75,9 +75,6 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseMovie) item).getTitle())
                     .setText(R.id.tv_content, ((BaseMovie) item).getOverview());
-            if (TextUtils.isEmpty(((BaseMovie) item).getPoster_path())) {
-                return;
-            }
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseMovie) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -89,9 +86,6 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseTvShow) item).getName())
                     .setText(R.id.tv_content, ((BaseTvShow) item).getOverview());
-            if (TextUtils.isEmpty(((BaseTvShow) item).getPoster_path())) {
-                return;
-            }
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseTvShow) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -103,9 +97,6 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseCollection) item).getName())
                     .setText(R.id.tv_content, "无");
-            if (TextUtils.isEmpty(((BaseCollection) item).getPoster_path())) {
-                return;
-            }
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCollection) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -118,9 +109,6 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .setText(R.id.tv_title, ((BasePerson) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "人物简介");
-            if (TextUtils.isEmpty(((BasePerson) item).getProfile_path())) {
-                return;
-            }
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BasePerson) item).getProfile_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -133,9 +121,6 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .setText(R.id.tv_title, ((BaseCompany) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "公司简介");
-            if (TextUtils.isEmpty(((BaseCompany) item).getLogo_path())) {
-                return;
-            }
             GlideApp.with(context)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCompany) item).getLogo_path())
                     .placeholder(R.drawable.item_img_placeholder)

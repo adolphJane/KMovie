@@ -72,6 +72,9 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
     }
 
     public String getOriginal_language() {
+        if (original_language.equalsIgnoreCase("en")) {
+            return "English";
+        }
         return original_language;
     }
 

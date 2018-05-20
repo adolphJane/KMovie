@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -54,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/img_poster"
                     android:layout_toRightOf="@id/img_poster"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     tools:text="电影名" />
 
                 <TextView
@@ -66,20 +65,20 @@
                     tools:text="导演:" />
 
                 <TextView
-                    android:id="@+id/tv_movie_region"
+                    android:id="@+id/tv_movie_release"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_movie_director"
                     android:layout_toRightOf="@id/img_poster"
-                    tools:text="国家/地区" />
+                    tools:text="发行日期:" />
 
                 <TextView
                     android:id="@+id/tv_content_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_region"
+                    android:layout_below="@id/tv_movie_release"
                     android:layout_toRightOf="@id/img_poster"
-                    tools:text="剧情简介:" />
+                    android:text="剧情简介:" />
 
                 <TextView
                     android:id="@+id/tv_content_content"
@@ -87,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_content_title"
                     android:layout_toRightOf="@id/img_poster"
-                    tools:text="电影名" />
+                    tools:text="" />
             </RelativeLayout>
 
             <TextView
@@ -97,6 +96,7 @@
                 android:layout_below="@id/rl_movie"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:textSize="16sp"
                 android:text="类型" />
 
             <RelativeLayout
@@ -116,6 +116,7 @@
                 android:layout_below="@id/rl_genre"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:textSize="16sp"
                 android:text="关键词" />
 
             <RelativeLayout
@@ -135,6 +136,7 @@
                 android:layout_below="@id/rl_keyword"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:textSize="16sp"
                 android:text="上映信息" />
 
             <android.support.v7.widget.RecyclerView
@@ -160,6 +162,7 @@
                     android:layout_marginLeft="15dp"
                     android:onClick="@{v->event.switchBaseInfo(1)}"
                     android:text="资料"
+                    android:textSize="16sp"
                     android:textColor="@{selectOne == 1 ? @color/white_6 : @color/white_7}" />
 
                 <TextView
@@ -170,6 +173,7 @@
                     android:layout_toRightOf="@id/tv_info"
                     android:onClick="@{v->event.switchBaseInfo(2)}"
                     android:text="主演"
+                    android:textSize="16sp"
                     android:textColor="@{selectOne == 2 ? @color/white_6 : @color/white_7}" />
 
                 <TextView
@@ -180,6 +184,7 @@
                     android:layout_toRightOf="@id/tv_star"
                     android:onClick="@{v->event.switchBaseInfo(3)}"
                     android:text="剧照"
+                    android:textSize="16sp"
                     android:textColor="@{selectOne == 3 ? @color/white_6 : @color/white_7}" />
 
                 <TextView
@@ -190,31 +195,42 @@
                     android:layout_toRightOf="@id/tv_photos"
                     android:onClick="@{v->event.switchBaseInfo(4)}"
                     android:text="海报"
+                    android:textSize="16sp"
                     android:textColor="@{selectOne == 4 ? @color/white_6 : @color/white_7}" />
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160dp"
                     android:layout_below="@id/tv_info"
                     android:layout_marginTop="10dp"
                     android:background="@color/black_2"
                     android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
+                    android:paddingRight="15dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="@{selectOne == 1 ? View.VISIBLE : View.GONE}">
                     <include layout="@layout/layout_movie_detail_base_info" />
+                </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/ry_photos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{selectOne == 2 || selectOne == 3 || selectOne == 4 ? View.VISIBLE : View.GONE}" />
-                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_photos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="160dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:background="@color/black_2"
+                    android:layout_below="@id/tv_info"
+                    android:layout_marginTop="10dp"
+                    android:visibility="@{selectOne == 2 || selectOne == 3 || selectOne == 4 ? View.VISIBLE : View.GONE}" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_related_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/rl_movie_info">
 
                 <TextView
@@ -224,6 +240,7 @@
                     android:layout_marginLeft="15dp"
                     android:onClick="@{v->event.switchMovieInfo(1)}"
                     android:text="相关电影"
+                    android:textSize="16sp"
                     android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
 
                 <TextView
@@ -234,6 +251,7 @@
                     android:layout_toRightOf="@id/tv_related_movie"
                     android:onClick="@{v->event.switchMovieInfo(2)}"
                     android:text="推荐电影"
+                    android:textSize="16sp"
                     android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
             </RelativeLayout>
         </RelativeLayout>

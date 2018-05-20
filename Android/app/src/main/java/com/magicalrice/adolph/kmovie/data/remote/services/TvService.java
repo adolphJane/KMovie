@@ -19,7 +19,6 @@ import com.magicalrice.adolph.kmovie.data.entities.Videos;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -38,7 +37,7 @@ public interface TvService {
      * @param tvShowId A Tv Show TMDb id.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId
     );
 
@@ -49,7 +48,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );
@@ -77,7 +76,7 @@ public interface TvService {
      * @param options          <em>Optional.</em> parameters for the appended extra results.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse,
@@ -91,7 +90,7 @@ public interface TvService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
@@ -104,7 +103,7 @@ public interface TvService {
      * @param options          <em>Optional.</em> parameters for the appended extra results.
      */
     @GET("tv/{tv_id}")
-    Call<TvShow> tv(
+    Observable<TvShow> tv(
             @Path("tv_id") int tvShowId,
             @Query("append_to_response") AppendToResponse appendToResponse,
             @QueryMap Map<String, String> options
@@ -122,7 +121,7 @@ public interface TvService {
      * @param tvShowId TMDb id.
      */
     @GET("tv/{tv_id}/account_states")
-    Call<AccountStates> accountStates(
+    Observable<AccountStates> accountStates(
             @Path("tv_id") int tvShowId
     );
 
@@ -132,7 +131,7 @@ public interface TvService {
      * @param tvShowId A Tv Show TMDb id.
      */
     @GET("tv/{tv_id}/alternative_titles")
-    Call<AlternativeTitles> alternativeTitles(
+    Observable<AlternativeTitles> alternativeTitles(
             @Path("tv_id") int tvShowId
     );
 
@@ -152,7 +151,7 @@ public interface TvService {
      * @param page       <em>Optional.</em> Minimum value is 1, expected value is an integer.
      */
     @GET("tv/{tv_id}/changes")
-    Call<Changes> changes(
+    Observable<Changes> changes(
             @Path("tv_id") int tvShowId,
             @Query("start_date") TmdbDate start_date,
             @Query("end_date") TmdbDate end_date,
@@ -178,7 +177,7 @@ public interface TvService {
      * @param tmbdId A Tv Show TMDb id.
      */
     @GET("tv/{tv_id}/content_ratings")
-    Call<ContentRatings> content_ratings(
+    Observable<ContentRatings> content_ratings(
             @Path("tv_id") int tmbdId
     );
 
@@ -189,7 +188,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/external_ids")
-    Call<TvExternalIds> externalIds(
+    Observable<TvExternalIds> externalIds(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );
@@ -201,7 +200,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/images")
-    Call<Images> images(
+    Observable<Images> images(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );
@@ -212,7 +211,7 @@ public interface TvService {
      * @param tvShowId A Tv Show TMDb id.
      */
     @GET("tv/{tv_id}/keywords")
-    Call<Keywords> keywords(
+    Observable<Keywords> keywords(
             @Path("tv_id") int tvShowId
     );
 
@@ -224,7 +223,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/recommendations")
-    Call<TvShowResultsPage> recommendations(
+    Observable<TvShowResultsPage> recommendations(
             @Path("tv_id") int tvShowId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -238,7 +237,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/similar")
-    Call<TvShowResultsPage> similar(
+    Observable<TvShowResultsPage> similar(
             @Path("tv_id") int tvShowId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -251,7 +250,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/translations")
-    Call<Translations> translations(
+    Observable<Translations> translations(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );
@@ -263,7 +262,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/videos")
-    Call<Videos> videos(
+    Observable<Videos> videos(
             @Path("tv_id") int tvShowId,
             @Query("language") String language
     );
@@ -272,7 +271,7 @@ public interface TvService {
      * Get the latest TV show id.
      */
     @GET("tv/latest")
-    Call<TvShow> latest();
+    Observable<TvShow> latest();
 
     /**
      * Get the list of TV shows that are currently on the air. This query looks for any TV show that has an episode with
@@ -282,7 +281,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/on_the_air")
-    Call<TvShowResultsPage> onTheAir(
+    Observable<TvShowResultsPage> onTheAir(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -295,7 +294,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/airing_today")
-    Call<TvShowResultsPage> airingToday(
+    Observable<TvShowResultsPage> airingToday(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -308,7 +307,7 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/top_rated")
-    Call<TvShowResultsPage> topRated(
+    Observable<TvShowResultsPage> topRated(
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -335,7 +334,7 @@ public interface TvService {
      * @param body               <em>Required.</em> A ReviewObject Object. Minimum value is 0.5 and Maximum 10.0, expected value is a number.
      */
     @POST("tv/{tv_id}/rating")
-    Call<Status> addRating(
+    Observable<Status> addRating(
             @Path("tv_id") Integer tvShowId,
             @Query("authentication") AuthenticationType authenticationType,
             @Body RatingObject body
@@ -350,7 +349,7 @@ public interface TvService {
      * @param body     <em>Required.</em> A ReviewObject Object. Minimum value is 0.5 and Maximum 10.0, expected value is a number.
      */
     @POST("tv/{tv_id}/rating")
-    Call<Status> addRating(
+    Observable<Status> addRating(
             @Path("tv_id") Integer tvShowId,
             @Body RatingObject body
     );
@@ -364,7 +363,7 @@ public interface TvService {
      * @param authenticationType Authentication Type for this operation. Available Choices: Account, Guest.
      */
     @DELETE("tv/{tv_id}/rating")
-    Call<Status> deleteRating(
+    Observable<Status> deleteRating(
             @Path("tv_id") Integer tvShowId,
             @Query("authentication") AuthenticationType authenticationType
     );
@@ -377,7 +376,7 @@ public interface TvService {
      * @param tvShowId TMDb id.
      */
     @DELETE("tv/{tv_id}/rating")
-    Call<Status> deleteRating(
+    Observable<Status> deleteRating(
             @Path("tv_id") Integer tvShowId
     );
 

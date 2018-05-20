@@ -13,7 +13,7 @@
     <color name="white_1">#ffffffff</color>
     <color name="white_2">#ffcdcdcd</color>
     <color name="white_3">#14FFFFFF</color>
-    <color name="white_4">#4dFFFFFF</color>
+    <color name="white_4">#4dFFFFFF</color>     <!--30%白色-->
     <color name="white_5">#80FFFFFF</color>
     <color name="white_6">#b3FFFFFF</color>     <!--70%白色-->
     <color name="white_7">#66FFFFFF</color>     <!--40%白色-->
@@ -22,5 +22,6 @@
     <color name="black_3">#66000000</color>
     <color name="black_4">#d0c2c7ca</color>
     <color name="black_5">#20000000</color>
+    <color name="black_6">#26000000</color>     <!--15%黑色-->
     <color name="yellow_1">#ffeed0a1</color>
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/gray_4"/>
+    <item android:drawable="@color/gray_4"
+        android:width="175dp"
+        android:height="230dp"/>
     <item android:drawable="@drawable/img_movie_error"
         android:gravity="center"
         android:height="50dp"

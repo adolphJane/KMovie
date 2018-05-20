@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:minHeight="160dp">
+    <ImageView
+        android:id="@+id/img_star"
+        android:layout_width="68dp"
+        android:layout_height="88dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/item_img_placeholder"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tv_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        tools:text="Sam Worthingtom\n饰\nJake Sully"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

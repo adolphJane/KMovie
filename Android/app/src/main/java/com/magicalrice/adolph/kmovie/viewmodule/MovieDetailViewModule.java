@@ -74,4 +74,43 @@ public class MovieDetailViewModule extends AndroidViewModel {
                 }
         );
     }
+
+    public void getTVDetail(int tvId) {
+        Observable.zip(dataSource.getTvSummary(tvId),
+                dataSource.getTvCredits(tvId),
+                dataSource.getTvKeywords(tvId),
+                dataSource.getMovieRecommendations(tvId, 1),
+                dataSource.getMovieReleaseDate(tvId),
+                dataSource.getMovieKeywords(tvId),
+                dataSource.getMovieSimilar(tvId, 1),
+                new Function7<Movie, Credits, Images, MovieResultsPage, ReleaseDatesResults, Keywords, MovieResultsPage, MovieDetailBean>() {
+                    @Override
+                    public MovieDetailBean apply(Movie movie, Credits credits, Images images, MovieResultsPage movieResultsPage, ReleaseDatesResults releaseDatesResults, Keywords keywords, MovieResultsPage movieResultsPage2) throws Exception {
+                        MovieDetailBean bean = new MovieDetailBean();
+                        bean.setCredits(credits);
+                        bean.setDatesResults(releaseDatesResults);
+                        bean.setImages(images);
+                        bean.setKeywords(keywords);
+                        bean.setMovie(movie);
+                        bean.setRecommendationResult(movieResultsPage);
+                        bean.setSimilarResult(movieResultsPage2);
+                        return bean;
+                    }
+                }).subscribe(movieDetailBeanObservable -> {
+                    movieDetailBean.setValue(movieDetailBeanObservable);
+                }, throwable -> {
+                    if (throwable instanceof HttpException) {
+                        ResponseBody body = ((HttpException) throwable).response().errorBody();
+                        try {
+                            LUtils.e(body.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else if (throwable instanceof IllegalStateException || throwable instanceof JsonSyntaxException) {
+                        throwable.printStackTrace();
+                        LUtils.e("ErrorMessage:%s,ErrorCause%s", throwable.getMessage(), throwable.getCause().toString());
+                    }
+                }
+        );
+    }
 }

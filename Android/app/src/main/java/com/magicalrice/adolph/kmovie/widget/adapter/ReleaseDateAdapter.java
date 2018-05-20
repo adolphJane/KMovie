@@ -37,6 +37,7 @@ public class ReleaseDateAdapter extends BaseQuickAdapter<ReleaseDatesResult, Bas
         if (dateList != null && dateList.size() > 0) {
             releaseDate = dateList.get(0).getRelease_date().toString();
             typeName = dateList.get(0).getTypeName();
+            releaseDate = releaseDate.substring(0,releaseDate.indexOf("GMT+") == -1 ? releaseDate.length() - 1 : releaseDate.indexOf("GMT+"));
         }
         CountryISO1336 bean = dataSource.getCountryByISO3166(iso3166);
         if (bean != null) {
