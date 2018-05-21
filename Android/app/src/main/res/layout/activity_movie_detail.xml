@@ -17,15 +17,20 @@
         <variable
             name="selectTwo"
             type="int" />
+
+        <variable
+            name="type"
+            type="int" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/header"
@@ -35,8 +40,7 @@
             <RelativeLayout
                 android:id="@+id/rl_movie"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/header"
+                android:layout_height="230dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="20dp">
@@ -70,7 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_movie_director"
                     android:layout_toRightOf="@id/img_poster"
-                    tools:text="发行日期:" />
+                    tools:text="发行日期:"
+                    android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
 
                 <TextView
                     android:id="@+id/tv_content_title"
@@ -93,7 +98,6 @@
                 android:id="@+id/tv_genre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_movie"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
@@ -103,17 +107,13 @@
                 android:id="@+id/rl_genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_genre"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp">
-
-            </RelativeLayout>
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/tv_keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_genre"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
@@ -123,7 +123,6 @@
                 android:id="@+id/rl_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_keyword"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp">
 
@@ -133,26 +132,25 @@
                 android:id="@+id/tv_show_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_keyword"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
-                android:text="上映信息" />
+                android:text="上映信息"
+                android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ry_show_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_show_time"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
 
             <RelativeLayout
                 android:id="@+id/rl_movie_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ry_show_time"
                 android:paddingTop="15dp">
 
                 <TextView
@@ -230,8 +228,7 @@
                 android:id="@+id/rl_related_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_below="@id/rl_movie_info">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/tv_related_movie"
@@ -239,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:onClick="@{v->event.switchMovieInfo(1)}"
-                    android:text="相关电影"
+                    android:text="@{type == 1 ? @string/related_movie : @string/related_tv}"
                     android:textSize="16sp"
                     android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
 
@@ -250,10 +247,18 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/tv_related_movie"
                     android:onClick="@{v->event.switchMovieInfo(2)}"
-                    android:text="推荐电影"
+                    android:text="@{type == 1 ? @string/recommend_movie : @string/recommend_tv}"
                     android:textSize="16sp"
                     android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_related_movie"
+                    android:minHeight="160dp"
+                    android:layout_marginTop="15dp"/>
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 </layout>

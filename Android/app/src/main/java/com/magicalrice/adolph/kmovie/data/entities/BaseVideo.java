@@ -12,6 +12,7 @@ public class BaseVideo implements Parcelable {
     private String backdrop_path;
     private String title;
     private String release_date;
+    private String overview;
     private int id;
 
     public String getPoster_path() {
@@ -46,12 +47,23 @@ public class BaseVideo implements Parcelable {
         this.release_date = release_date;
     }
 
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public BaseVideo() {
     }
 
     @Override
@@ -65,10 +77,8 @@ public class BaseVideo implements Parcelable {
         dest.writeString(this.backdrop_path);
         dest.writeString(this.title);
         dest.writeString(this.release_date);
+        dest.writeString(this.overview);
         dest.writeInt(this.id);
-    }
-
-    public BaseVideo() {
     }
 
     protected BaseVideo(Parcel in) {
@@ -76,10 +86,11 @@ public class BaseVideo implements Parcelable {
         this.backdrop_path = in.readString();
         this.title = in.readString();
         this.release_date = in.readString();
+        this.overview = in.readString();
         this.id = in.readInt();
     }
 
-    public static final Parcelable.Creator<BaseVideo> CREATOR = new Parcelable.Creator<BaseVideo>() {
+    public static final Creator<BaseVideo> CREATOR = new Creator<BaseVideo>() {
         @Override
         public BaseVideo createFromParcel(Parcel source) {
             return new BaseVideo(source);

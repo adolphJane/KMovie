@@ -14,7 +14,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,8 +32,12 @@ import com.magicalrice.adolph.kmovie.data.entities.Images;
 import com.magicalrice.adolph.kmovie.data.entities.Keywords;
 import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResult;
 import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
+import com.magicalrice.adolph.kmovie.data.entities.TvShow;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.repository.CountryDataSource;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieDetailBinding;
@@ -43,8 +46,10 @@ import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieDetailViewModule;
 import com.magicalrice.adolph.kmovie.widget.adapter.MoviePhotoAdapter;
+import com.magicalrice.adolph.kmovie.widget.adapter.MovieReSiAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.ReleaseDateAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.StarAdapter;
+import com.magicalrice.adolph.kmovie.widget.adapter.TvReSiAdapter;
 
 import java.util.List;
 
@@ -61,9 +66,12 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     private MovieDetailViewModule viewModule;
     private ReleaseDateAdapter dateAdapter;
     private StarAdapter starAdapter;
-    private MoviePhotoAdapter photoBackAdapter,photoPosterAdapter;
+    private MoviePhotoAdapter photoBackAdapter, photoPosterAdapter;
+    private MovieReSiAdapter recommendMovieAdapter, similarMovieAdapter;
+    private TvReSiAdapter recommendTvAdapter, similarTvAdapter;
     private int type;
-    private int movieId;
+    private int videoId;
+    private String overview;
     @Inject
     MainViewModuleFactory factory;
     @Inject
@@ -73,8 +81,9 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getIntent().getIntExtra("type", -1);
-        movieId = getIntent().getIntExtra("movieId", -1);
-        if (type == -1 || movieId == -1) {
+        videoId = getIntent().getIntExtra("videoId", -1);
+        overview = getIntent().getStringExtra("overview");
+        if (type == -1 || videoId == -1) {
             this.finish();
             return;
         }
@@ -91,13 +100,17 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         binding.setSelectOne(1);
         binding.setSelectTwo(1);
         binding.setEvent(this);
+        binding.setType(type);
         if (type == 1) {
-            viewModule.getMovieDetail(movieId);
+            viewModule.getMovieDetail(videoId);
         } else if (type == 2) {
-
+            viewModule.getTVDetail(videoId);
         }
         viewModule.movieDetailBean.observe(this, movieDetailBean -> {
             updateView(movieDetailBean);
+        });
+        viewModule.tvDetailBean.observe(this, tvShowDetailBean -> {
+            updateView(tvShowDetailBean);
         });
     }
 
@@ -105,85 +118,181 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         if (bean == null) {
             return;
         }
-        Movie movie = bean.getMovie();
         Keywords keywords = bean.getKeywords();
-        ReleaseDatesResults datesResults = bean.getDatesResults();
         Credits credits = bean.getCredits();
         Images images = bean.getImages();
-        binding.ryPhotos.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        ReleaseDatesResults datesResults = bean.getDatesResults();
+        Movie movie = bean.getMovie();
+        MovieResultsPage recommend = bean.getRecommendationResult();
+        MovieResultsPage similar = bean.getSimilarResult();
+        binding.ryPhotos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.ryVideos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         if (movie != null) {
             GlideApp.with(this)
-                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + bean.getMovie().getPoster_path())
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + movie.getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.imgPoster);
-            binding.tvMovieTitle.setText(bean.getMovie().getTitle());
-            binding.tvMovieRelease.setText(flipTextColor("发行日期:" + bean.getMovie().getRelease_date()));
-            binding.tvContentContent.setText(TextUtils.isEmpty(movie.getOverview()) ? "无" : "    " + movie.getOverview());
+            binding.tvMovieTitle.setText(movie.getTitle());
+            binding.tvMovieRelease.setText(Utils.flipTextColor(this,"发行日期:" + movie.getRelease_date(),":",R.color.yellow_1));
+            binding.tvContentContent.setText(TextUtils.isEmpty(movie.getOverview()) ? (TextUtils.isEmpty(overview) ? "无" : overview) : "    " + movie.getOverview());
             List<Genre> genres = movie.getGenres();
             if (genres != null && genres.size() > 0) {
-                showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()),binding.rlGenre);
+                showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()), binding.rlGenre);
+            } else if (genres != null && genres.size() == 0) {
+                showNoTag(false,binding.rlGenre);
             }
-            ((TextView)findViewById(R.id.tv_original_title_data)).setText(TextUtils.isEmpty(movie.getOriginal_title()) ? "无" : movie.getOriginal_title());
-            ((TextView)findViewById(R.id.tv_original_lanuage_data)).setText(TextUtils.isEmpty(movie.getOriginal_language()) ? "无" : movie.getOriginal_language());
-            ((TextView)findViewById(R.id.tv_time_data)).setText(movie.getRuntime() == 0 ? "无" : Utils.getTime(movie.getRuntime()));
-            ((TextView)findViewById(R.id.tv_budget_data)).setText(movie.getBudget() == 0 ? "无" : Utils.getRevenue(movie.getBudget()) + "");
-            ((TextView)findViewById(R.id.tv_box_office_data)).setText(movie.getRevenue() == 0 ? "无" : Utils.getRevenue(movie.getRevenue()) + "");
-            ((TextView)findViewById(R.id.tv_homepage_data)).setText(TextUtils.isEmpty(movie.getHomepage()) ? "无" : movie.getHomepage());
+            ((TextView) findViewById(R.id.tv_original_title_data)).setText(TextUtils.isEmpty(movie.getOriginal_title()) ? "无" : movie.getOriginal_title());
+            ((TextView) findViewById(R.id.tv_original_lanuage_data)).setText(TextUtils.isEmpty(movie.getOriginal_language()) ? "无" : movie.getOriginal_language());
+            ((TextView) findViewById(R.id.tv_time_data)).setText(movie.getRuntime() == 0 ? "无" : Utils.getTime(movie.getRuntime()));
+            ((TextView) findViewById(R.id.tv_budget_data)).setText(movie.getBudget() == 0 ? "无" : Utils.getRevenue(movie.getBudget()) + "");
+            ((TextView) findViewById(R.id.tv_box_office_data)).setText(movie.getRevenue() == 0 ? "无" : Utils.getRevenue(movie.getRevenue()) + "");
+            ((TextView) findViewById(R.id.tv_homepage_data)).setText(TextUtils.isEmpty(movie.getHomepage()) ? "无" : movie.getHomepage());
         }
-        if (keywords != null) {
-            List<BaseKeyword> keyList = keywords.getKeywords();
-            if (keyList != null && keyList.size() > 0) {
-                showGenreTag(StreamSupport.stream(keyList).map(baseKeyword -> baseKeyword.getName()).collect(Collectors.toList()),binding.rlKeyword);
-            }
-        }
+
         if (datesResults != null) {
             List<ReleaseDatesResult> dataList = datesResults.getResults();
             if (dataList != null && dataList.size() > 0) {
-                dateAdapter = new ReleaseDateAdapter(R.layout.item_release_date_layout,dataList,countrySource);
-                binding.ryShowTime.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+                dateAdapter = new ReleaseDateAdapter(R.layout.item_release_date_layout, dataList, countrySource);
+                binding.ryShowTime.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 binding.ryShowTime.setAdapter(dateAdapter);
             }
         }
 
+        if (similar != null) {
+            similarMovieAdapter = new MovieReSiAdapter(R.layout.item_search_layout, similar.getResults());
+            similarMovieAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+            binding.ryVideos.setAdapter(similarMovieAdapter);
+        }
+
+        if (recommend != null) {
+            recommendMovieAdapter = new MovieReSiAdapter(R.layout.item_search_layout, recommend.getResults());
+            recommendMovieAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+        }
+
+        updateCast(credits);
+        updateKeywords(keywords);
+        updateImages(images);
+    }
+
+    private void updateView(TvShowDetailBean bean) {
+        if (bean == null) {
+            return;
+        }
+        Keywords keywords = bean.getKeywords();
+        Credits credits = bean.getCredits();
+        TvShowResultsPage recommend = bean.getTvRecommendation();
+        TvShowResultsPage similar = bean.getTvSimilar();
+        Images images = bean.getImages();
+        TvShow tvShow = bean.getTvShow();
+        binding.ryPhotos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.ryVideos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        if (tvShow != null) {
+            GlideApp.with(this)
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + tvShow.getPoster_path())
+                    .placeholder(R.drawable.item_img_placeholder)
+                    .error(R.drawable.item_img_error)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(binding.imgPoster);
+            binding.tvMovieTitle.setText(tvShow.getName());
+            binding.tvContentContent.setText(TextUtils.isEmpty(tvShow.getOverview()) ? (TextUtils.isEmpty(overview) ? "无" : overview) : "    " + tvShow.getOverview());
+            List<Genre> genres = tvShow.getGenres();
+            if (genres != null && genres.size() > 0) {
+                showGenreTag(StreamSupport.stream(genres).map(genre -> genre.getName()).collect(Collectors.toList()), binding.rlGenre);
+            } else if (genres != null && genres.size() == 0) {
+                showNoTag(false,binding.rlGenre);
+            }
+            ((TextView) findViewById(R.id.tv_original_title_data)).setText(TextUtils.isEmpty(tvShow.getOriginal_name()) ? "无" : tvShow.getOriginal_name());
+            ((TextView) findViewById(R.id.tv_original_lanuage_data)).setText(TextUtils.isEmpty(tvShow.getOriginal_language()) ? "无" : tvShow.getOriginal_language());
+            ((TextView) findViewById(R.id.tv_time_data)).setText("无");
+            ((TextView) findViewById(R.id.tv_budget_data)).setText("无");
+            ((TextView) findViewById(R.id.tv_box_office_data)).setText("无");
+            ((TextView) findViewById(R.id.tv_homepage_data)).setText(TextUtils.isEmpty(tvShow.getHomepage()) ? "无" : tvShow.getHomepage());
+        }
+        if (recommend != null) {
+            recommendTvAdapter = new TvReSiAdapter(R.layout.item_search_layout, recommend.getResults());
+            recommendTvAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+            binding.ryVideos.setAdapter(recommendTvAdapter);
+        }
+        if (similar != null) {
+            similarTvAdapter = new TvReSiAdapter(R.layout.item_search_layout, similar.getResults());
+            similarTvAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+        }
+
+
+        updateKeywords(keywords);
+        updateCast(credits);
+        updateImages(images);
+    }
+
+    private void updateKeywords(Keywords keywords) {
+        if (keywords != null) {
+            List<BaseKeyword> keyList = keywords.getKeywords();
+            if (keyList != null && keyList.size() > 0) {
+                showGenreTag(StreamSupport.stream(keyList).map(baseKeyword -> baseKeyword.getName()).collect(Collectors.toList()), binding.rlKeyword);
+            }
+            if (keyList.size() == 0) {
+                showNoTag(true,binding.rlKeyword);
+            }
+        }
+    }
+
+    private void updateCast(Credits credits) {
         if (credits != null) {
             List<CastMember> memberList = credits.getCast();
             if (memberList != null && memberList.size() > 0) {
-                starAdapter = new StarAdapter(R.layout.item_movie_star_layout,memberList);
+                starAdapter = new StarAdapter(R.layout.item_movie_star_layout, memberList);
                 binding.ryPhotos.setAdapter(starAdapter);
             }
             List<CrewMember> memberList1 = credits.getCrew();
             if (memberList1 != null && memberList1.size() > 0) {
                 if (memberList1.get(0).getJob().equalsIgnoreCase("Director")) {
-                    binding.tvMovieDirector.setText(flipTextColor("导演:" + memberList1.get(0).getName()));
+                    binding.tvMovieDirector.setText(Utils.flipTextColor(this,"导演:" + memberList1.get(0).getName(),":",R.color.yellow_1));
                 } else {
-                    binding.tvMovieDirector.setText(flipTextColor("导演:无"));
+                    binding.tvMovieDirector.setText(Utils.flipTextColor(this,"导演:无",":",R.color.yellow_1));
                 }
-            }
-        }
-
-        if (images != null) {
-            List<Image> imgBackList = images.getBackdrops();
-            if (imgBackList != null) {
-                photoBackAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo,imgBackList);
-                photoBackAdapter.setEmptyView(R.layout.item_empty_view,binding.rlMovieInfo);
-            }
-
-            List<Image> imgPosterList = images.getPosters();
-            if (imgPosterList != null) {
-                photoPosterAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo,imgPosterList);
-                photoPosterAdapter.setEmptyView(R.layout.item_empty_view,binding.rlMovieInfo);
             }
         }
     }
 
-    public static void startActivity(FragmentActivity activity, int movieId, int type) {
+    private void updateImages(Images images) {
+        if (images != null) {
+            List<Image> imgBackList = images.getBackdrops();
+            if (imgBackList != null) {
+                photoBackAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo, imgBackList);
+                photoBackAdapter.setEmptyView(R.layout.item_empty_view, binding.rlMovieInfo);
+            }
+
+            List<Image> imgPosterList = images.getPosters();
+            if (imgPosterList != null) {
+                photoPosterAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo, imgPosterList);
+                photoPosterAdapter.setEmptyView(R.layout.item_empty_view, binding.rlMovieInfo);
+            }
+        }
+    }
+
+    public static void startActivity(FragmentActivity activity, int videoId, String overview, int type) {
         Intent intent = new Intent(activity, MovieDetailActivity.class);
-        intent.putExtra("movieId", movieId);
+        intent.putExtra("videoId", videoId);
         intent.putExtra("type", type);
+        intent.putExtra("overview", overview);
         activity.startActivity(intent);
+    }
+
+    private void showNoTag(boolean isKeyword, RelativeLayout parent) {
+        TextView textView = new TextView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (isKeyword) {
+            textView.setText("无标签");
+        } else {
+            textView.setText("无类型");
+        }
+        textView.setTextSize(16);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        parent.addView(textView,params);
     }
 
     private void showGenreTag(List<String> words, RelativeLayout parent) {
@@ -223,20 +332,6 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         }
     }
 
-    private CharSequence flipTextColor(String content) {
-        if (TextUtils.isEmpty(content)) {
-            return "";
-        }
-        if (content.contains(":")) {
-            SpannableString ss = new SpannableString(content);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.yellow_1));
-            int end = content.indexOf(":");
-            ss.setSpan(colorSpan, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return ss;
-        }
-        return content;
-    }
-
     @Override
     public void switchBaseInfo(int position) {
         binding.setSelectOne(position);
@@ -258,9 +353,18 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     @Override
     public void switchMovieInfo(int position) {
         binding.setSelectTwo(position);
-    }
-
-    private void showInfo() {
-
+        if (position == 1) {
+            if (type == 1) {
+                binding.ryVideos.setAdapter(similarMovieAdapter);
+            } else if (type == 2) {
+                binding.ryVideos.setAdapter(similarTvAdapter);
+            }
+        } else if (position == 2) {
+            if (type == 1) {
+                binding.ryVideos.setAdapter(recommendMovieAdapter);
+            } else if (type == 2) {
+                binding.ryVideos.setAdapter(recommendTvAdapter);
+            }
+        }
     }
 }

@@ -14,11 +14,15 @@ import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
+import com.magicalrice.adolph.kmovie.data.entities.TvShow;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
 
 import java.io.IOException;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function6;
 import io.reactivex.functions.Function7;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
@@ -30,6 +34,7 @@ import retrofit2.HttpException;
 public class MovieDetailViewModule extends AndroidViewModel {
     private MovieDetailRemoteDataSource dataSource;
     public MutableLiveData<MovieDetailBean> movieDetailBean = new MutableLiveData<>();
+    public MutableLiveData<TvShowDetailBean> tvDetailBean = new MutableLiveData<>();
 
     public MovieDetailViewModule(@NonNull Application application, MovieDetailRemoteDataSource dataSource) {
         super(application);
@@ -79,25 +84,24 @@ public class MovieDetailViewModule extends AndroidViewModel {
         Observable.zip(dataSource.getTvSummary(tvId),
                 dataSource.getTvCredits(tvId),
                 dataSource.getTvKeywords(tvId),
-                dataSource.getMovieRecommendations(tvId, 1),
-                dataSource.getMovieReleaseDate(tvId),
-                dataSource.getMovieKeywords(tvId),
-                dataSource.getMovieSimilar(tvId, 1),
-                new Function7<Movie, Credits, Images, MovieResultsPage, ReleaseDatesResults, Keywords, MovieResultsPage, MovieDetailBean>() {
+                dataSource.getTvRecommendations(tvId, 1),
+                dataSource.getTvSimilar(tvId, 1),
+                dataSource.getTvImages(tvId),
+                new Function6<TvShow, Credits, Keywords, TvShowResultsPage, TvShowResultsPage, Images, TvShowDetailBean>() {
+
                     @Override
-                    public MovieDetailBean apply(Movie movie, Credits credits, Images images, MovieResultsPage movieResultsPage, ReleaseDatesResults releaseDatesResults, Keywords keywords, MovieResultsPage movieResultsPage2) throws Exception {
-                        MovieDetailBean bean = new MovieDetailBean();
+                    public TvShowDetailBean apply(TvShow tvShow, Credits credits, Keywords keywords, TvShowResultsPage tvShowResultsPage, TvShowResultsPage tvShowResultsPage2, Images images) throws Exception {
+                        TvShowDetailBean bean = new TvShowDetailBean();
+                        bean.setTvShow(tvShow);
                         bean.setCredits(credits);
-                        bean.setDatesResults(releaseDatesResults);
-                        bean.setImages(images);
                         bean.setKeywords(keywords);
-                        bean.setMovie(movie);
-                        bean.setRecommendationResult(movieResultsPage);
-                        bean.setSimilarResult(movieResultsPage2);
+                        bean.setTvRecommendation(tvShowResultsPage);
+                        bean.setTvSimilar(tvShowResultsPage2);
+                        bean.setImages(images);
                         return bean;
                     }
-                }).subscribe(movieDetailBeanObservable -> {
-                    movieDetailBean.setValue(movieDetailBeanObservable);
+                }).subscribe(tvShowDetailBean -> {
+                    tvDetailBean.setValue(tvShowDetailBean);
                 }, throwable -> {
                     if (throwable instanceof HttpException) {
                         ResponseBody body = ((HttpException) throwable).response().errorBody();

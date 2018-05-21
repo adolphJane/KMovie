@@ -25,11 +25,9 @@ import io.reactivex.functions.Consumer;
 
 public class LoginViewModule extends AndroidViewModel {
     private LoginRemoteDataSource dataSource;
-    private MovieApplication context;
 
     public LoginViewModule(@NonNull Application application, LoginRemoteDataSource dataSource) {
         super(application);
-        this.context = (MovieApplication) application;
         this.dataSource = dataSource;
     }
 

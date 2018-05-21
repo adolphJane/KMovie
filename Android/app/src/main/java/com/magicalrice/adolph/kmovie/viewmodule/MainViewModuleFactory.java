@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
 
 /**
@@ -17,14 +18,16 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
     private MovieRemoteDataSource movieDataSource;
     private MovieDetailRemoteDataSource detailDataSource;
     private SearchRemoteDataSource searchDataSource;
+    private RoleRemoteDataSource roleDataSource;
     private Application application;
 
-    public MainViewModuleFactory(@NonNull Application application, MovieRemoteDataSource movieSource, MovieDetailRemoteDataSource detailDataSource,SearchRemoteDataSource searchDataSource) {
+    public MainViewModuleFactory(@NonNull Application application, MovieRemoteDataSource movieSource, MovieDetailRemoteDataSource detailDataSource,SearchRemoteDataSource searchDataSource,RoleRemoteDataSource roleDataSource) {
         super(application);
         this.application = application;
         this.movieDataSource = movieSource;
         this.detailDataSource = detailDataSource;
         this.searchDataSource = searchDataSource;
+        this.roleDataSource = roleDataSource;
     }
 
     @NonNull
@@ -36,6 +39,8 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
             return (T) new MovieDetailViewModule(application, detailDataSource);
         } else if (modelClass.isAssignableFrom(SearchViewModule.class)) {
             return (T) new SearchViewModule(application,searchDataSource);
+        } else if (modelClass.isAssignableFrom(RoleViewModule.class)) {
+            return (T) new RoleViewModule(application,roleDataSource);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

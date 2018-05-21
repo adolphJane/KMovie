@@ -1,8 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"></RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_movie"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:id="@+id/img_poster"
+                    android:layout_width="175dp"
+                    android:layout_height="230dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginRight="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_star_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/img_poster"
+                    android:layout_toRightOf="@id/img_poster"
+                    android:textSize="20sp"
+                    tools:text="演员名:" />
+
+                <TextView
+                    android:id="@+id/tv_translated_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_star_title"
+                    android:layout_toRightOf="@id/img_poster"
+                    tools:text="译名:" />
+
+                <TextView
+                    android:id="@+id/tv_star_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_translated_name"
+                    android:layout_toRightOf="@id/img_poster"
+                    tools:text="性别:" />
+
+                <TextView
+                    android:id="@+id/tv_star_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_star_gender"
+                    android:layout_toRightOf="@id/img_poster"
+                    tools:text="出生日期:" />
+
+                <TextView
+                    android:id="@+id/tv_star_death"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_star_birthday"
+                    android:layout_toRightOf="@id/img_poster"
+                    tools:text="死亡日期:" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ry_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_related_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/tv_related_movie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:onClick="@{v->event.switchMovieInfo(1)}"
+                    android:text="参演电影"
+                    android:textSize="16sp"
+                    android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_movie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/tv_related_movie"
+                    android:onClick="@{v->event.switchMovieInfo(2)}"
+                    android:text="参演剧集"
+                    android:textSize="16sp"
+                    android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </layout>

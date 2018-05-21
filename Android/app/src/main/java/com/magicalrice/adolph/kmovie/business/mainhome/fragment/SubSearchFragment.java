@@ -52,7 +52,7 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
     @Override
     public void createView(View view) {
         dataList = new ArrayList<>();
-        adapter = new SearchResultsAdapter<>(R.layout.item_search_layout, dataList, type, getContext());
+        adapter = new SearchResultsAdapter<>(R.layout.item_search_layout, dataList, type);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.searchResultsList.setAdapter(adapter);

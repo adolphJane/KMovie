@@ -64,6 +64,7 @@ public class MovieRemoteDataSource {
                             video.setBackdrop_path(bean.getBackdrop_path());
                             video.setPoster_path(bean.getPoster_path());
                             video.setRelease_date(bean.getRelease_date());
+                            video.setOverview(bean.getOverview());
                             video.setId(bean.getId());
                             videoList.add(video);
                         }
@@ -88,6 +89,7 @@ public class MovieRemoteDataSource {
                             video.setBackdrop_path(bean.getBackdrop_path());
                             video.setPoster_path(bean.getPoster_path());
                             video.setRelease_date(bean.getFirst_air_date());
+                            video.setOverview(bean.getOverview());
                             video.setId(bean.getId());
                             videoList.add(video);
                         }

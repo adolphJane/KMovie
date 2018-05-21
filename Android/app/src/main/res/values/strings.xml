@@ -8,4 +8,8 @@
     <string name="login_btn_login">登陆</string>
     <string name="search_no_history">无搜索记录</string>
     <string name="search_no_results">没有搜索结果</string>
+    <string name="related_movie">相关电影</string>
+    <string name="related_tv">相关剧集</string>
+    <string name="recommend_movie">推荐电影</string>
+    <string name="recommend_tv">推荐剧集</string>
 </resources>

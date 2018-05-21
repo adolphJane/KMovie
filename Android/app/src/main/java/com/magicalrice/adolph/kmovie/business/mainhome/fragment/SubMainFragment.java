@@ -128,7 +128,6 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
             page++;
             totalPage = videoResultsPage.getTotal_pages();
             List<BaseVideo> temp = videoResultsPage.getResults();
-//            videoList.addAll(temp);
             if (temp.size() > 0) {
                 movieAdapter.addData(temp);
             }
@@ -137,7 +136,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
             } else {
                 movieAdapter.loadMoreEnd();
             }
-            LUtils.e("page%d,totalPage%d",page,totalPage);
+            LUtils.e("page%d,totalPage%d", page, totalPage);
         });
     }
 
@@ -149,8 +148,10 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (position >= 0 && position < videoList.size()) {
-            int movieId = videoList.get(position).getId();
-            MovieDetailActivity.startActivity(getActivity(),movieId,type);
+            BaseVideo video = videoList.get(position);
+            if (video != null) {
+                MovieDetailActivity.startActivity(getActivity(), video.getId(), video.getOverview(), type);
+            }
         }
     }
 }

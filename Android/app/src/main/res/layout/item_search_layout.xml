@@ -17,8 +17,9 @@
 
         <ImageView
             android:id="@+id/img_poster"
-            android:layout_width="120dp"
+            android:layout_width="130dp"
             android:layout_height="175dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/item_img_placeholder"/>
 
         <TextView

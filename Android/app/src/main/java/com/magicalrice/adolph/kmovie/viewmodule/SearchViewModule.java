@@ -24,7 +24,6 @@ import java.util.List;
 
 public class SearchViewModule extends AndroidViewModel {
     private List<String> historyName;
-    private Application application;
     private SearchRemoteDataSource dataSource;
     public MutableLiveData<String> queryData = new MutableLiveData<>();
     public MutableLiveData<List<String>> historyData = new MutableLiveData<>();
@@ -37,14 +36,13 @@ public class SearchViewModule extends AndroidViewModel {
 
     public SearchViewModule(@NonNull Application application, SearchRemoteDataSource dataSource) {
         super(application);
-        this.application = application;
         historyName = new ArrayList<>();
         this.dataSource = dataSource;
     }
 
     public void getHistoryList() {
         if (historyName != null && historyName.size() == 0) {
-            List<String> temp = (List<String>) SpUtils.getInstance(application.getApplicationContext()).get("search_history", new ArrayList<>());
+            List<String> temp = (List<String>) SpUtils.getInstance(getApplication().getApplicationContext()).get("search_history", new ArrayList<>());
             if (temp != null) {
                 historyName.clear();
                 historyName.addAll(temp);
@@ -116,7 +114,7 @@ public class SearchViewModule extends AndroidViewModel {
                 historyName.remove(query);
             }
         }
-        SpUtils.getInstance(application).put("search_history", historyName);
+        SpUtils.getInstance(getApplication()).put("search_history", historyName);
         historyData.setValue(historyName);
     }
 }

@@ -30,13 +30,11 @@ import java.util.List;
  */
 
 public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder> implements ListPreloader.PreloadModelProvider {
-    private Context context;
     private int type = 0;
 
-    public SearchResultsAdapter(int layoutResId, @Nullable List<Z> data, int type, Context context) {
+    public SearchResultsAdapter(int layoutResId, @Nullable List<Z> data, int type) {
         super(layoutResId, data);
         this.type = type;
-        this.context = context;
     }
 
     @NonNull
@@ -65,7 +63,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
     @Nullable
     @Override
     public RequestBuilder<?> getPreloadRequestBuilder(@NonNull Object item) {
-        return GlideApp.with(context)
+        return GlideApp.with(mContext)
                 .load(item);
     }
 
@@ -75,7 +73,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseMovie) item).getTitle())
                     .setText(R.id.tv_content, ((BaseMovie) item).getOverview());
-            GlideApp.with(context)
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseMovie) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
@@ -86,7 +84,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseTvShow) item).getName())
                     .setText(R.id.tv_content, ((BaseTvShow) item).getOverview());
-            GlideApp.with(context)
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseTvShow) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
@@ -97,7 +95,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseCollection) item).getName())
                     .setText(R.id.tv_content, "无");
-            GlideApp.with(context)
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCollection) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
@@ -109,7 +107,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .setText(R.id.tv_title, ((BasePerson) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "人物简介");
-            GlideApp.with(context)
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BasePerson) item).getProfile_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
@@ -121,7 +119,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .setText(R.id.tv_title, ((BaseCompany) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "公司简介");
-            GlideApp.with(context)
+            GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCompany) item).getLogo_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)

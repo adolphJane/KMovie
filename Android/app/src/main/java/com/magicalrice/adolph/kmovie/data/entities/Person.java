@@ -83,4 +83,64 @@ public class Person extends BasePerson {
     public void setChanges(Changes changes) {
         this.changes = changes;
     }
+
+    public List<JsonPrimitive> getAlso_known_as() {
+        return also_known_as;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public Date getDeathday() {
+        return deathday;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public String getImdb_id() {
+        return imdb_id;
+    }
+
+    public String getPlace_of_birth() {
+        return place_of_birth;
+    }
+
+    public PersonExternalIds getExternal_ids() {
+        return external_ids;
+    }
+
+    public PersonCredits getCombined_credits() {
+        return combined_credits;
+    }
+
+    public PersonCredits getMovie_credits() {
+        return movie_credits;
+    }
+
+    public PersonCredits getTv_credits() {
+        return tv_credits;
+    }
+
+    public PersonImages getImages() {
+        return images;
+    }
+
+    public TaggedImagesResultsPage getTagged_images() {
+        return tagged_images;
+    }
+
+    public Changes getChanges() {
+        return changes;
+    }
 }

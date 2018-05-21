@@ -10,6 +10,7 @@ import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TaggedImagesResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -26,7 +27,7 @@ public interface PeopleService {
      * @param personId A Person TMDb id.
      */
     @GET("person/{person_id}")
-    Call<Person> summary(
+    Observable<Person> summary(
             @Path("person_id") int personId
     );
 
@@ -37,7 +38,7 @@ public interface PeopleService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result. <b>Accepted Value(s):</b> movie_credits, tv_credits, combined_credits, external_ids, images, changes, tagged_images,
      */
     @GET("person/{person_id}")
-    Call<Person> summary(
+    Observable<Person> summary(
             @Path("person_id") int personId,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
@@ -50,7 +51,7 @@ public interface PeopleService {
      * @param options          <em>Optional.</em> parameters for the appended extra results.
      */
     @GET("person/{person_id}")
-    Call<Person> summary(
+    Observable<Person> summary(
             @Path("person_id") int personId,
             @Query("append_to_response") AppendToResponse appendToResponse,
             @QueryMap Map<String, String> options
@@ -63,7 +64,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/movie_credits")
-    Call<PersonCredits> movieCredits(
+    Observable<PersonCredits> movieCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );
@@ -75,7 +76,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/tv_credits")
-    Call<PersonCredits> tvCredits(
+    Observable<PersonCredits> tvCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );
@@ -87,7 +88,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/combined_credits")
-    Call<PersonCredits> combinedCredits(
+    Observable<PersonCredits> combinedCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );
@@ -98,7 +99,7 @@ public interface PeopleService {
      * @param personId A Person TMDb id.
      */
     @GET("person/{person_id}/external_ids")
-    Call<PersonExternalIds> externalIds(
+    Observable<PersonExternalIds> externalIds(
             @Path("person_id") int personId
     );
 
@@ -106,7 +107,7 @@ public interface PeopleService {
      * Get the images for a specific person id.
      */
     @GET("person/{person_id}/images")
-    Call<PersonImages> images(
+    Observable<PersonImages> images(
             @Path("person_id") int personId
     );
 
@@ -122,7 +123,7 @@ public interface PeopleService {
      * @param language   <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/changes")
-    Call<Changes> changes(
+    Observable<Changes> changes(
             @Path("person_id") int personId,
             @Query("language") String language,
             @Query("start_date") TmdbDate start_date,
@@ -139,7 +140,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/tagged_images")
-    Call<TaggedImagesResultsPage> taggedImages(
+    Observable<TaggedImagesResultsPage> taggedImages(
             @Path("person_id") int personId,
             @Query("page") Integer page,
             @Query("language") String language
@@ -149,7 +150,7 @@ public interface PeopleService {
      * Get the list of popular people on The Movie Database. This list refreshes every day.
      */
     @GET("person/popular")
-    Call<PersonResultsPage> popular(
+    Observable<PersonResultsPage> popular(
             @Query("page") Integer page
     );
 
@@ -157,6 +158,6 @@ public interface PeopleService {
      * Get the latest person id.
      */
     @GET("person/latest")
-    Call<Person> latest();
+    Observable<Person> latest();
 
 }
