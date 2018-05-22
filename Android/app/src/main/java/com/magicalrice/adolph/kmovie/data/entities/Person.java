@@ -17,9 +17,9 @@ public class Person extends BasePerson {
     private String place_of_birth;
 
     private PersonExternalIds external_ids;
-    private PersonCredits combined_credits;
-    private PersonCredits movie_credits;
-    private PersonCredits tv_credits;
+    private PersonMovieCredits combined_credits;
+    private PersonMovieCredits movie_credits;
+    private PersonMovieCredits tv_credits;
     private PersonImages images;
     private TaggedImagesResultsPage tagged_images;
     private Changes changes;
@@ -60,15 +60,15 @@ public class Person extends BasePerson {
         this.external_ids = external_ids;
     }
 
-    public void setCombined_credits(PersonCredits combined_credits) {
+    public void setCombined_credits(PersonMovieCredits combined_credits) {
         this.combined_credits = combined_credits;
     }
 
-    public void setMovie_credits(PersonCredits movie_credits) {
+    public void setMovie_credits(PersonMovieCredits movie_credits) {
         this.movie_credits = movie_credits;
     }
 
-    public void setTv_credits(PersonCredits tv_credits) {
+    public void setTv_credits(PersonMovieCredits tv_credits) {
         this.tv_credits = tv_credits;
     }
 
@@ -120,15 +120,15 @@ public class Person extends BasePerson {
         return external_ids;
     }
 
-    public PersonCredits getCombined_credits() {
+    public PersonMovieCredits getCombined_credits() {
         return combined_credits;
     }
 
-    public PersonCredits getMovie_credits() {
+    public PersonMovieCredits getMovie_credits() {
         return movie_credits;
     }
 
-    public PersonCredits getTv_credits() {
+    public PersonMovieCredits getTv_credits() {
         return tv_credits;
     }
 

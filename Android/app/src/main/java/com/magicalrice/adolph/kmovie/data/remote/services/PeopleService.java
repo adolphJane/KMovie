@@ -3,7 +3,7 @@ package com.magicalrice.adolph.kmovie.data.remote.services;
 import com.magicalrice.adolph.kmovie.data.entities.AppendToResponse;
 import com.magicalrice.adolph.kmovie.data.entities.Changes;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.PersonCredits;
+import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonExternalIds;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
@@ -11,7 +11,6 @@ import com.magicalrice.adolph.kmovie.data.entities.TaggedImagesResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -64,7 +63,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/movie_credits")
-    Observable<PersonCredits> movieCredits(
+    Observable<PersonMovieCredits> movieCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );
@@ -76,7 +75,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/tv_credits")
-    Observable<PersonCredits> tvCredits(
+    Observable<PersonMovieCredits> tvCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );
@@ -88,7 +87,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/combined_credits")
-    Observable<PersonCredits> combinedCredits(
+    Observable<PersonMovieCredits> combinedCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );

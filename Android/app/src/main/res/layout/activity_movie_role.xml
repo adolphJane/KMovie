@@ -2,6 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="event"
+            type="com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleEvent"/>
+        <variable
+            name="selectItem"
+            type="int"/>
+    </data>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -73,10 +82,36 @@
                     tools:text="死亡日期:" />
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简历:"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_role_biography"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图集"
+                android:layout_marginLeft="15dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ry_photos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"/>
 
             <RelativeLayout
                 android:id="@+id/rl_related_movies"
@@ -88,10 +123,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:onClick="@{v->event.switchMovieInfo(1)}"
+                    android:onClick="@{v->event.selectItem(1)}"
                     android:text="参演电影"
                     android:textSize="16sp"
-                    android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
+                    android:textColor="@{selectItem == 1 ? @color/white_6 : @color/white_7}" />
 
                 <TextView
                     android:id="@+id/tv_recommend_movie"
@@ -99,10 +134,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/tv_related_movie"
-                    android:onClick="@{v->event.switchMovieInfo(2)}"
+                    android:onClick="@{v->event.selectItem(2)}"
                     android:text="参演剧集"
                     android:textSize="16sp"
-                    android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
+                    android:textColor="@{selectItem == 2 ? @color/white_6 : @color/white_7}" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ry_videos"

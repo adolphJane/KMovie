@@ -1,24 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.remote;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.magicalrice.adolph.kmovie.data.entities.AccountStates;
-import com.magicalrice.adolph.kmovie.data.entities.BaseAccountStates;
-import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
-import com.magicalrice.adolph.kmovie.data.entities.BasePerson;
-import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
-import com.magicalrice.adolph.kmovie.data.entities.Media;
-import com.magicalrice.adolph.kmovie.data.entities.PersonCastCredit;
-import com.magicalrice.adolph.kmovie.data.entities.PersonCrewCredit;
-import com.magicalrice.adolph.kmovie.data.entities.RatingObject;
-import com.magicalrice.adolph.kmovie.data.enumerations.MediaType;
-import com.magicalrice.adolph.kmovie.data.enumerations.Status;
-import com.magicalrice.adolph.kmovie.data.enumerations.VideoType;
-
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

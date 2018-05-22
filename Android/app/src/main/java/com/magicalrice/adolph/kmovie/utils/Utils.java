@@ -10,6 +10,9 @@ import android.text.style.ForegroundColorSpan;
 
 import com.magicalrice.adolph.kmovie.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Adolph on 2018/5/18.
  */
@@ -58,5 +61,13 @@ public class Utils {
             return ss;
         }
         return content;
+    }
+
+    public static String getDateTime(String format, Date date) {
+        if (date != null) {
+            SimpleDateFormat df = new SimpleDateFormat(format);
+            return df.format(date);
+        }
+        return "";
     }
 }

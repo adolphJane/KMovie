@@ -7,10 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +16,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
 import com.magicalrice.adolph.kmovie.base.GlideApp;
+import com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
 import com.magicalrice.adolph.kmovie.data.entities.CastMember;
 import com.magicalrice.adolph.kmovie.data.entities.Credits;
@@ -45,7 +44,7 @@ import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MovieDetailViewModule;
-import com.magicalrice.adolph.kmovie.widget.adapter.MoviePhotoAdapter;
+import com.magicalrice.adolph.kmovie.widget.adapter.PhotoAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.MovieReSiAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.ReleaseDateAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.StarAdapter;
@@ -66,7 +65,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     private MovieDetailViewModule viewModule;
     private ReleaseDateAdapter dateAdapter;
     private StarAdapter starAdapter;
-    private MoviePhotoAdapter photoBackAdapter, photoPosterAdapter;
+    private PhotoAdapter photoBackAdapter, photoPosterAdapter;
     private MovieReSiAdapter recommendMovieAdapter, similarMovieAdapter;
     private TvReSiAdapter recommendTvAdapter, similarTvAdapter;
     private int type;
@@ -245,6 +244,14 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             List<CastMember> memberList = credits.getCast();
             if (memberList != null && memberList.size() > 0) {
                 starAdapter = new StarAdapter(R.layout.item_movie_star_layout, memberList);
+                starAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        if (adapter.getItem(position) != null && ((StarAdapter)adapter).getItem(position).getCast_id() > 0) {
+                            VideoRoleActivity.startActivity(MovieDetailActivity.this,((StarAdapter)adapter).getItem(position).getCast_id());
+                        }
+                    }
+                });
                 binding.ryPhotos.setAdapter(starAdapter);
             }
             List<CrewMember> memberList1 = credits.getCrew();
@@ -262,13 +269,13 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         if (images != null) {
             List<Image> imgBackList = images.getBackdrops();
             if (imgBackList != null) {
-                photoBackAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo, imgBackList);
+                photoBackAdapter = new PhotoAdapter(R.layout.item_movie_photo, imgBackList);
                 photoBackAdapter.setEmptyView(R.layout.item_empty_view, binding.rlMovieInfo);
             }
 
             List<Image> imgPosterList = images.getPosters();
             if (imgPosterList != null) {
-                photoPosterAdapter = new MoviePhotoAdapter(R.layout.item_movie_photo, imgPosterList);
+                photoPosterAdapter = new PhotoAdapter(R.layout.item_movie_photo, imgPosterList);
                 photoPosterAdapter.setEmptyView(R.layout.item_empty_view, binding.rlMovieInfo);
             }
         }

@@ -28,6 +28,7 @@
         </activity>
         <activity android:name=".business.mainhome.MainHomeActivity"/>
         <activity android:name=".business.movie_detail.MovieDetailActivity"/>
+        <activity android:name=".business.movie_role.VideoRoleActivity"/>
     </application>
 
 </manifest>

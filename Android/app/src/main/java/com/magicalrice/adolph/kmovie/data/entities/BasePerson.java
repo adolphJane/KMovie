@@ -7,7 +7,7 @@ public class BasePerson {
     private boolean adult;
     private int id;
     private String name;
-    private int popularity;
+    private double popularity;
     private List<Media> known_for;
 
     public String getProfile_path() {
@@ -42,11 +42,11 @@ public class BasePerson {
         this.name = name;
     }
 
-    public int getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(int popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 

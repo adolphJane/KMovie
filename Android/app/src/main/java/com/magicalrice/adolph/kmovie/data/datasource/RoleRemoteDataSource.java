@@ -1,7 +1,7 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
 import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.PersonCredits;
+import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
 import com.magicalrice.adolph.kmovie.utils.RxUtils;
@@ -25,11 +25,11 @@ public class RoleRemoteDataSource {
         return tmdb.personService().summary(personId).compose(RxUtils.io_main());
     }
 
-    public Observable<PersonCredits> getMovieCredits(int personId) {
+    public Observable<PersonMovieCredits> getMovieCredits(int personId) {
         return tmdb.personService().movieCredits(personId,"zh").compose(RxUtils.io_main());
     }
 
-    public Observable<PersonCredits> getTvCredits(int personId) {
+    public Observable<PersonMovieCredits> getTvCredits(int personId) {
         return tmdb.personService().tvCredits(personId,"zh").compose(RxUtils.io_main());
     }
 

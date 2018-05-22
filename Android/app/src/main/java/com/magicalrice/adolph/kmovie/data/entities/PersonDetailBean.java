@@ -6,7 +6,7 @@ package com.magicalrice.adolph.kmovie.data.entities;
 
 public class PersonDetailBean {
     private PersonImages personImages;
-    private PersonCredits movieCredits,tvCredits;
+    private PersonMovieCredits movieCredits,tvCredits;
     private Person person;
 
     public PersonImages getPersonImages() {
@@ -17,19 +17,19 @@ public class PersonDetailBean {
         this.personImages = personImages;
     }
 
-    public PersonCredits getMovieCredits() {
+    public PersonMovieCredits getMovieCredits() {
         return movieCredits;
     }
 
-    public void setMovieCredits(PersonCredits movieCredits) {
+    public void setMovieCredits(PersonMovieCredits movieCredits) {
         this.movieCredits = movieCredits;
     }
 
-    public PersonCredits getTvCredits() {
+    public PersonMovieCredits getTvCredits() {
         return tvCredits;
     }
 
-    public void setTvCredits(PersonCredits tvCredits) {
+    public void setTvCredits(PersonMovieCredits tvCredits) {
         this.tvCredits = tvCredits;
     }
 

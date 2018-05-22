@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.JsonSyntaxException;
 import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.PersonCredits;
+import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
@@ -37,14 +37,14 @@ public class RoleViewModule extends AndroidViewModel {
                 dataSource.getMovieCredits(personId),
                 dataSource.getPersonSummary(personId),
                 dataSource.getTvCredits(personId),
-                new Function4<PersonImages, PersonCredits, Person, PersonCredits, PersonDetailBean>() {
+                new Function4<PersonImages, PersonMovieCredits, Person, PersonMovieCredits, PersonDetailBean>() {
                     @Override
-                    public PersonDetailBean apply(PersonImages personImages, PersonCredits personCredits, Person person, PersonCredits personCredits2) throws Exception {
+                    public PersonDetailBean apply(PersonImages personImages, PersonMovieCredits personMovieCredits, Person person, PersonMovieCredits personMovieCredits2) throws Exception {
                         PersonDetailBean bean = new PersonDetailBean();
                         bean.setPersonImages(personImages);
-                        bean.setMovieCredits(personCredits);
+                        bean.setMovieCredits(personMovieCredits);
                         bean.setPerson(person);
-                        bean.setTvCredits(personCredits2);
+                        bean.setTvCredits(personMovieCredits2);
                         return bean;
                     }
                 }

@@ -2,9 +2,9 @@ package com.magicalrice.adolph.kmovie.data.entities;
 
 import java.util.List;
 
-public class PersonCredits {
+public class PersonMovieCredits {
     private int id;
-    private List<PersonCastCredit> cast;
+    private List<BaseMoviePersonCredit> cast;
     private List<PersonCrewCredit> crew;
 
     public int getId() {

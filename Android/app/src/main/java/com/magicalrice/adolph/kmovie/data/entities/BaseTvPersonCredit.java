@@ -1,12 +1,21 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
-public class PersonCastCredit extends BasePersonCredit {
+/**
+ * Created by Adolph on 2018/5/22.
+ */
 
-    // both
+public class BaseTvPersonCredit extends BaseTvShow {
+    private String credit_id;
     private String character;
-
-    // tv
     private int episode_count;
+
+    public String getCredit_id() {
+        return credit_id;
+    }
+
+    public void setCredit_id(String credit_id) {
+        this.credit_id = credit_id;
+    }
 
     public String getCharacter() {
         return character;
