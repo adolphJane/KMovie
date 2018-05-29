@@ -1,12 +1,15 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by Adolph on 2018/5/21.
  */
 
 public class PersonDetailBean {
     private PersonImages personImages;
-    private PersonMovieCredits movieCredits,tvCredits;
+    private PersonMovieCredits movieCredits;
+    private PersonTvCredits tvCredits;
     private Person person;
 
     public PersonImages getPersonImages() {
@@ -25,11 +28,11 @@ public class PersonDetailBean {
         this.movieCredits = movieCredits;
     }
 
-    public PersonMovieCredits getTvCredits() {
+    public PersonTvCredits getTvCredits() {
         return tvCredits;
     }
 
-    public void setTvCredits(PersonMovieCredits tvCredits) {
+    public void setTvCredits(PersonTvCredits tvCredits) {
         this.tvCredits = tvCredits;
     }
 

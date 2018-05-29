@@ -18,7 +18,9 @@ import com.magicalrice.adolph.kmovie.data.entities.BaseCollection;
 import com.magicalrice.adolph.kmovie.data.entities.BaseCompany;
 import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
+import com.magicalrice.adolph.kmovie.data.entities.BaseMoviePersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.BasePerson;
+import com.magicalrice.adolph.kmovie.data.entities.BaseTvPersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 
@@ -37,6 +39,10 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
         this.type = type;
     }
 
+    public int getType() {
+        return type;
+    }
+
     @NonNull
     @Override
     public List getPreloadItems(int position) {
@@ -52,6 +58,10 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                 url = ((BasePerson) mData.get(position)).getProfile_path();
             } else if (type == 5) {
                 url = ((BaseCompany) mData.get(position)).getLogo_path();
+            } else if (type == 7) {
+                url = ((BaseMoviePersonCredit) mData.get(position)).getPoster_path();
+            } else if (type == 8) {
+                url = ((BaseTvPersonCredit) mData.get(position)).getPoster_path();
             }
         }
         if (TextUtils.isEmpty(url)) {
@@ -72,7 +82,8 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
         if (type == 1) {
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseMovie) item).getTitle())
-                    .setText(R.id.tv_content, ((BaseMovie) item).getOverview());
+                    .setText(R.id.tv_content, ((BaseMovie) item).getOverview())
+                    .setVisible(R.id.tv_more, true);
             GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseMovie) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -83,7 +94,8 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
         } else if (type == 2) {
             helper.addOnClickListener(R.id.tv_more)
                     .setText(R.id.tv_title, ((BaseTvShow) item).getName())
-                    .setText(R.id.tv_content, ((BaseTvShow) item).getOverview());
+                    .setText(R.id.tv_content, ((BaseTvShow) item).getOverview())
+                    .setVisible(R.id.tv_more, true);
             GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseTvShow) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -92,9 +104,9 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into((ImageView) helper.getView(R.id.img_poster));
         } else if (type == 3) {
-            helper.addOnClickListener(R.id.tv_more)
-                    .setText(R.id.tv_title, ((BaseCollection) item).getName())
-                    .setText(R.id.tv_content, "无");
+            helper.setText(R.id.tv_title, ((BaseCollection) item).getName())
+                    .setText(R.id.tv_content, "无")
+                    .setVisible(R.id.tv_more, false);
             GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCollection) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -104,6 +116,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .into((ImageView) helper.getView(R.id.img_poster));
         } else if (type == 4) {
             helper.addOnClickListener(R.id.tv_more)
+                    .setVisible(R.id.tv_more, true)
                     .setText(R.id.tv_title, ((BasePerson) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "人物简介");
@@ -116,11 +129,36 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
                     .into((ImageView) helper.getView(R.id.img_poster));
         } else if (type == 5) {
             helper.addOnClickListener(R.id.tv_more)
+                    .setVisible(R.id.tv_more, false)
                     .setText(R.id.tv_title, ((BaseCompany) item).getName())
                     .setText(R.id.tv_content, "无")
                     .setText(R.id.tv_1, "公司简介");
             GlideApp.with(mContext)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseCompany) item).getLogo_path())
+                    .placeholder(R.drawable.item_img_placeholder)
+                    .error(R.drawable.item_img_error)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into((ImageView) helper.getView(R.id.img_poster));
+        } else if (type == 7) {
+            helper.addOnClickListener(R.id.tv_more)
+                    .setVisible(R.id.tv_more, false)
+                    .setText(R.id.tv_title, ((BaseMoviePersonCredit) item).getTitle())
+                    .setText(R.id.tv_content, ((BaseMoviePersonCredit) item).getOverview());
+            GlideApp.with(mContext)
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseMoviePersonCredit) item).getPoster_path())
+                    .placeholder(R.drawable.item_img_placeholder)
+                    .error(R.drawable.item_img_error)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into((ImageView) helper.getView(R.id.img_poster));
+        } else if (type == 8) {
+            helper.addOnClickListener(R.id.tv_more)
+                    .setVisible(R.id.tv_more, false)
+                    .setText(R.id.tv_title, ((BaseTvPersonCredit) item).getName())
+                    .setText(R.id.tv_content, ((BaseTvPersonCredit) item).getOverview());
+            GlideApp.with(mContext)
+                    .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + ((BaseTvPersonCredit) item).getPoster_path())
                     .placeholder(R.drawable.item_img_placeholder)
                     .error(R.drawable.item_img_error)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

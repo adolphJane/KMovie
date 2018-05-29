@@ -7,6 +7,7 @@ import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonExternalIds;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
+import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
 import com.magicalrice.adolph.kmovie.data.entities.TaggedImagesResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 
@@ -75,7 +76,7 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/tv_credits")
-    Observable<PersonMovieCredits> tvCredits(
+    Observable<PersonTvCredits> tvCredits(
             @Path("person_id") int personId,
             @Query("language") String language
     );

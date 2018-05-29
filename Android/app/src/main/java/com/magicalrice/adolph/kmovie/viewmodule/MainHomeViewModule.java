@@ -17,6 +17,8 @@ public class MainHomeViewModule extends AndroidViewModel{
     private MovieRemoteDataSource dataSource;
     public MutableLiveData<GenreResults> genreData = new MutableLiveData<>();
     public MutableLiveData<VideoResultsPage> videoData = new MutableLiveData<>();
+    public MutableLiveData<Boolean> shoudTop = new MutableLiveData<>();
+    public int videoType = 1;
 
     public MainHomeViewModule(@NonNull Application application,MovieRemoteDataSource dataSource) {
         super(application);
@@ -47,5 +49,13 @@ public class MainHomeViewModule extends AndroidViewModel{
         dataSource.getTvsByGenre(filter,page).subscribe(videoResultsPage -> {
             videoData.setValue(videoResultsPage);
         },throwable -> Toast.makeText(getApplication(),throwable.getMessage() + "error",Toast.LENGTH_SHORT).show());
+    }
+
+    public int getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(int videoType) {
+        this.videoType = videoType;
     }
 }

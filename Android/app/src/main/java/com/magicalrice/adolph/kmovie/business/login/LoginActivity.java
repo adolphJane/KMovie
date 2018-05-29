@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -37,11 +38,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.translucentStatusBar(this,false);
+        StatusBarUtil.translucentStatusBar(this, false);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
         viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
         binding.setListener(this);
         canLoginDirect();
+        loginViewModule();
     }
 
     @Override
@@ -80,37 +82,34 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
     }
 
+    private void loginViewModule() {
+        viewModule.isLogin.observe(this, integer -> {
+            int status = integer == null ? 0 : integer.intValue();
+            binding.setShowProgress(false);
+            if (status == 0) {
+            } else if (status == 1) {
+                startActivity(new Intent(LoginActivity.this, MainHomeActivity.class));
+                finish();
+            }
+        });
+    }
+
     @Override
     public void onVisitorLogin() {
         binding.setShowProgress(true);
-        viewModule.guestLogin()
-                .subscribe(requestToken -> {
-                    SpUtils.getInstance(LoginActivity.this).put("base_token", requestToken.getRequest_token());
-                    SpUtils.getInstance(this).put("login_type", 1);
-                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    MovieApplication.getInstance().setHasToken(true);
-                    startActivity(new Intent(LoginActivity.this, MainHomeActivity.class));
-                    binding.setShowProgress(false);
-                }, throwable -> {
-                    Toast.makeText(LoginActivity.this, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
-                    binding.setShowProgress(false);
-                });
+        viewModule.guestLogin();
     }
 
     @Override
     public void onUserLogin() {
         binding.setShowProgress(true);
-        viewModule.userLogin(binding.inputLayoutOne, binding.inputLayoutTwo)
-                .subscribe(requestToken -> {
-                    if (requestToken.equals("请求失败")) {
-                        Toast.makeText(LoginActivity.this, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
-                    } else {
-                        SpUtils.getInstance(LoginActivity.this).put("user_token", requestToken.getRequest_token());
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        SpUtils.getInstance(this).put("login_type", 2);
-                    }
-                    binding.setShowProgress(false);
-                });
+        String account = (String) SpUtils.getInstance(this).get("account", "");
+        String password = (String) SpUtils.getInstance(this).get("password", "");
+        if (TextUtils.isEmpty(account) || TextUtils.isEmpty(password)) {
+            viewModule.userLogin(binding.inputLayoutOne, binding.inputLayoutTwo);
+        } else {
+            viewModule.userLogin(account,password);
+        }
     }
 
     @Override
@@ -119,7 +118,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
     }
 
     private void canLoginDirect() {
-        int type = (int)SpUtils.getInstance(this).get("login_type",0);
+        int type = (int) SpUtils.getInstance(this).get("login_type", 0);
         if (type == 0) {
             return;
         } else if (type == 1) {

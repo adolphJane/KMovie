@@ -26,6 +26,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends DaggerApp
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppManager.getInstance().addActivity(this);
         TimerModule.Companion.getInstance().begin(getApplicationContext());
         binding = DataBindingUtil.setContentView(this,getLayoutRes());
     }
@@ -38,4 +39,9 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends DaggerApp
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        AppManager.getInstance().removeActivity(this);
+        super.onDestroy();
+    }
 }

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <import type="com.magicalrice.adolph.kmovie.business.mainhome.MainHomeClickListener"/>
-        <import type="android.view.View"/>
+
+        <import type="com.magicalrice.adolph.kmovie.business.mainhome.MainHomeClickListener" />
+
+        <import type="android.view.View" />
+
         <variable
             name="clickListener"
-            type="MainHomeClickListener"/>
+            type="MainHomeClickListener" />
 
         <variable
             name="showTag"
-            type="boolean"/>
+            type="boolean" />
     </data>
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
@@ -29,10 +33,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_scrollFlags="enterAlways|scroll|snap">
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:background="?attr/colorPrimary"/>
+                    android:background="?attr/colorPrimary" />
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -45,52 +51,69 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageView
                             android:id="@+id/icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/app_icon"
-                            android:layout_centerVertical="true"/>
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/app_icon" />
 
                         <ImageView
                             android:id="@+id/search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/app_search"
-                            android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="20dp"
-                            android:onClick="@{v->clickListener.onSearchClick()}"/>
+                            android:onClick="@{v->clickListener.onSearchClick()}"
+                            android:src="@drawable/app_search" />
+
                         <com.magicalrice.adolph.kmovie.widget.scroll_tag.HorizontalScrollTagLayout
                             android:id="@+id/tag_group"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_toRightOf="@id/icon"
-                            android:layout_toLeftOf="@id/search"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:visibility="@{showTag ? View.VISIBLE : View.GONE}"/>
+                            android:layout_toLeftOf="@id/search"
+                            android:layout_toRightOf="@id/icon"
+                            android:visibility="@{showTag ? View.VISIBLE : View.GONE}" />
                     </RelativeLayout>
 
 
                 </android.support.v7.widget.Toolbar>
             </LinearLayout>
         </com.magicalrice.adolph.kmovie.widget.view.MagicalAppbarLayout>
-            <FrameLayout
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="52dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/bottom_tab"
-                style="@style/NoUnderLineTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/shape_color_gray_linear"
-                app:tabGravity="fill"
-                app:tabMode="fixed" />
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="52dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/bottom_tab"
+            style="@style/NoUnderLineTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_color_gray_linear"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="70dp"
+            android:layout_marginRight="20dp"
+            android:alpha="0"
+            android:onClick="@{v -> clickListener.scrollToTop()}"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:visibility="invisible"
+            app:layout_behavior="com.magicalrice.adolph.kmovie.widget.ScrollAwareBehavior" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

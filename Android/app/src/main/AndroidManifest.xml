@@ -26,9 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".business.mainhome.MainHomeActivity"/>
-        <activity android:name=".business.movie_detail.MovieDetailActivity"/>
-        <activity android:name=".business.movie_role.VideoRoleActivity"/>
+        <activity android:name=".business.mainhome.MainHomeActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".business.movie_detail.MovieDetailActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".business.movie_role.VideoRoleActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

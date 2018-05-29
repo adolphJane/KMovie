@@ -6,9 +6,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.bumptech.glide.ListPreloader;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.bumptech.glide.util.ViewPreloadSizeProvider;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
+import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
+import com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleActivity;
+import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
+import com.magicalrice.adolph.kmovie.data.entities.BasePerson;
+import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
 import com.magicalrice.adolph.kmovie.data.entities.CollectionResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.CompanyResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
@@ -31,7 +40,6 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
     private SearchResultsAdapter<K> adapter;
     private int type;
     private int page = 1;
-    private String query;
     private List<K> dataList;
     private T data;
 
@@ -53,10 +61,31 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
     public void createView(View view) {
         dataList = new ArrayList<>();
         adapter = new SearchResultsAdapter<>(R.layout.item_search_layout, dataList, type);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if (view.getId() == R.id.tv_more) {
+                    int type = ((SearchResultsAdapter) adapter).getType();
+                    if (type == 1) {
+                        MovieDetailActivity.startActivity(getActivity(), ((BaseMovie)adapter.getItem(position)).getId(),((BaseMovie)adapter.getItem(position)).getOverview(),1);
+                    } else if (type == 2) {
+                        MovieDetailActivity.startActivity(getActivity(), ((BaseTvShow)adapter.getItem(position)).getId(),((BaseTvShow)adapter.getItem(position)).getOverview(),2);
+                    } else if (type == 4) {
+                        VideoRoleActivity.startActivity(getActivity(), ((BasePerson)adapter.getItem(position)).getId());
+                    }
+                }
+            }
+        });
+        ListPreloader.PreloadSizeProvider sizeProvider = new ViewPreloadSizeProvider();
+        RecyclerViewPreloader preloader = null;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.searchResultsList.setAdapter(adapter);
         binding.searchResultsList.setLayoutManager(manager);
+        preloader = new RecyclerViewPreloader(this, adapter, sizeProvider, 10);
+        if (preloader != null) {
+            binding.searchResultsList.addOnScrollListener(preloader);
+        }
         initData();
     }
 

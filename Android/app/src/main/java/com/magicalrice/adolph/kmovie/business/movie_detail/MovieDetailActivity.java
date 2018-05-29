@@ -247,8 +247,8 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                 starAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                        if (adapter.getItem(position) != null && ((StarAdapter)adapter).getItem(position).getCast_id() > 0) {
-                            VideoRoleActivity.startActivity(MovieDetailActivity.this,((StarAdapter)adapter).getItem(position).getCast_id());
+                        if (adapter.getItem(position) != null && ((StarAdapter)adapter).getItem(position).getId() > 0) {
+                            VideoRoleActivity.startActivity(MovieDetailActivity.this,((StarAdapter)adapter).getItem(position).getId());
                         }
                     }
                 });

@@ -41,6 +41,8 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
             return (T) new SearchViewModule(application,searchDataSource);
         } else if (modelClass.isAssignableFrom(RoleViewModule.class)) {
             return (T) new RoleViewModule(application,roleDataSource);
+        } else if (modelClass.isAssignableFrom(MainMeViewModule.class)) {
+            return (T) new MainMeViewModule(application);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

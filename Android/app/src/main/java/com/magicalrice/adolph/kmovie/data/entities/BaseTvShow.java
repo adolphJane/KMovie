@@ -178,15 +178,4 @@ public class BaseTvShow extends BaseRatingObject implements Parcelable {
         this.media_type = in.readString();
     }
 
-    public static final Parcelable.Creator<BaseTvShow> CREATOR = new Parcelable.Creator<BaseTvShow>() {
-        @Override
-        public BaseTvShow createFromParcel(Parcel source) {
-            return new BaseTvShow(source);
-        }
-
-        @Override
-        public BaseTvShow[] newArray(int size) {
-            return new BaseTvShow[size];
-        }
-    };
 }

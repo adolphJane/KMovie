@@ -1,10 +1,12 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.bumptech.glide.ListPreloader.PreloadSizeProvider;
@@ -14,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
+import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
 import com.magicalrice.adolph.kmovie.data.entities.Genre;
@@ -41,6 +44,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     private MainVideoAdapter movieAdapter;
     private Genre genre;
     private int page = 1;
+    private boolean isVisible = false;
     @Inject
     MainViewModuleFactory factory;
     private int type = 0;
@@ -50,7 +54,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         genre = getArguments().getParcelable("gener");
-        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
+        viewModule = ViewModelProviders.of(getActivity(), factory).get(MainHomeViewModule.class);
         if (genre != null && savedInstanceState == null) {
             requestNewData();
         }
@@ -88,6 +92,22 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         binding.recycler.setLayoutManager(manager);
         preloader = new RecyclerViewPreloader(this, movieAdapter, sizeProvider, 10);
         binding.recycler.scrollToPosition(0);
+        binding.recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(-1)) {
+                    if (getActivity() != null) {
+                        ((MainHomeActivity)getActivity()).hideFabButton();
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         if (preloader != null) {
             binding.recycler.addOnScrollListener(preloader);
         }
@@ -138,6 +158,16 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
             }
             LUtils.e("page%d,totalPage%d", page, totalPage);
         });
+
+        viewModule.shoudTop.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean && isVisible && isResumed() && viewModule.getVideoType() == type) {
+                    binding.recycler.smoothScrollToPosition(0);
+                    viewModule.shoudTop.setValue(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -153,5 +183,11 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
                 MovieDetailActivity.startActivity(getActivity(), video.getId(), video.getOverview(), type);
             }
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
     }
 }

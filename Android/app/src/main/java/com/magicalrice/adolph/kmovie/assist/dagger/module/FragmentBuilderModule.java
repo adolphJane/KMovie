@@ -20,7 +20,7 @@ public abstract class FragmentBuilderModule {
     abstract SubMainFragment bindSubMainFragment();
 
     @FragmentScoped
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = MainMeModule.class)
     abstract MeFragment bindMeFragment();
 
     @FragmentScoped

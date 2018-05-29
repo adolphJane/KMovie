@@ -23,6 +23,18 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
     private int vote_count;
     private String media_type;
 
+    public static final Creator<BaseMovie> CREATOR = new Creator<BaseMovie>() {
+        @Override
+        public BaseMovie createFromParcel(Parcel in) {
+            return new BaseMovie(in);
+        }
+
+        @Override
+        public BaseMovie[] newArray(int size) {
+            return new BaseMovie[size];
+        }
+    };
+
     public int getId() {
         return id;
     }
@@ -192,15 +204,4 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
         this.media_type = in.readString();
     }
 
-    public static final Parcelable.Creator<BaseMovie> CREATOR = new Parcelable.Creator<BaseMovie>() {
-        @Override
-        public BaseMovie createFromParcel(Parcel source) {
-            return new BaseMovie(source);
-        }
-
-        @Override
-        public BaseMovie[] newArray(int size) {
-            return new BaseMovie[size];
-        }
-    };
 }

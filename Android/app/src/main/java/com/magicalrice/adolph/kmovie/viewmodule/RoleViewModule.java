@@ -11,6 +11,7 @@ import com.magicalrice.adolph.kmovie.data.entities.Person;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
+import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
 
 import io.reactivex.Observable;
@@ -37,14 +38,15 @@ public class RoleViewModule extends AndroidViewModel {
                 dataSource.getMovieCredits(personId),
                 dataSource.getPersonSummary(personId),
                 dataSource.getTvCredits(personId),
-                new Function4<PersonImages, PersonMovieCredits, Person, PersonMovieCredits, PersonDetailBean>() {
+                new Function4<PersonImages, PersonMovieCredits, Person, PersonTvCredits, PersonDetailBean>() {
+
                     @Override
-                    public PersonDetailBean apply(PersonImages personImages, PersonMovieCredits personMovieCredits, Person person, PersonMovieCredits personMovieCredits2) throws Exception {
+                    public PersonDetailBean apply(PersonImages personImages, PersonMovieCredits personMovieCredits, Person person, PersonTvCredits personTvCredits) throws Exception {
                         PersonDetailBean bean = new PersonDetailBean();
                         bean.setPersonImages(personImages);
                         bean.setMovieCredits(personMovieCredits);
                         bean.setPerson(person);
-                        bean.setTvCredits(personMovieCredits2);
+                        bean.setTvCredits(personTvCredits);
                         return bean;
                     }
                 }

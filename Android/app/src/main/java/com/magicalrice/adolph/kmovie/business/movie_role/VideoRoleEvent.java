@@ -6,4 +6,6 @@ package com.magicalrice.adolph.kmovie.business.movie_role;
 
 public interface VideoRoleEvent {
     public void selectItem(int position);
+    public void openTextBox();
+    public void scrollToTop();
 }
