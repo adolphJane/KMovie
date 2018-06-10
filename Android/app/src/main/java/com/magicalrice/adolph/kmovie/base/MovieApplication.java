@@ -10,6 +10,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
 import com.sw.debug.view.DebugViewWrapper;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
 import cn.jpush.im.android.api.JMessageClient;
 import dagger.android.AndroidInjector;
@@ -29,6 +31,7 @@ public class MovieApplication extends DaggerApplication {
         instance = this;
         MyLifecycle.init(this);
         initLogger();
+        initBugly();
         initLeakCanary();
         initJMessage();
         initDebugView();
@@ -82,6 +85,13 @@ public class MovieApplication extends DaggerApplication {
 //        DebugViewWrapper.Companion.getInstance().show();
     }
 
+    private void initBugly() {
+        UserStrategy strategy = new UserStrategy(getApplicationContext());
+        strategy.setAppChannel("Main");
+        strategy.setAppVersion(BuildConfig.VERSION_NAME);
+        strategy.setAppPackageName(BuildConfig.APPLICATION_ID);
+        CrashReport.initCrashReport(getApplicationContext(), "d820f8b302", false,strategy);
+    }
 
     public static MovieApplication getInstance() {
         return instance;

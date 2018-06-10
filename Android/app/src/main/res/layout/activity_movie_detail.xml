@@ -21,6 +21,9 @@
         <variable
             name="type"
             type="int" />
+        <variable
+            name="isLoading"
+            type="boolean"/>
     </data>
 
     <ScrollView
@@ -35,7 +38,32 @@
             <RelativeLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"></RelativeLayout>
+                android:layout_height="50dp"
+                android:background="@color/black_6">
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ico_back"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="10dp"
+                    android:onClick="@{event.backEvent()}"/>
+                <ImageView
+                    android:id="@+id/movie_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_share"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:onClick="@{event.likeEvent()}"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_like"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@id/movie_share"
+                    android:onClick="@{event.shareEvent()}"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_movie"
@@ -43,7 +71,8 @@
                 android:layout_height="230dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="20dp">
+                android:paddingTop="20dp"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
                 <ImageView
                     android:id="@+id/img_poster"
@@ -101,14 +130,16 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
-                android:text="类型" />
+                android:text="类型"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
 
             <RelativeLayout
                 android:id="@+id/rl_genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
 
             <TextView
                 android:id="@+id/tv_keyword"
@@ -117,14 +148,16 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
-                android:text="关键词" />
+                android:text="关键词"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
 
             <RelativeLayout
                 android:id="@+id/rl_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
             </RelativeLayout>
 
@@ -136,7 +169,7 @@
                 android:layout_marginTop="15dp"
                 android:textSize="16sp"
                 android:text="上映信息"
-                android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ry_show_time"
@@ -145,13 +178,14 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
-                android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
+                android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
 
             <RelativeLayout
                 android:id="@+id/rl_movie_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                android:paddingTop="15dp"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     android:id="@+id/tv_info"
@@ -228,7 +262,8 @@
                 android:id="@+id/rl_related_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     android:id="@+id/tv_related_movie"
@@ -259,6 +294,13 @@
                     android:minHeight="160dp"
                     android:layout_marginTop="15dp"/>
             </RelativeLayout>
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
         </LinearLayout>
     </ScrollView>
 </layout>

@@ -100,6 +100,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
         binding.setSelectTwo(1);
         binding.setEvent(this);
         binding.setType(type);
+        binding.setIsLoading(true);
         if (type == 1) {
             viewModule.getMovieDetail(videoId);
         } else if (type == 2) {
@@ -114,6 +115,7 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
     }
 
     private void updateView(MovieDetailBean bean) {
+        binding.setIsLoading(false);
         if (bean == null) {
             return;
         }
@@ -373,5 +375,20 @@ public class MovieDetailActivity extends BaseActivity<ActivityMovieDetailBinding
                 binding.ryVideos.setAdapter(recommendTvAdapter);
             }
         }
+    }
+
+    @Override
+    public void backEvent() {
+        finish();
+    }
+
+    @Override
+    public void likeEvent() {
+
+    }
+
+    @Override
+    public void shareEvent() {
+
     }
 }
