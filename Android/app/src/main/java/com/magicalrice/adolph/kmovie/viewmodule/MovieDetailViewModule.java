@@ -117,4 +117,8 @@ public class MovieDetailViewModule extends AndroidViewModel {
                 }
         );
     }
+
+    public void likeVideo() {
+
+    }
 }

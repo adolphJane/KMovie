@@ -98,6 +98,7 @@ dependencies {
 
     //SnackBar
     implementation "com.trycatch.android:mysnackbar:$rootProject.snackBarVersion"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation files('libs/jcore-android-1.1.9.jar')
 
@@ -111,9 +112,11 @@ dependencies {
 
     //recyclerview
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerviewVersion"
-
     //debug_database
     debugImplementation "com.amitshekhar.android:debug-db:$rootProject.debugDatabaseVersion"
+
+    //bugly
+    implementation "com.tencent.bugly:crashreport:$rootProject.buglyVersion"
 }
 repositories {
     mavenCentral()

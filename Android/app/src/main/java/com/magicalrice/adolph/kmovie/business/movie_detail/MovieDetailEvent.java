@@ -7,4 +7,7 @@ package com.magicalrice.adolph.kmovie.business.movie_detail;
 public interface MovieDetailEvent {
     public void switchBaseInfo(int position);
     public void switchMovieInfo(int position);
+    public void backEvent();
+    public void likeEvent();
+    public void shareEvent();
 }
