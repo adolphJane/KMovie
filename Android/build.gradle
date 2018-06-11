@@ -42,4 +42,5 @@ ext {
     debugViewVersion = '1.0.2'
     streamSupportVersion = '1.6.2'
     baseRecyclerviewVersion = '2.9.38'
+    debugDatabaseVersion = '1.0.3'
 }

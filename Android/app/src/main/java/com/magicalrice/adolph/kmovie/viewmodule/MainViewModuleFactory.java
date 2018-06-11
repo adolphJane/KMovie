@@ -9,22 +9,23 @@ import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.repository.MovieRepository;
 
 /**
  * Created by Adolph on 2018/4/20.
  */
 
 public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFactory {
-    private MovieRemoteDataSource movieDataSource;
+    private MovieRepository repository;
     private MovieDetailRemoteDataSource detailDataSource;
     private SearchRemoteDataSource searchDataSource;
     private RoleRemoteDataSource roleDataSource;
     private Application application;
 
-    public MainViewModuleFactory(@NonNull Application application, MovieRemoteDataSource movieSource, MovieDetailRemoteDataSource detailDataSource,SearchRemoteDataSource searchDataSource,RoleRemoteDataSource roleDataSource) {
+    public MainViewModuleFactory(@NonNull Application application, MovieRepository repository, MovieDetailRemoteDataSource detailDataSource, SearchRemoteDataSource searchDataSource, RoleRemoteDataSource roleDataSource) {
         super(application);
         this.application = application;
-        this.movieDataSource = movieSource;
+        this.repository = repository;
         this.detailDataSource = detailDataSource;
         this.searchDataSource = searchDataSource;
         this.roleDataSource = roleDataSource;
@@ -34,7 +35,7 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainHomeViewModule.class)) {
-            return (T) new MainHomeViewModule(application, movieDataSource);
+            return (T) new MainHomeViewModule(application, repository);
         } else if (modelClass.isAssignableFrom(MovieDetailViewModule.class)) {
             return (T) new MovieDetailViewModule(application, detailDataSource);
         } else if (modelClass.isAssignableFrom(SearchViewModule.class)) {

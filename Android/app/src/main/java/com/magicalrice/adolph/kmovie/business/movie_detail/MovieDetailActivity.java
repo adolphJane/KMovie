@@ -38,7 +38,7 @@ import com.magicalrice.adolph.kmovie.data.entities.TvShow;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
-import com.magicalrice.adolph.kmovie.data.repository.CountryDataSource;
+import com.magicalrice.adolph.kmovie.data.datasource.CountryDataSource;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieDetailBinding;
 import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.Utils;

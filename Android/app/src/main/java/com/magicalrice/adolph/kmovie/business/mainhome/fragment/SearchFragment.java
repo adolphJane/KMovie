@@ -7,8 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -25,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.magicalrice.adolph.kmovie.R;
-import com.magicalrice.adolph.kmovie.assist.dagger.scope.ActivityScoped;
 import com.magicalrice.adolph.kmovie.base.BaseDialogFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.databinding.FragmentMovieSearchBinding;
@@ -34,7 +31,6 @@ import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.SearchViewModule;
 import com.magicalrice.adolph.kmovie.widget.adapter.SearchPagerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

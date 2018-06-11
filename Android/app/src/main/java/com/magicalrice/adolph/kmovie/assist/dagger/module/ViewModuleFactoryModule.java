@@ -8,6 +8,7 @@ import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.repository.MovieRepository;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 
@@ -30,8 +31,8 @@ public class ViewModuleFactoryModule {
 
     @Provides
     @Singleton
-    public MainViewModuleFactory provideMainFactory(Context context, MovieRemoteDataSource movieSource, MovieDetailRemoteDataSource detailSource, SearchRemoteDataSource searchSource, RoleRemoteDataSource roleSource) {
-        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context, movieSource, detailSource, searchSource,roleSource);
+    public MainViewModuleFactory provideMainFactory(Context context, MovieRepository repository, MovieDetailRemoteDataSource detailSource, SearchRemoteDataSource searchSource, RoleRemoteDataSource roleSource) {
+        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context, repository, detailSource, searchSource,roleSource);
         return factory;
     }
 }

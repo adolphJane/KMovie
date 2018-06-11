@@ -1,4 +1,4 @@
-package com.magicalrice.adolph.kmovie.data.repository;
+package com.magicalrice.adolph.kmovie.data.datasource;
 
 import android.content.Context;
 import android.text.TextUtils;

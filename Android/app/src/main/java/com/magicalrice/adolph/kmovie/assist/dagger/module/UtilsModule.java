@@ -1,15 +1,17 @@
 package com.magicalrice.adolph.kmovie.assist.dagger.module;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.magicalrice.adolph.kmovie.data.local.database.MovieDatabase;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.data.remote.RequestInterceptor;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
-import com.magicalrice.adolph.kmovie.data.repository.CountryDataSource;
+import com.magicalrice.adolph.kmovie.data.datasource.CountryDataSource;
 import com.magicalrice.adolph.kmovie.utils.SpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -99,5 +101,12 @@ public class UtilsModule {
     CountryDataSource provideCountryData(SpUtils spUtils,Gson gson,Context context) {
         CountryDataSource dataSource = new CountryDataSource(spUtils,gson,context);
         return dataSource;
+    }
+
+    @Singleton
+    @Provides
+    MovieDatabase provideDatabase(Context context) {
+        MovieDatabase database = Room.databaseBuilder(context,MovieDatabase.class,"movie.db").build();
+        return database;
     }
 }

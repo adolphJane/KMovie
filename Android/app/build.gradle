@@ -12,6 +12,12 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -102,8 +108,12 @@ dependencies {
 
     //StreamSupport
     implementation "net.sourceforge.streamsupport:streamsupport:$rootProject.streamSupportVersion"
+
     //recyclerview
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$rootProject.baseRecyclerviewVersion"
+
+    //debug_database
+    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.debugDatabaseVersion"
 }
 repositories {
     mavenCentral()

@@ -1,5 +1,6 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
-import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
@@ -63,9 +63,6 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (videoList != null && videoList.size() > 0) {
-            outState.putParcelableArrayList("videoList", videoList);
-        }
         outState.putParcelable("genre", genre);
         outState.putInt("page", page);
         outState.putInt("totalPage", totalPage);
@@ -98,7 +95,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(-1)) {
                     if (getActivity() != null) {
-                        ((MainHomeActivity)getActivity()).hideFabButton();
+                        ((MainHomeActivity) getActivity()).hideFabButton();
                     }
                 }
             }
@@ -119,53 +116,53 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState != null) {
-            List<BaseVideo> temp = savedInstanceState.getParcelableArrayList("videoList");
-            if (temp != null && temp.size() > 0) {
-                movieAdapter.addData(temp);
-                if (binding.progressbar.getVisibility() == View.VISIBLE) {
-                    binding.progressbar.setVisibility(View.GONE);
-                }
-            }
             page = savedInstanceState.getInt("page");
             genre = savedInstanceState.getParcelable("genre");
             totalPage = savedInstanceState.getInt("totalPage");
+
+            getOldData();
+        }
+    }
+
+    private void getOldData() {
+        for (int i = 1;i <= page;i++) {
+            if (type == 1) {
+                viewModule.getMovies(genre.getId(), i).observe(this, videos -> updateData(videos));
+            } else if (type == 2) {
+                viewModule.getTvs(genre.getId(), i).observe(this, videos -> updateData(videos));
+            }
         }
     }
 
     private void requestNewData() {
         if (type == 1) {
-            viewModule.getMovies(genre.getId(), page);
+            viewModule.getMovies(genre.getId(), page).observe(this, videos -> updateData(videos));
         } else if (type == 2) {
-            viewModule.getTvs(genre.getId(), page);
+            viewModule.getTvs(genre.getId(), page).observe(this, videos -> updateData(videos));
         }
     }
 
-    private void initData() {
-        viewModule.videoData.observe(this, videoResultsPage -> {
-            if (binding.progressbar.getVisibility() == View.VISIBLE) {
-                binding.progressbar.setVisibility(View.GONE);
-            }
-            page++;
-            totalPage = videoResultsPage.getTotal_pages();
-            List<BaseVideo> temp = videoResultsPage.getResults();
-            if (temp.size() > 0) {
-                movieAdapter.addData(temp);
-            }
-            if (page <= totalPage) {
-                movieAdapter.loadMoreComplete();
-            } else {
-                movieAdapter.loadMoreEnd();
-            }
-            LUtils.e("page%d,totalPage%d", page, totalPage);
-        });
+    private void updateData(List<BaseVideo> videos) {
+        if (binding.progressbar.getVisibility() == View.VISIBLE) {
+            binding.progressbar.setVisibility(View.GONE);
+        }
+        page++;
+        if (videos.size() > 0) {
+            movieAdapter.addData(videos);
+        }
+        if (page <= totalPage) {
+            movieAdapter.loadMoreComplete();
+        } else {
+            movieAdapter.loadMoreEnd();
+        }
+        LUtils.e("page%d,totalPage%d", page, totalPage);
+    }
 
-        viewModule.shoudTop.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean && isVisible && isResumed() && viewModule.getVideoType() == type) {
-                    binding.recycler.smoothScrollToPosition(0);
-                    viewModule.shoudTop.setValue(false);
-                }
+    private void initData() {
+        viewModule.shoudTop.observe(this, aBoolean -> {
+            if (aBoolean && isVisible && isResumed() && viewModule.getVideoType() == type) {
+                binding.recycler.smoothScrollToPosition(0);
+                viewModule.shoudTop.setValue(false);
             }
         });
     }

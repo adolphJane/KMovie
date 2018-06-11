@@ -1,4 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.entities;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -7,12 +9,18 @@ import java.util.List;
  * Created by Adolph on 2018/5/4.
  */
 
+@Entity
 public class BaseVideo implements Parcelable {
     private String poster_path;
     private String backdrop_path;
     private String title;
     private String release_date;
     private String overview;
+    private int page;
+    private int totalPage;
+    private int type;
+    private int genre;
+    @PrimaryKey
     private int id;
 
     public String getPoster_path() {
@@ -63,6 +71,38 @@ public class BaseVideo implements Parcelable {
         this.id = id;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getGenre() {
+        return genre;
+    }
+
+    public void setGenre(int genre) {
+        this.genre = genre;
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public BaseVideo() {
     }
 
@@ -78,6 +118,10 @@ public class BaseVideo implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.release_date);
         dest.writeString(this.overview);
+        dest.writeInt(this.page);
+        dest.writeInt(this.totalPage);
+        dest.writeInt(this.type);
+        dest.writeInt(this.genre);
         dest.writeInt(this.id);
     }
 
@@ -87,6 +131,10 @@ public class BaseVideo implements Parcelable {
         this.title = in.readString();
         this.release_date = in.readString();
         this.overview = in.readString();
+        this.page = in.readInt();
+        this.totalPage = in.readInt();
+        this.type = in.readInt();
+        this.genre = in.readInt();
         this.id = in.readInt();
     }
 
