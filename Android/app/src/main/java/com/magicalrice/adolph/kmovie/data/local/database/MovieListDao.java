@@ -11,6 +11,9 @@ import com.magicalrice.adolph.kmovie.data.entities.VideoResultsPage;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+
 /**
  * Created by Adolph on 2018/6/11.
  */
@@ -21,5 +24,5 @@ public interface MovieListDao {
     public void insertMovieList(List<BaseVideo> videos);
 
     @Query("SELECT * FROM basevideo WHERE page = :page AND genre = :genre AND type = :type")
-    public LiveData<List<BaseVideo>> loadMovies(int genre,int page,int type);
+    public Flowable<List<BaseVideo>> loadMovies(int genre, int page, int type);
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 /**
@@ -25,7 +26,7 @@ public class MovieLocalDataSource {
         this.database = database;
     }
 
-    public LiveData<List<BaseVideo>> getMoviesByGenre(int genre, int page) {
+    public Flowable<List<BaseVideo>> getMoviesByGenre(int genre, int page) {
         return database.movieListDao().loadMovies(genre,page,1);
     }
 
