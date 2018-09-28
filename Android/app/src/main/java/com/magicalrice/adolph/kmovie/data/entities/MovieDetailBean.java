@@ -1,16 +1,24 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by Adolph on 2018/5/7.
  */
 
+@Entity(tableName = "movie_detail")
 public class MovieDetailBean {
+    @PrimaryKey
+    private long movieDetailId;
     private Movie movie;
     private Credits credits;
     private Images images;
     private ReleaseDatesResults datesResults;
     private Keywords keywords;
     private MovieResultsPage recommendationResult,similarResult;
+    private boolean isLike;
+    private int sourceType = 0;
 
     public Movie getMovie() {
         return movie;
@@ -66,5 +74,29 @@ public class MovieDetailBean {
 
     public void setSimilarResult(MovieResultsPage similarResult) {
         this.similarResult = similarResult;
+    }
+
+    public long getMovieDetailId() {
+        return movieDetailId;
+    }
+
+    public void setMovieDetailId(long movieDetailId) {
+        this.movieDetailId = movieDetailId;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public int getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(int sourceType) {
+        this.sourceType = sourceType;
     }
 }

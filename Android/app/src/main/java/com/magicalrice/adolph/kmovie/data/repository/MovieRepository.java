@@ -11,12 +11,17 @@ import com.magicalrice.adolph.kmovie.data.entities.GenreResults;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.local.database.MovieDatabase;
+import com.magicalrice.adolph.kmovie.utils.LUtils;
+import com.magicalrice.adolph.kmovie.utils.RxUtils;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -25,13 +30,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MovieRepository {
     private Context context;
-    private MovieDatabase database;
     private MovieRemoteDataSource remoteDataSource;
     private MovieLocalDataSource localDataSource;
 
     @Inject
-    public MovieRepository(MovieRemoteDataSource remoteDataSource, MovieLocalDataSource localDataSource, MovieDatabase database, Context context) {
-        this.database = database;
+    public MovieRepository(MovieRemoteDataSource remoteDataSource, MovieLocalDataSource localDataSource, Context context) {
         this.context = context;
         this.remoteDataSource = remoteDataSource;
         this.localDataSource = localDataSource;
@@ -53,23 +56,21 @@ public class MovieRepository {
         return remoteDataSource.getTvGenre();
     }
 
-    public Observable<List<BaseVideo>> getMoviesByGenre(int genre, int page) {
-        return localDataSource.getMoviesByGenre(genre, page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMap(videos -> {
-                    if (videos == null || videos.size() == 0) {
-                        return remoteDataSource.getMoviesByGenre(genre, page);
-                    }
-                    return Observable.just(videos);
-                });
+    public Flowable<List<BaseVideo>> getVideosByGenre(int genre,int page,int type) {
+        if (type == 1) {
+            return Flowable.concat(localDataSource.getMoviesByGenre(genre, page),remoteDataSource.getMoviesByGenre(genre, page))
+                    .switchIfEmpty(s -> {
+                        s.onError(new NoSuchElementException());
+                    }).compose(RxUtils.io_main_f());
+        } else {
+            return Flowable.concat(localDataSource.getTvsByGenre(genre, page),remoteDataSource.getTvsByGenre(genre, page))
+                    .switchIfEmpty(s -> {
+                        s.onError(new NoSuchElementException());
+                    }).compose(RxUtils.io_main_f());
+        }
     }
 
-    public LiveData<List<BaseVideo>> getTvsByGenre(int genre, int page) {
-        LiveData<List<BaseVideo>> base = localDataSource.getTvsByGenre(genre, page);
-        if (base.getValue() == null) {
-            remoteDataSource.getTvsByGenre(genre, page);
-        }
-        return base;
+    public void clearCache() {
+        localDataSource.clearCache();
     }
 }

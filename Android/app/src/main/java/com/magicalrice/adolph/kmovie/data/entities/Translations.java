@@ -34,7 +34,6 @@ public class Translations {
             this.english_name = english_name;
         }
     }
-
     private int id;
     private List<Translation> translations;
 

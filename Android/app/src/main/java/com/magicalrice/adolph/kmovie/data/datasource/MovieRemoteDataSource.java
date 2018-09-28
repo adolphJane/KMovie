@@ -1,7 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
@@ -21,8 +20,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MovieRemoteDataSource {
     private Tmdb tmdb;
@@ -38,27 +37,27 @@ public class MovieRemoteDataSource {
 
     public Observable<MovieResultsPage> getPopularMovie(int page) {
         return tmdb.moviesService().popular(page, "zh")
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
     public Observable<TvShowResultsPage> getPopularTv(int page) {
         return tmdb.tvService().popular(page, "zh")
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
     public Observable<GenreResults> getMovieGenre() {
         return tmdb.genreService().movie("zh")
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
     public Observable<GenreResults> getTvGenre() {
         return tmdb.genreService().tv("zh")
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
-    public void getMoviesByGenre(int genre, int page) {
+    public Flowable<List<BaseVideo>> getMoviesByGenre(int genre, int page) {
         DiscoverFilter filter = new DiscoverFilter(genre);
-        tmdb.discoverService().discoverMovieWithGenre("zh", SortBy.VOTE_AVERAGE_ASC, true, true, page, filter)
+        return tmdb.discoverService().discoverMovieWithGenre("zh", SortBy.VOTE_AVERAGE_ASC, true, true, page, filter)
                 .map(movieResultsPage -> {
                     List<BaseVideo> videoList = new ArrayList<>();
                     for (BaseMovie bean : movieResultsPage.getResults()) {
@@ -75,15 +74,14 @@ public class MovieRemoteDataSource {
                         video.setType(1);
                         videoList.add(video);
                     }
-                    database.movieListDao().insertMovieList(videoList);
+                    database.videoListDao().insertVideoList(videoList);
                     return videoList;
-                }).compose(RxUtils.io_main()).subscribe(videos -> {
-        }, throwable -> LUtils.e(throwable.getMessage()));
+                }).compose(RxUtils.io_main_f());
     }
 
-    public void getTvsByGenre(int genre, int page) {
+    public Flowable<List<BaseVideo>> getTvsByGenre(int genre, int page) {
         DiscoverFilter filter = new DiscoverFilter(genre);
-        tmdb.discoverService().discoverTvWithGenre("zh", SortBy.VOTE_AVERAGE_ASC, page, filter)
+        return tmdb.discoverService().discoverTvWithGenre("zh", SortBy.VOTE_AVERAGE_ASC, page, filter)
                 .map(tvShowResultsPage -> {
                     List<BaseVideo> videoList = new ArrayList<>();
                     for (BaseTvShow bean : tvShowResultsPage.getResults()) {
@@ -102,9 +100,8 @@ public class MovieRemoteDataSource {
                             videoList.add(video);
                         }
                     }
-                    database.tvListDao().insertTvList(videoList);
+                    database.videoListDao().insertVideoList(videoList);
                     return videoList;
-                }).compose(RxUtils.io_main())
-                .subscribe(videos -> {}, throwable -> LUtils.e(throwable.getMessage()));
+                }).compose(RxUtils.io_main_f());
     }
 }

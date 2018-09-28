@@ -18,6 +18,7 @@ import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.Videos;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -61,8 +62,8 @@ public interface TvService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result.
      */
     @GET("tv/{tv_id}")
-    Observable<TvShow> tv(
-            @Path("tv_id") int tvShowId,
+    Flowable<TvShow> tv(
+            @Path("tv_id") long tvShowId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
@@ -166,8 +167,8 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/credits")
-    Observable<Credits> credits(
-            @Path("tv_id") int tvShowId,
+    Flowable<Credits> credits(
+            @Path("tv_id") long tvShowId,
             @Query("language") String language
     );
 
@@ -200,8 +201,8 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/images")
-    Observable<Images> images(
-            @Path("tv_id") int tvShowId,
+    Flowable<Images> images(
+            @Path("tv_id") long tvShowId,
             @Query("language") String language
     );
 
@@ -211,8 +212,8 @@ public interface TvService {
      * @param tvShowId A Tv Show TMDb id.
      */
     @GET("tv/{tv_id}/keywords")
-    Observable<Keywords> keywords(
-            @Path("tv_id") int tvShowId
+    Flowable<Keywords> keywords(
+            @Path("tv_id") long tvShowId
     );
 
     /**
@@ -223,8 +224,8 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/recommendations")
-    Observable<TvShowResultsPage> recommendations(
-            @Path("tv_id") int tvShowId,
+    Flowable<TvShowResultsPage> recommendations(
+            @Path("tv_id") long tvShowId,
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -237,8 +238,8 @@ public interface TvService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("tv/{tv_id}/similar")
-    Observable<TvShowResultsPage> similar(
-            @Path("tv_id") int tvShowId,
+    Flowable<TvShowResultsPage> similar(
+            @Path("tv_id") long tvShowId,
             @Query("page") Integer page,
             @Query("language") String language
     );

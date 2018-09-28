@@ -1,6 +1,5 @@
 package com.magicalrice.adolph.kmovie.widget.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -16,7 +15,6 @@ import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.GlideApp;
 import com.magicalrice.adolph.kmovie.data.entities.BaseCollection;
 import com.magicalrice.adolph.kmovie.data.entities.BaseCompany;
-import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMoviePersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.BasePerson;

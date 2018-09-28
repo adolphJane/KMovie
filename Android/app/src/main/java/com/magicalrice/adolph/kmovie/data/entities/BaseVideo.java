@@ -21,7 +21,7 @@ public class BaseVideo implements Parcelable {
     private int type;
     private int genre;
     @PrimaryKey
-    private int id;
+    private long id;
 
     public String getPoster_path() {
         return poster_path;
@@ -63,11 +63,11 @@ public class BaseVideo implements Parcelable {
         this.overview = overview;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -122,7 +122,7 @@ public class BaseVideo implements Parcelable {
         dest.writeInt(this.totalPage);
         dest.writeInt(this.type);
         dest.writeInt(this.genre);
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
     }
 
     protected BaseVideo(Parcel in) {
@@ -135,7 +135,7 @@ public class BaseVideo implements Parcelable {
         this.totalPage = in.readInt();
         this.type = in.readInt();
         this.genre = in.readInt();
-        this.id = in.readInt();
+        this.id = in.readLong();
     }
 
     public static final Creator<BaseVideo> CREATOR = new Creator<BaseVideo>() {

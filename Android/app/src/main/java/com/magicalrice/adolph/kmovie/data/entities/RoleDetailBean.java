@@ -1,16 +1,21 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by Adolph on 2018/5/21.
  */
 
-public class PersonDetailBean {
+@Entity(tableName = "role_detail_bean")
+public class RoleDetailBean {
+    @PrimaryKey
+    private long roleId;
     private PersonImages personImages;
     private PersonMovieCredits movieCredits;
     private PersonTvCredits tvCredits;
     private Person person;
+    private boolean isLike;
 
     public PersonImages getPersonImages() {
         return personImages;
@@ -42,5 +47,21 @@ public class PersonDetailBean {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 }

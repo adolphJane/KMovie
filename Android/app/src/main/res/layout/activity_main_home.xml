@@ -92,6 +92,12 @@
             android:layout_marginBottom="52dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <FrameLayout
+            android:id="@+id/content_me"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="52dp" />
+
         <android.support.design.widget.TabLayout
             android:id="@+id/bottom_tab"
             style="@style/NoUnderLineTabLayout"
@@ -114,6 +120,8 @@
             android:scaleX="0"
             android:scaleY="0"
             android:visibility="invisible"
+            android:src="@drawable/ic_arrow_up_black_36dp"
+            app:rippleColor="@color/black_3"
             app:layout_behavior="com.magicalrice.adolph.kmovie.widget.ScrollAwareBehavior" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -8,4 +8,7 @@ public interface VideoRoleEvent {
     public void selectItem(int position);
     public void openTextBox();
     public void scrollToTop();
+    public void backEvent();
+    public void likeEvent();
+    public void shareEvent();
 }

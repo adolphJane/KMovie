@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class TvShow extends BaseTvShow {
-
     private List<Person> created_by;
     private List<Network> networks;
     private List<Integer> episode_run_time;

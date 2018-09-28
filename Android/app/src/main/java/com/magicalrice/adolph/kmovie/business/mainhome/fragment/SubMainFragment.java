@@ -17,7 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
-import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
+import com.magicalrice.adolph.kmovie.business.movie_detail.VideoDetailActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
 import com.magicalrice.adolph.kmovie.data.entities.Genre;
 import com.magicalrice.adolph.kmovie.databinding.FragmentSubMainHomeBinding;
@@ -38,7 +38,6 @@ import javax.inject.Inject;
 
 public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBinding> implements BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
     private MainHomeViewModule viewModule;
-    private int totalPage = 0;
     private static final int REQUEST_COUNT = 20;
     private ArrayList<BaseVideo> videoList;
     private MainVideoAdapter movieAdapter;
@@ -55,7 +54,8 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         type = getArguments().getInt("type");
         genre = getArguments().getParcelable("gener");
         viewModule = ViewModelProviders.of(getActivity(), factory).get(MainHomeViewModule.class);
-        if (genre != null && savedInstanceState == null) {
+        viewModule.clearCache();
+        if (genre != null) {
             requestNewData();
         }
     }
@@ -64,8 +64,6 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("genre", genre);
-        outState.putInt("page", page);
-        outState.putInt("totalPage", totalPage);
     }
 
     @Override
@@ -116,30 +114,22 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState != null) {
-            page = savedInstanceState.getInt("page");
             genre = savedInstanceState.getParcelable("genre");
-            totalPage = savedInstanceState.getInt("totalPage");
-
-            getOldData();
         }
     }
 
-    private void getOldData() {
-        for (int i = 1;i <= page;i++) {
-            if (type == 1) {
-                viewModule.getMovies(genre.getId(), i).observe(this, videos -> updateData(videos));
-            } else if (type == 2) {
-                viewModule.getTvs(genre.getId(), i).observe(this, videos -> updateData(videos));
-            }
-        }
+    @Override
+    public void onStop() {
+        super.onStop();
+        page = 1;
     }
 
     private void requestNewData() {
-        if (type == 1) {
-            viewModule.getMovies(genre.getId(), page).observe(this, videos -> updateData(videos));
-        } else if (type == 2) {
-            viewModule.getTvs(genre.getId(), page).observe(this, videos -> updateData(videos));
-        }
+        viewModule.getVideos(genre.getId(), page, type).subscribe(baseVideos -> {
+            updateData(baseVideos);
+        }, throwable -> {
+            LUtils.e(throwable.getMessage());
+        });
     }
 
     private void updateData(List<BaseVideo> videos) {
@@ -149,13 +139,12 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         page++;
         if (videos.size() > 0) {
             movieAdapter.addData(videos);
+            if (page <= videos.get(0).getTotalPage()) {
+                movieAdapter.loadMoreComplete();
+            } else {
+                movieAdapter.loadMoreEnd();
+            }
         }
-        if (page <= totalPage) {
-            movieAdapter.loadMoreComplete();
-        } else {
-            movieAdapter.loadMoreEnd();
-        }
-        LUtils.e("page%d,totalPage%d", page, totalPage);
     }
 
     private void initData() {
@@ -177,7 +166,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
         if (position >= 0 && position < videoList.size()) {
             BaseVideo video = videoList.get(position);
             if (video != null) {
-                MovieDetailActivity.startActivity(getActivity(), video.getId(), video.getOverview(), type);
+                VideoDetailActivity.startActivity(getActivity(), video.getId(), video.getOverview(), type);
             }
         }
     }

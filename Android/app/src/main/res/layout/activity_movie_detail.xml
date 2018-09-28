@@ -8,7 +8,7 @@
 
         <variable
             name="event"
-            type="com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailEvent" />
+            type="com.magicalrice.adolph.kmovie.business.movie_detail.VideoDetailEvent" />
 
         <variable
             name="selectOne"
@@ -21,286 +21,303 @@
         <variable
             name="type"
             type="int" />
+
         <variable
             name="isLoading"
             type="boolean"/>
-    </data>
 
-    <ScrollView
+        <variable
+            name="isLike"
+            type="boolean"/>
+    </data>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/black_6">
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ico_back"
+                android:background="@android:color/transparent"
+                android:paddingLeft="10dp"
+                android:onClick="@{v -> event.backEvent()}"/>
+            <TextView
+                android:id="@+id/movie_share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ico_share"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:enabled="@{isLoading ? false : true}"
+                android:onClick="@{v -> event.shareEvent()}"/>
 
-        <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@{isLike ? @drawable/ic_favorite_white_32dp : @drawable/ic_favorite_border_white_32dp}"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/movie_share"
+                android:enabled="@{isLoading ? false : true}"
+                android:onClick="@{v -> event.likeEvent()}"/>
+        </RelativeLayout>
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_marginTop="50dp">
 
-            <RelativeLayout
-                android:id="@+id/header"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/black_6">
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/ico_back"
-                    android:background="@android:color/transparent"
-                    android:paddingLeft="10dp"
-                    android:onClick="@{v -> event.backEvent()}"/>
-                <ImageView
-                    android:id="@+id/movie_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ico_share"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:onClick="@{v -> event.likeEvent()}"/>
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ico_like"
-                    android:layout_marginRight="20dp"
-                    android:layout_toLeftOf="@id/movie_share"
-                    android:onClick="@{v -> event.shareEvent()}"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_movie"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="20dp"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
-
-                <ImageView
-                    android:id="@+id/img_poster"
-                    android:layout_width="175dp"
-                    android:layout_height="230dp"
-                    android:layout_marginRight="20dp" />
-
-                <TextView
-                    android:id="@+id/tv_movie_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/img_poster"
-                    android:layout_toRightOf="@id/img_poster"
-                    android:textSize="20sp"
-                    tools:text="电影名" />
-
-                <TextView
-                    android:id="@+id/tv_movie_director"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_title"
-                    android:layout_toRightOf="@id/img_poster"
-                    tools:text="导演:" />
-
-                <TextView
-                    android:id="@+id/tv_movie_release"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_director"
-                    android:layout_toRightOf="@id/img_poster"
-                    tools:text="发行日期:"
-                    android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
-
-                <TextView
-                    android:id="@+id/tv_content_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_movie_release"
-                    android:layout_toRightOf="@id/img_poster"
-                    android:text="剧情简介:" />
-
-                <TextView
-                    android:id="@+id/tv_content_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_content_title"
-                    android:layout_toRightOf="@id/img_poster"
-                    tools:text="" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:textSize="16sp"
-                android:text="类型"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_genre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
-
-            <TextView
-                android:id="@+id/tv_keyword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:textSize="16sp"
-                android:text="关键词"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_keyword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_show_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:textSize="16sp"
-                android:text="上映信息"
-                android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/ry_show_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
-
-            <RelativeLayout
-                android:id="@+id/rl_movie_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
-
-                <TextView
-                    android:id="@+id/tv_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:onClick="@{v->event.switchBaseInfo(1)}"
-                    android:text="资料"
-                    android:textSize="16sp"
-                    android:textColor="@{selectOne == 1 ? @color/white_6 : @color/white_7}" />
-
-                <TextView
-                    android:id="@+id/tv_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@id/tv_info"
-                    android:onClick="@{v->event.switchBaseInfo(2)}"
-                    android:text="主演"
-                    android:textSize="16sp"
-                    android:textColor="@{selectOne == 2 ? @color/white_6 : @color/white_7}" />
-
-                <TextView
-                    android:id="@+id/tv_photos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@id/tv_star"
-                    android:onClick="@{v->event.switchBaseInfo(3)}"
-                    android:text="剧照"
-                    android:textSize="16sp"
-                    android:textColor="@{selectOne == 3 ? @color/white_6 : @color/white_7}" />
-
-                <TextView
-                    android:id="@+id/tv_poster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@id/tv_photos"
-                    android:onClick="@{v->event.switchBaseInfo(4)}"
-                    android:text="海报"
-                    android:textSize="16sp"
-                    android:textColor="@{selectOne == 4 ? @color/white_6 : @color/white_7}" />
-
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/rl_movie"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_below="@id/tv_info"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black_2"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:visibility="@{selectOne == 1 ? View.VISIBLE : View.GONE}">
-                    <include layout="@layout/layout_movie_detail_base_info" />
-                </LinearLayout>
+                    android:paddingTop="20dp"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ry_photos"
+                    <ImageView
+                        android:id="@+id/img_poster"
+                        android:layout_width="160dp"
+                        android:layout_height="240dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="20dp" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/img_poster"
+                        android:layout_toRightOf="@id/img_poster"
+                        android:textSize="20sp"
+                        tools:text="电影名" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_director"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_movie_title"
+                        android:layout_toRightOf="@id/img_poster"
+                        tools:text="导演:" />
+
+                    <TextView
+                        android:id="@+id/tv_movie_release"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_movie_director"
+                        android:layout_toRightOf="@id/img_poster"
+                        tools:text="发行日期:"
+                        android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}"/>
+
+                    <TextView
+                        android:id="@+id/tv_content_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_movie_release"
+                        android:layout_toRightOf="@id/img_poster"
+                        android:text="剧情简介:" />
+
+                    <TextView
+                        android:id="@+id/tv_content_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/tv_content_title"
+                        android:layout_toRightOf="@id/img_poster"
+                        android:layout_alignBottom="@id/img_poster"
+                        android:ellipsize="end"
+                        android:onClick="@{v -> event.openTextBox()}"
+                        tools:text="" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_genre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"
+                    android:text="类型"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_genre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="160dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:background="@color/black_2"
-                    android:layout_below="@id/tv_info"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="10dp"
-                    android:visibility="@{selectOne == 2 || selectOne == 3 || selectOne == 4 ? View.VISIBLE : View.GONE}" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_related_movies"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
 
                 <TextView
-                    android:id="@+id/tv_related_movie"
+                    android:id="@+id/tv_keyword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:onClick="@{v->event.switchMovieInfo(1)}"
-                    android:text="@{type == 1 ? @string/related_movie : @string/related_tv}"
+                    android:layout_marginTop="15dp"
                     android:textSize="16sp"
-                    android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
+                    android:text="关键词"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}"/>
 
-                <TextView
-                    android:id="@+id/tv_recommend_movie"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@id/tv_related_movie"
-                    android:onClick="@{v->event.switchMovieInfo(2)}"
-                    android:text="@{type == 1 ? @string/recommend_movie : @string/recommend_tv}"
-                    android:textSize="16sp"
-                    android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ry_videos"
+                <RelativeLayout
+                    android:id="@+id/rl_keyword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_related_movie"
-                    android:minHeight="160dp"
-                    android:layout_marginTop="15dp"/>
-            </RelativeLayout>
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
 
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
-        </LinearLayout>
-    </ScrollView>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_show_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"
+                    android:text="上映信息"
+                    android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ry_show_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="@{type == 1 &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_movie_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:onClick="@{v->event.switchBaseInfo(1)}"
+                        android:text="资料"
+                        android:textSize="16sp"
+                        android:textColor="@{selectOne == 1 ? @color/white_6 : @color/white_7}" />
+
+                    <TextView
+                        android:id="@+id/tv_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_info"
+                        android:onClick="@{v->event.switchBaseInfo(2)}"
+                        android:text="主演"
+                        android:textSize="16sp"
+                        android:textColor="@{selectOne == 2 ? @color/white_6 : @color/white_7}" />
+
+                    <TextView
+                        android:id="@+id/tv_photos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_star"
+                        android:onClick="@{v->event.switchBaseInfo(3)}"
+                        android:text="剧照"
+                        android:textSize="16sp"
+                        android:textColor="@{selectOne == 3 ? @color/white_6 : @color/white_7}" />
+
+                    <TextView
+                        android:id="@+id/tv_poster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_photos"
+                        android:onClick="@{v->event.switchBaseInfo(4)}"
+                        android:text="海报"
+                        android:textSize="16sp"
+                        android:textColor="@{selectOne == 4 ? @color/white_6 : @color/white_7}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_below="@id/tv_info"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/black_2"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:visibility="@{selectOne == 1 ? View.VISIBLE : View.GONE}">
+                        <include layout="@layout/layout_movie_detail_base_info" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ry_photos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="175dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:background="@color/black_2"
+                        android:layout_below="@id/tv_info"
+                        android:layout_marginTop="10dp"
+                        android:visibility="@{selectOne == 2 || selectOne == 3 || selectOne == 4 ? View.VISIBLE : View.GONE}" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_related_movies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
+
+                    <TextView
+                        android:id="@+id/tv_related_movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:onClick="@{v->event.switchMovieInfo(1)}"
+                        android:text="@{type == 1 ? @string/related_movie : @string/related_tv}"
+                        android:textSize="16sp"
+                        android:textColor="@{selectTwo == 1 ? @color/white_6 : @color/white_7}" />
+
+                    <TextView
+                        android:id="@+id/tv_recommend_movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_related_movie"
+                        android:onClick="@{v->event.switchMovieInfo(2)}"
+                        android:text="@{type == 1 ? @string/recommend_movie : @string/recommend_tv}"
+                        android:textSize="16sp"
+                        android:textColor="@{selectTwo == 2 ? @color/white_6 : @color/white_7}" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ry_videos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_related_movie"
+                        android:minHeight="160dp"
+                        android:layout_marginTop="15dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
+    </RelativeLayout>
 </layout>

@@ -16,9 +16,10 @@
         app:cardCornerRadius="5dp">
         <ImageView
             android:id="@+id/img_video"
-            android:layout_width="175dp"
+            android:layout_width="match_parent"
             android:layout_height="230dp"
             android:scaleType="fitXY"
+            android:foregroundGravity="center"
             android:src="@drawable/item_img_error"
             android:layout_gravity="center_horizontal"/>
         <View

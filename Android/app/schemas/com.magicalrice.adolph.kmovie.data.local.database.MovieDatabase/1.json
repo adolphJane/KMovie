@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9d5de9a8ff38bef70d8d4405cd2993fe",
+    "identityHash": "fc57f82dd44b232c2ebb74f1d0118815",
     "entities": [
       {
         "tableName": "BaseVideo",
@@ -77,11 +77,197 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "movie_detail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieDetailId` INTEGER NOT NULL, `movie` TEXT, `credits` TEXT, `images` TEXT, `datesResults` TEXT, `keywords` TEXT, `recommendationResult` TEXT, `similarResult` TEXT, `isLike` INTEGER NOT NULL, `sourceType` INTEGER NOT NULL, PRIMARY KEY(`movieDetailId`))",
+        "fields": [
+          {
+            "fieldPath": "movieDetailId",
+            "columnName": "movieDetailId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "movie",
+            "columnName": "movie",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "credits",
+            "columnName": "credits",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images",
+            "columnName": "images",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "datesResults",
+            "columnName": "datesResults",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "keywords",
+            "columnName": "keywords",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recommendationResult",
+            "columnName": "recommendationResult",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "similarResult",
+            "columnName": "similarResult",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isLike",
+            "columnName": "isLike",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceType",
+            "columnName": "sourceType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "movieDetailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tvshow_detail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvId` INTEGER NOT NULL, `tvShow` TEXT, `credits` TEXT, `keywords` TEXT, `tvRecommendation` TEXT, `tvSimilar` TEXT, `images` TEXT, `isLike` INTEGER NOT NULL, PRIMARY KEY(`tvId`))",
+        "fields": [
+          {
+            "fieldPath": "tvId",
+            "columnName": "tvId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tvShow",
+            "columnName": "tvShow",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "credits",
+            "columnName": "credits",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "keywords",
+            "columnName": "keywords",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tvRecommendation",
+            "columnName": "tvRecommendation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tvSimilar",
+            "columnName": "tvSimilar",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "images",
+            "columnName": "images",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isLike",
+            "columnName": "isLike",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tvId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "role_detail_bean",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roleId` INTEGER NOT NULL, `personImages` TEXT, `movieCredits` TEXT, `tvCredits` TEXT, `person` TEXT, `isLike` INTEGER NOT NULL, PRIMARY KEY(`roleId`))",
+        "fields": [
+          {
+            "fieldPath": "roleId",
+            "columnName": "roleId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "personImages",
+            "columnName": "personImages",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "movieCredits",
+            "columnName": "movieCredits",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tvCredits",
+            "columnName": "tvCredits",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "person",
+            "columnName": "person",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isLike",
+            "columnName": "isLike",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "roleId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9d5de9a8ff38bef70d8d4405cd2993fe\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fc57f82dd44b232c2ebb74f1d0118815\")"
     ]
   }
 }

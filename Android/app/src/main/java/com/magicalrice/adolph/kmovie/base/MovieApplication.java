@@ -13,7 +13,6 @@ import com.sw.debug.view.DebugViewWrapper;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
-import cn.jpush.im.android.api.JMessageClient;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 
@@ -33,7 +32,6 @@ public class MovieApplication extends DaggerApplication {
         initLogger();
         initBugly();
         initLeakCanary();
-        initJMessage();
         initDebugView();
     }
 
@@ -64,13 +62,6 @@ public class MovieApplication extends DaggerApplication {
         if (!LeakCanary.isInAnalyzerProcess(this)) {
             LeakCanary.install(this);
         }
-    }
-
-    private void initJMessage() {
-        if (BuildConfig.DEBUG) {
-            JMessageClient.setDebugMode(true);
-        }
-        JMessageClient.init(getApplicationContext(), true);
     }
 
     private void initDebugView() {

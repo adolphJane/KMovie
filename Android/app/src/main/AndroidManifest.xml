@@ -29,7 +29,7 @@
         </activity>
         <activity android:name=".business.mainhome.MainHomeActivity"
             android:launchMode="singleTask"/>
-        <activity android:name=".business.movie_detail.MovieDetailActivity"
+        <activity android:name=".business.movie_detail.VideoDetailActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".business.movie_role.VideoRoleActivity"
             android:launchMode="singleTop"/>

@@ -20,6 +20,7 @@ import com.magicalrice.adolph.kmovie.data.entities.Translations;
 import com.magicalrice.adolph.kmovie.data.entities.Videos;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -42,7 +43,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}")
     Call<Movie> summary(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("language") String language
     );
 
@@ -52,8 +53,8 @@ public interface MoviesService {
      * @param movieId A Movie TMDb id.
      */
     @GET("movie/{movie_id}")
-    Observable<Movie> summary(
-            @Path("movie_id") int movieId
+    Flowable<Movie> summary(
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -64,8 +65,8 @@ public interface MoviesService {
      * @param appendToResponse <em>Optional.</em> extra requests to append to the result. <b>Accepted Values:</b> alternative_titles, changes, credits, images, keywords, release_dates, videos, translations, recommendations, similar, reviews, lists
      */
     @GET("movie/{movie_id}")
-    Observable<Movie> summary(
-            @Path("movie_id") int movieId,
+    Flowable<Movie> summary(
+            @Path("movie_id") long movieId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
@@ -78,7 +79,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}")
     Call<Movie> summary(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("append_to_response") AppendToResponse appendToResponse
     );
 
@@ -92,7 +93,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}")
     Call<Movie> summary(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("language") String language,
             @Query("append_to_response") AppendToResponse appendToResponse,
             @QueryMap Map<String, String> options
@@ -107,7 +108,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}")
     Call<Movie> summary(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("append_to_response") AppendToResponse appendToResponse,
             @QueryMap Map<String, String> options
     );
@@ -125,7 +126,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/account_states")
     Call<AccountStates> accountStates(
-            @Path("movie_id") int movieId
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -136,7 +137,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/alternative_titles")
     Call<AlternativeTitles> alternativeTitles(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("country") String country
     );
 
@@ -152,7 +153,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/changes")
     Call<Changes> changes(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("start_date") TmdbDate start_date,
             @Query("end_date") TmdbDate end_date,
             @Query("page") Integer page
@@ -164,8 +165,8 @@ public interface MoviesService {
      * @param movieId A Movie TMDb id.
      */
     @GET("movie/{movie_id}/credits")
-    Observable<Credits> credits(
-            @Path("movie_id") int movieId
+    Flowable<Credits> credits(
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -175,8 +176,8 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{movie_id}/images")
-    Observable<Images> images(
-            @Path("movie_id") int movieId,
+    Flowable<Images> images(
+            @Path("movie_id") long movieId,
             @Query("language") String language
     );
 
@@ -186,8 +187,8 @@ public interface MoviesService {
      * @param movieId A Movie TMDb id.
      */
     @GET("movie/{movie_id}/keywords")
-    Observable<Keywords> keywords(
-            @Path("movie_id") int movieId
+    Flowable<Keywords> keywords(
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -198,8 +199,8 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{movie_id}/lists")
-    Observable<ListResultsPage> lists(
-            @Path("movie_id") int movieId,
+    Flowable<ListResultsPage> lists(
+            @Path("movie_id") long movieId,
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -212,8 +213,8 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{movie_id}/similar")
-    Observable<MovieResultsPage> similar(
-            @Path("movie_id") int movieId,
+    Flowable<MovieResultsPage> similar(
+            @Path("movie_id") long movieId,
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -226,8 +227,8 @@ public interface MoviesService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("movie/{movie_id}/recommendations")
-    Observable<MovieResultsPage> recommendations(
-            @Path("movie_id") int movieId,
+    Flowable<MovieResultsPage> recommendations(
+            @Path("movie_id") long movieId,
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -243,8 +244,8 @@ public interface MoviesService {
      * @param movieId A Movie TMDb id.
      */
     @GET("movie/{movie_id}/release_dates")
-    Observable<ReleaseDatesResults> releaseDates(
-            @Path("movie_id") int movieId
+    Flowable<ReleaseDatesResults> releaseDates(
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -256,7 +257,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/reviews")
     Observable<ReviewResultsPage> reviews(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("page") Integer page,
             @Query("language") String language
     );
@@ -268,7 +269,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/translations")
     Observable<Translations> translations(
-            @Path("movie_id") int movieId
+            @Path("movie_id") long movieId
     );
 
     /**
@@ -279,7 +280,7 @@ public interface MoviesService {
      */
     @GET("movie/{movie_id}/videos")
     Observable<Videos> videos(
-            @Path("movie_id") int movieId,
+            @Path("movie_id") long movieId,
             @Query("language") String language
     );
 

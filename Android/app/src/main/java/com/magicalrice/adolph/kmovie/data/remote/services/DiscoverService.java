@@ -6,6 +6,7 @@ import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.enumerations.SortBy;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -94,7 +95,7 @@ public interface DiscoverService {
     );
 
     @GET("discover/movie")
-    Observable<MovieResultsPage> discoverMovieWithGenre(
+    Flowable<MovieResultsPage> discoverMovieWithGenre(
             @Query("language") String language,
             @Query("sort_by") SortBy sort_by,
             @Query("include_adult") Boolean include_adult,
@@ -153,7 +154,7 @@ public interface DiscoverService {
     );
 
     @GET("discover/tv")
-    Observable<TvShowResultsPage> discoverTvWithGenre(
+    Flowable<TvShowResultsPage> discoverTvWithGenre(
             @Query("language") String language,
             @Query("sort_by") SortBy sort_by,
             @Query("page") Integer page,

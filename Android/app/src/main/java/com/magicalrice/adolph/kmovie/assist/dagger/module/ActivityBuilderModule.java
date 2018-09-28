@@ -3,8 +3,9 @@ package com.magicalrice.adolph.kmovie.assist.dagger.module;
 import com.magicalrice.adolph.kmovie.assist.dagger.scope.ActivityScoped;
 import com.magicalrice.adolph.kmovie.business.login.LoginActivity;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
-import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
+import com.magicalrice.adolph.kmovie.business.movie_detail.VideoDetailActivity;
 import com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleActivity;
+import com.magicalrice.adolph.kmovie.viewmodule.VideoDetailViewModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -23,8 +24,8 @@ public abstract class ActivityBuilderModule {
     abstract MainHomeActivity bindMainHomeActivity();
 
     @ActivityScoped
-    @ContributesAndroidInjector(modules = MovieDetailModule.class)
-    abstract MovieDetailActivity bindMovieDetailActivity();
+    @ContributesAndroidInjector(modules = VideoDetailModule.class)
+    abstract VideoDetailActivity bindVideoDetailActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = RoleModule.class)

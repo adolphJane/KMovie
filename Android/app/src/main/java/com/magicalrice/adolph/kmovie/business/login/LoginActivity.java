@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
-import com.magicalrice.adolph.kmovie.base.MovieApplication;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.databinding.ActivityLoginBinding;
 import com.magicalrice.adolph.kmovie.utils.AnimatorUtil;

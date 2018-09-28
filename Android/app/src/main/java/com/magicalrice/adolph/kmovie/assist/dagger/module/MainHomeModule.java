@@ -24,7 +24,7 @@ public class MainHomeModule {
     }
 
     @Provides
-    MovieRepository provideMovieRepository(MovieRemoteDataSource remoteDataSource,MovieLocalDataSource localDataSource,Context context,MovieDatabase database) {
-        return new MovieRepository(remoteDataSource,localDataSource,database,context);
+    MovieRepository provideMovieRepository(MovieRemoteDataSource remoteDataSource,MovieLocalDataSource localDataSource,Context context) {
+        return new MovieRepository(remoteDataSource,localDataSource,context);
     }
 }

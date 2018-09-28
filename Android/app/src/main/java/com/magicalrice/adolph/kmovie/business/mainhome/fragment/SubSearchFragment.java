@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseFragment;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
-import com.magicalrice.adolph.kmovie.business.movie_detail.MovieDetailActivity;
+import com.magicalrice.adolph.kmovie.business.movie_detail.VideoDetailActivity;
 import com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleActivity;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.entities.BasePerson;
@@ -67,9 +67,9 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
                 if (view.getId() == R.id.tv_more) {
                     int type = ((SearchResultsAdapter) adapter).getType();
                     if (type == 1) {
-                        MovieDetailActivity.startActivity(getActivity(), ((BaseMovie)adapter.getItem(position)).getId(),((BaseMovie)adapter.getItem(position)).getOverview(),1);
+                        VideoDetailActivity.startActivity(getActivity(), ((BaseMovie)adapter.getItem(position)).getId(),((BaseMovie)adapter.getItem(position)).getOverview(),1);
                     } else if (type == 2) {
-                        MovieDetailActivity.startActivity(getActivity(), ((BaseTvShow)adapter.getItem(position)).getId(),((BaseTvShow)adapter.getItem(position)).getOverview(),2);
+                        VideoDetailActivity.startActivity(getActivity(), ((BaseTvShow)adapter.getItem(position)).getId(),((BaseTvShow)adapter.getItem(position)).getOverview(),2);
                     } else if (type == 4) {
                         VideoRoleActivity.startActivity(getActivity(), ((BasePerson)adapter.getItem(position)).getId());
                     }

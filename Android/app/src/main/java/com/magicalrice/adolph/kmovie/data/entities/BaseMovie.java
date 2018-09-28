@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseMovie extends BaseRatingObject implements Parcelable {
-    private int id;
+    private long id;
     private boolean adult;
     private String backdrop_path;
     private List<Genre> genres;
@@ -35,11 +35,11 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
         }
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -165,7 +165,7 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeLong(this.id);
         dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
         dest.writeString(this.backdrop_path);
         dest.writeTypedList(this.genres);
@@ -186,7 +186,7 @@ public class BaseMovie extends BaseRatingObject implements Parcelable {
     }
 
     protected BaseMovie(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.adult = in.readByte() != 0;
         this.backdrop_path = in.readString();
         this.genres = in.createTypedArrayList(Genre.CREATOR);

@@ -4,11 +4,14 @@ import android.app.Application;
 import android.content.Context;
 
 import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.datasource.MeLocalDatasource;
 import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
+import com.magicalrice.adolph.kmovie.data.repository.MovieDetailRepository;
 import com.magicalrice.adolph.kmovie.data.repository.MovieRepository;
+import com.magicalrice.adolph.kmovie.data.repository.RoleRepository;
 import com.magicalrice.adolph.kmovie.viewmodule.LoginViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 
@@ -31,8 +34,8 @@ public class ViewModuleFactoryModule {
 
     @Provides
     @Singleton
-    public MainViewModuleFactory provideMainFactory(Context context, MovieRepository repository, MovieDetailRemoteDataSource detailSource, SearchRemoteDataSource searchSource, RoleRemoteDataSource roleSource) {
-        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context, repository, detailSource, searchSource,roleSource);
+    public MainViewModuleFactory provideMainFactory(Context context, MovieRepository movieRepository, MovieDetailRepository detailRepository, SearchRemoteDataSource searchSource, RoleRepository roleRepository, MeLocalDatasource meLocalDatasource) {
+        MainViewModuleFactory factory = new MainViewModuleFactory((Application) context, movieRepository, detailRepository, searchSource,roleRepository,meLocalDatasource);
         return factory;
     }
 }

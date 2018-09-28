@@ -11,6 +11,7 @@ import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
 import com.magicalrice.adolph.kmovie.data.entities.TaggedImagesResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TmdbDate;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -27,8 +28,8 @@ public interface PeopleService {
      * @param personId A Person TMDb id.
      */
     @GET("person/{person_id}")
-    Observable<Person> summary(
-            @Path("person_id") int personId
+    Flowable<Person> summary(
+            @Path("person_id") long personId
     );
 
     /**
@@ -64,8 +65,8 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/movie_credits")
-    Observable<PersonMovieCredits> movieCredits(
-            @Path("person_id") int personId,
+    Flowable<PersonMovieCredits> movieCredits(
+            @Path("person_id") long personId,
             @Query("language") String language
     );
 
@@ -76,8 +77,8 @@ public interface PeopleService {
      * @param language <em>Optional.</em> ISO 639-1 code.
      */
     @GET("person/{person_id}/tv_credits")
-    Observable<PersonTvCredits> tvCredits(
-            @Path("person_id") int personId,
+    Flowable<PersonTvCredits> tvCredits(
+            @Path("person_id") long personId,
             @Query("language") String language
     );
 
@@ -107,8 +108,8 @@ public interface PeopleService {
      * Get the images for a specific person id.
      */
     @GET("person/{person_id}/images")
-    Observable<PersonImages> images(
-            @Path("person_id") int personId
+    Flowable<PersonImages> images(
+            @Path("person_id") long personId
     );
 
     /**

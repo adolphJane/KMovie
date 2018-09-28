@@ -1,7 +1,5 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
-import android.text.TextUtils;
-
 import com.magicalrice.adolph.kmovie.data.entities.CollectionResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.CompanyResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.KeywordResultsPage;
@@ -28,26 +26,26 @@ public class SearchRemoteDataSource {
     }
 
     public Observable<MovieResultsPage> searchMovie(String query, int page) {
-        return tmdb.searchService().movieSearch(query,page,"zh",true).compose(RxUtils.io_main());
+        return tmdb.searchService().movieSearch(query,page,"zh",true).compose(RxUtils.io_main_o());
     }
 
     public Observable<TvShowResultsPage> searchTv(String query, int page) {
-        return tmdb.searchService().tvSearch(query,page,"zh").compose(RxUtils.io_main());
+        return tmdb.searchService().tvSearch(query,page,"zh").compose(RxUtils.io_main_o());
     }
 
     public Observable<CompanyResultsPage> searchCompany(String query, int page) {
-        return tmdb.searchService().company(query,page).compose(RxUtils.io_main());
+        return tmdb.searchService().company(query,page).compose(RxUtils.io_main_o());
     }
 
     public Observable<CollectionResultsPage> searchCollections(String query,int page) {
-        return tmdb.searchService().collection(query,page,"zh").compose(RxUtils.io_main());
+        return tmdb.searchService().collection(query,page,"zh").compose(RxUtils.io_main_o());
     }
 
     public Observable<PersonResultsPage> searchPeople(String query, int page) {
-        return tmdb.searchService().person(query,page,true,"phrase").compose(RxUtils.io_main());
+        return tmdb.searchService().person(query,page,true,"phrase").compose(RxUtils.io_main_o());
     }
 
     public Observable<KeywordResultsPage> searchKeywords(String query, int page) {
-        return tmdb.searchService().keyword(query,page).compose(RxUtils.io_main());
+        return tmdb.searchService().keyword(query,page).compose(RxUtils.io_main_o());
     }
 }

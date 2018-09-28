@@ -9,11 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.R;
@@ -150,7 +147,7 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
                 meFragment = new MeFragment();
                 Bundle bundle = new Bundle();
                 meFragment.setArguments(bundle);
-                tr.add(R.id.content, meFragment, "main_me");
+                tr.add(R.id.content_me, meFragment, "main_me");
             } else {
                 tr.show(meFragment);
             }

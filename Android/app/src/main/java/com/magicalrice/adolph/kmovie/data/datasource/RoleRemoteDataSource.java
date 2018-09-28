@@ -1,15 +1,22 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
+import com.google.gson.JsonSyntaxException;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
+import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
+import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.utils.RxUtils;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.functions.Function4;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 
 /**
  * Created by Adolph on 2018/5/21.
@@ -22,19 +29,40 @@ public class RoleRemoteDataSource {
         this.tmdb = tmdb;
     }
 
-    public Observable<Person> getPersonSummary(int personId) {
-        return tmdb.personService().summary(personId).compose(RxUtils.io_main());
+    public Flowable<Person> getPersonSummary(long personId) {
+        return tmdb.personService().summary(personId);
     }
 
-    public Observable<PersonMovieCredits> getMovieCredits(int personId) {
-        return tmdb.personService().movieCredits(personId,"zh").compose(RxUtils.io_main());
+    public Flowable<PersonMovieCredits> getMovieCredits(long personId) {
+        return tmdb.personService().movieCredits(personId,"zh");
     }
 
-    public Observable<PersonTvCredits> getTvCredits(int personId) {
-        return tmdb.personService().tvCredits(personId,"zh").compose(RxUtils.io_main());
+    public Flowable<PersonTvCredits> getTvCredits(long personId) {
+        return tmdb.personService().tvCredits(personId,"zh");
     }
 
-    public Observable<PersonImages> getImages(int personId) {
-        return tmdb.personService().images(personId).compose(RxUtils.io_main());
+    public Flowable<PersonImages> getImages(long personId) {
+        return tmdb.personService().images(personId);
+    }
+
+    public Flowable<RoleDetailBean> getRoleSummary(long roleId) {
+        return Flowable.zip(
+                getImages(roleId),
+                getMovieCredits(roleId),
+                getPersonSummary(roleId),
+                getTvCredits(roleId),
+                new Function4<PersonImages, PersonMovieCredits, Person, PersonTvCredits, RoleDetailBean>() {
+
+                    @Override
+                    public RoleDetailBean apply(PersonImages personImages, PersonMovieCredits personMovieCredits, Person person, PersonTvCredits personTvCredits) throws Exception {
+                        RoleDetailBean bean = new RoleDetailBean();
+                        bean.setPersonImages(personImages);
+                        bean.setMovieCredits(personMovieCredits);
+                        bean.setPerson(person);
+                        bean.setTvCredits(personTvCredits);
+                        return bean;
+                    }
+                }
+        );
     }
 }

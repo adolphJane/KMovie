@@ -1,6 +1,13 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class BaseCollection {
+    @PrimaryKey
+    @ColumnInfo(name = "base_collection_id")
     private int id;
     private String backdrop_path;
     private String name;

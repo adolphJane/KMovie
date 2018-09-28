@@ -1,15 +1,22 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Created by Adolph on 2018/5/21.
  */
 
+@Entity(tableName = "tvshow_detail")
 public class TvShowDetailBean {
+    @PrimaryKey
+    private long tvId;
     private TvShow tvShow;
     private Credits credits;
     private Keywords keywords;
     private TvShowResultsPage tvRecommendation,tvSimilar;
     private Images images;
+    private boolean isLike;
 
     public TvShow getTvShow() {
         return tvShow;
@@ -57,5 +64,21 @@ public class TvShowDetailBean {
 
     public void setImages(Images images) {
         this.images = images;
+    }
+
+    public long getTvId() {
+        return tvId;
+    }
+
+    public void setTvId(long tvId) {
+        this.tvId = tvId;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
     }
 }

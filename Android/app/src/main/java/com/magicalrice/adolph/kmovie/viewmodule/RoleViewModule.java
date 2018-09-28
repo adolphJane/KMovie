@@ -9,9 +9,10 @@ import com.google.gson.JsonSyntaxException;
 import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
-import com.magicalrice.adolph.kmovie.data.entities.PersonDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
+import com.magicalrice.adolph.kmovie.data.repository.RoleRepository;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
 
 import io.reactivex.Observable;
@@ -24,34 +25,17 @@ import retrofit2.HttpException;
  */
 
 public class RoleViewModule extends AndroidViewModel {
-    private RoleRemoteDataSource dataSource;
-    public MutableLiveData<PersonDetailBean> personData = new MutableLiveData<>();
+    private RoleRepository repository;
+    public MutableLiveData<RoleDetailBean> personData = new MutableLiveData<>();
 
-    public RoleViewModule(@NonNull Application application,RoleRemoteDataSource dataSource) {
+    public RoleViewModule(@NonNull Application application,RoleRepository repository) {
         super(application);
-        this.dataSource = dataSource;
+        this.repository = repository;
     }
 
-    public void getStarSummary(int personId) {
-        Observable.zip(
-                dataSource.getImages(personId),
-                dataSource.getMovieCredits(personId),
-                dataSource.getPersonSummary(personId),
-                dataSource.getTvCredits(personId),
-                new Function4<PersonImages, PersonMovieCredits, Person, PersonTvCredits, PersonDetailBean>() {
-
-                    @Override
-                    public PersonDetailBean apply(PersonImages personImages, PersonMovieCredits personMovieCredits, Person person, PersonTvCredits personTvCredits) throws Exception {
-                        PersonDetailBean bean = new PersonDetailBean();
-                        bean.setPersonImages(personImages);
-                        bean.setMovieCredits(personMovieCredits);
-                        bean.setPerson(person);
-                        bean.setTvCredits(personTvCredits);
-                        return bean;
-                    }
-                }
-        ).subscribe(personDetailBean -> {
-            personData.setValue(personDetailBean);
+    public void getRoleSummary(long roleId) {
+        repository.getRoleDetail(roleId).subscribe(roleDetailBean -> {
+            personData.setValue(roleDetailBean);
         },throwable -> {
             if (throwable instanceof HttpException) {
                 ResponseBody body = ((HttpException) throwable).response().errorBody();
@@ -62,8 +46,13 @@ public class RoleViewModule extends AndroidViewModel {
                 }
             } else if (throwable instanceof IllegalStateException || throwable instanceof JsonSyntaxException) {
                 throwable.printStackTrace();
-                LUtils.e("ErrorMessage:%s,ErrorCause%s", throwable.getMessage(), throwable.getCause().toString());
+            } else {
+                throwable.printStackTrace();
             }
         });
+    }
+
+    public void likePerson(RoleDetailBean bean) {
+        repository.likeRole(bean);
     }
 }

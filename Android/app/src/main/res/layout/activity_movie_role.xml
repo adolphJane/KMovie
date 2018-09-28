@@ -14,41 +14,73 @@
         <variable
             name="isLoading"
             type="boolean"/>
+
+        <variable
+            name="isLike"
+            type="boolean"/>
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.widget.NestedScrollView
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/black_6">
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ico_back"
+                android:background="@android:color/transparent"
+                android:paddingLeft="10dp"
+                android:onClick="@{v -> event.backEvent()}"/>
+            <ImageView
+                android:id="@+id/movie_share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_share"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:enabled="@{isLoading ? false : true}"
+                android:onClick="@{v -> event.shareEvent()}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@{isLike ? @drawable/ic_favorite_white_32dp : @drawable/ic_favorite_border_white_32dp}"
+                android:enabled="@{isLoading ? false : true}"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/movie_share"
+                android:onClick="@{v -> event.likeEvent()}"/>
+        </RelativeLayout>
+        <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginTop="50dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:visibility="@{isLoading ? View.GONE : View.VISIBLE}">
-
-                <RelativeLayout
-                    android:id="@+id/header"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"></RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_movie"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:paddingLeft="15dp"
+                    android:paddingLeft="20dp"
                     android:paddingRight="15dp"
                     android:paddingTop="20dp">
 
                     <ImageView
                         android:id="@+id/img_poster"
-                        android:layout_width="175dp"
-                        android:layout_height="230dp"
+                        android:layout_width="160dp"
+                        android:layout_height="240dp"
                         android:scaleType="centerCrop"
                         android:layout_marginRight="20dp" />
 
@@ -97,9 +129,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="简历:"
+                    android:text="简历"
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="15dp"
+                    android:textStyle="bold"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -117,6 +150,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="图集"
+                    android:layout_marginTop="15dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_marginLeft="15dp"/>
 
                 <android.support.v7.widget.RecyclerView
@@ -139,6 +175,7 @@
                         android:layout_marginLeft="15dp"
                         android:onClick="@{v->event.selectItem(1)}"
                         android:text="参演电影"
+                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:textColor="@{selectItem == 1 ? @color/white_6 : @color/white_7}" />
 
@@ -150,6 +187,7 @@
                         android:layout_toRightOf="@id/tv_related_movie"
                         android:onClick="@{v->event.selectItem(2)}"
                         android:text="参演剧集"
+                        android:textStyle="bold"
                         android:textSize="16sp"
                         android:textColor="@{selectItem == 2 ? @color/white_6 : @color/white_7}" />
 
@@ -158,18 +196,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_related_movie"
-                        android:layout_marginTop="15dp"/>
-
-
+                        android:layout_marginTop="15dp"/>，。。，
                 </RelativeLayout>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </ScrollView>
 
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
 
         <android.support.design.widget.FloatingActionButton
@@ -185,5 +221,5 @@
             android:onClick="@{v -> event.scrollToTop()}"
             android:visibility="invisible"
             app:layout_behavior="com.magicalrice.adolph.kmovie.widget.ScrollAwareBehavior" />
-    </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
 </layout>

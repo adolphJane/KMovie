@@ -10,7 +10,7 @@ public class Movie extends BaseMovie {
     private String imdb_id;
     private List<BaseCompany> production_companies;
     private List<Country> production_countries;
-    private int revenue;
+    private long revenue;
     private int runtime;
     private List<SpokenLanguage> spoken_languages;
     private String status;
@@ -78,11 +78,11 @@ public class Movie extends BaseMovie {
         this.production_countries = production_countries;
     }
 
-    public int getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(int revenue) {
+    public void setRevenue(long revenue) {
         this.revenue = revenue;
     }
 

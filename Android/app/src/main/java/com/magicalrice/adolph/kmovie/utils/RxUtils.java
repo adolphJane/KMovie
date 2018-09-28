@@ -1,5 +1,6 @@
 package com.magicalrice.adolph.kmovie.utils;
 
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -11,7 +12,13 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RxUtils {
-    public static <T> ObservableTransformer<T, T> io_main() {
+    public static <T> ObservableTransformer<T, T> io_main_o() {
+        return upstream ->
+                upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static <T> FlowableTransformer<T, T> io_main_f() {
         return upstream ->
                 upstream.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());

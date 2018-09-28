@@ -1,7 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.magicalrice.adolph.kmovie.base.MovieApplication;
 import com.magicalrice.adolph.kmovie.data.entities.RequestToken;
@@ -12,7 +11,6 @@ import com.magicalrice.adolph.kmovie.utils.SpUtils;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Adolph on 2018/4/12.
@@ -31,7 +29,7 @@ public class LoginRemoteDataSource implements LoginDataSource {
     public Observable<RequestToken> getBaseToken() {
         return tmdb.authenticationService()
                 .requestToken()
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
     @Override
@@ -44,7 +42,7 @@ public class LoginRemoteDataSource implements LoginDataSource {
                     return tmdb.authenticationService()
                             .validateToken(userName, password, requestToken.getRequest_token());
                 })
-                .compose(RxUtils.io_main());
+                .compose(RxUtils.io_main_o());
     }
 
     @Override

@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/img_avastar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"/>
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <ImageView
+                android:id="@+id/img_avastar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp" />
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_avastar"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_avastar"
+                android:layout_marginTop="40dp"
+                android:text="喜欢的电影"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/tv_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tv_name"
-            android:layout_marginTop="20dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/love_movie_list"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_marginTop="5dp"/>
 
-        <TextView
-            android:id="@+id/tv_birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tv_gender"
-            android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="喜欢的电视节目"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/tv_signature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/tv_birthday"
-            android:layout_marginTop="20dp"/>
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/love_tv_list"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="喜欢的演员"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/love_actor_list"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:layout_marginTop="5dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+    </ScrollView>
 </layout>

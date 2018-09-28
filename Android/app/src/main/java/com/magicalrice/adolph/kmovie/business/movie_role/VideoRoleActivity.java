@@ -2,19 +2,26 @@ package com.magicalrice.adolph.kmovie.business.movie_role;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.google.gson.JsonPrimitive;
 import com.magicalrice.adolph.kmovie.R;
@@ -25,18 +32,21 @@ import com.magicalrice.adolph.kmovie.data.entities.BaseMoviePersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvPersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.Image;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.PersonDetailBean;
+import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieRoleBinding;
 import com.magicalrice.adolph.kmovie.utils.ChineseEnglishUtil;
+import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.RoleViewModule;
+import com.magicalrice.adolph.kmovie.widget.BottomShareDialog;
 import com.magicalrice.adolph.kmovie.widget.adapter.PhotoAdapter;
 import com.magicalrice.adolph.kmovie.widget.adapter.SearchResultsAdapter;
+import com.magicalrice.adolph.kmovie.widget.view.EmptyView;
 
 import java.util.List;
 
@@ -46,17 +56,20 @@ import javax.inject.Inject;
  * Created by Adolph on 2018/5/8.
  */
 
-public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> implements VideoRoleEvent,NestedScrollView.OnScrollChangeListener {
+public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> implements VideoRoleEvent {
     private RoleViewModule viewModule;
     private PhotoAdapter photoAdapter;
     private SearchResultsAdapter<BaseMoviePersonCredit> movieAdapter;
     private SearchResultsAdapter<BaseTvPersonCredit> tvAdapter;
-    private int personId;
+    private long personId;
     private String title, overview;
+    private String imgPoster;
+    private BottomShareDialog shareDialog;
+    private RoleDetailBean roleDetailBean;
     @Inject
     MainViewModuleFactory factory;
 
-    public static void startActivity(FragmentActivity activity, int personId) {
+    public static void startActivity(FragmentActivity activity, long personId) {
         Intent intent = new Intent(activity, VideoRoleActivity.class);
         intent.putExtra("personId", personId);
         activity.startActivity(intent);
@@ -65,7 +78,7 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        personId = getIntent().getIntExtra("personId", -1);
+        personId = getIntent().getLongExtra("personId", -1);
         if (personId == -1) {
             return;
         }
@@ -82,18 +95,18 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
         binding.setSelectItem(1);
         binding.setEvent(this);
         binding.setIsLoading(true);
-        viewModule.getStarSummary(personId);
+        viewModule.getRoleSummary(personId);
         viewModule.personData.observe(this, personDetailBean -> {
             updateView(personDetailBean);
         });
     }
 
-    private void updateView(PersonDetailBean bean) {
+    private void updateView(RoleDetailBean bean) {
         if (bean == null) {
             return;
         }
+        roleDetailBean = bean;
         binding.setIsLoading(false);
-        binding.scrollView.setOnScrollChangeListener(this);
         PersonMovieCredits movieCredits = bean.getMovieCredits();
         PersonTvCredits tvCredits = bean.getTvCredits();
         Person person = bean.getPerson();
@@ -101,7 +114,9 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
         ListPreloader.PreloadSizeProvider sizeProvider = new ViewPreloadSizeProvider();
         RecyclerViewPreloader preloaderMovie = null;
         RecyclerViewPreloader preloaderTv = null;
+        binding.setIsLike(bean.isLike());
         if (person != null) {
+            imgPoster = person.getProfile_path();
             GlideApp.with(this)
                     .load(ApiConstants.TMDB_IMAGE_PATH + "w400" + person.getProfile_path())
                     .placeholder(R.drawable.item_img_placeholder)
@@ -132,7 +147,9 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
             List<BaseMoviePersonCredit> movieList = movieCredits.getCast();
             if (movieList != null) {
                 movieAdapter = new SearchResultsAdapter<>(R.layout.item_search_layout, movieList, 7);
-                movieAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+                EmptyView emptyView = new EmptyView(this);
+                emptyView.setText("暂无参演电影");
+                movieAdapter.setEmptyView(emptyView);
                 binding.ryVideos.setAdapter(movieAdapter);
                 preloaderMovie = new RecyclerViewPreloader(this, movieAdapter, sizeProvider, 10);
                 if (preloaderMovie != null) {
@@ -145,7 +162,9 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
             List<BaseTvPersonCredit> tvList = tvCredits.getCast();
             if (tvList != null) {
                 tvAdapter = new SearchResultsAdapter<>(R.layout.item_search_layout, tvList, 8);
-                tvAdapter.setEmptyView(R.layout.item_empty_view, binding.rlRelatedMovies);
+                EmptyView emptyView = new EmptyView(this);
+                emptyView.setText("暂无参演剧集");
+                tvAdapter.setEmptyView(emptyView);
                 preloaderTv = new RecyclerViewPreloader(this, tvAdapter, sizeProvider, 10);
                 if (preloaderTv != null) {
                     binding.ryVideos.addOnScrollListener(preloaderTv);
@@ -187,19 +206,45 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
     @Override
     public void scrollToTop() {
         binding.scrollView.setSmoothScrollingEnabled(true);
-        binding.scrollView.smoothScrollTo(0,0);
+        binding.scrollView.smoothScrollTo(0, 0);
+        binding.floatBtn.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                super.onHidden(fab);
+                fab.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
-    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        if (v.getScrollY() == 0) {
-            binding.floatBtn.hide(new FloatingActionButton.OnVisibilityChangedListener() {
-                @Override
-                public void onHidden(FloatingActionButton fab) {
-                    super.onHidden(fab);
-                    fab.setVisibility(View.INVISIBLE);
-                }
-            });
+    public void backEvent() {
+        finish();
+    }
+
+    @Override
+    public void likeEvent() {
+        if (roleDetailBean.isLike()) {
+            Toast.makeText(this, "取消收藏", Toast.LENGTH_SHORT).show();
+            roleDetailBean.setLike(false);
+        } else {
+            Toast.makeText(this, "成功收藏演员", Toast.LENGTH_SHORT).show();
+            roleDetailBean.setLike(true);
+        }
+        binding.setIsLike(roleDetailBean.isLike());
+        viewModule.likePerson(roleDetailBean);
+    }
+
+    @Override
+    public void shareEvent() {
+        if (shareDialog == null) {
+            shareDialog = new BottomShareDialog();
+        }
+        if (!shareDialog.isAdded()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("imgPoster",imgPoster);
+            bundle.putString("title",title);
+            shareDialog.setArguments(bundle);
+            shareDialog.show(getSupportFragmentManager(),"share");
         }
     }
 }
