@@ -30,7 +30,6 @@ public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding
     private MainHomeAdapter adapter;
     private List<String> genreList = new ArrayList<>();
     private int type = 0;
-    private boolean hasInit = true;
     @Inject
     MainViewModuleFactory factory;
 
@@ -38,7 +37,7 @@ public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
-        viewModule = ViewModelProviders.of(this, factory).get(MainHomeViewModule.class);
+        viewModule = ViewModelProviders.of(getActivity(), factory).get(MainHomeViewModule.class);
         if (type == 1) {
             viewModule.getMovieGenre();
         } else if (type == 2) {
@@ -74,13 +73,12 @@ public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding
 
     private void initData() {
         viewModule.genreData.observe(this, genreResults -> {
-            if (hasInit == true) {
+            if (genreResults.getType() == type) {
                 adapter.addDatas(genreResults.getGenres(), type);
                 adapter.notifyDataSetChanged();
                 genreList.clear();
                 genreList.addAll(StreamSupport.stream(genreResults.getGenres()).map(genre -> genre.getName()).collect(Collectors.toList()));
                 ((MainHomeActivity) getActivity()).updateTag(binding.viewPager, genreList, -1);
-                hasInit = false;
             }
         });
     }
