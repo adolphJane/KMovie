@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.magicalrice.adolph.kmovie"
         minSdkVersion 19
@@ -98,7 +98,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxjava2AndroidVersion"
 
     //SnackBar
-    implementation "com.trycatch.android:mysnackbar:$rootProject.snackBarVersion"
+//    implementation "com.trycatch.android:mysnackbar:$rootProject.snackBarVersion"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

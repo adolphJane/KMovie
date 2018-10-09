@@ -51,7 +51,6 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
         if (getActivity() != null) {
             viewModule = ViewModelProviders.of(getActivity(), factory).get(SearchViewModule.class);
             viewModule.getHistoryList();
-            ((MainHomeActivity) getActivity()).changeTabLayoutShow(false);
         }
     }
 
@@ -87,6 +86,14 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
         Dialog dialog = new Dialog(getContext());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getActivity() != null) {
+            ((MainHomeActivity) getActivity()).changeTabLayoutShow(false);
+        }
     }
 
     @Override

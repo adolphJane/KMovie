@@ -156,7 +156,9 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     }
 
     public void updateTag(ViewPager viewPager, List<String> tagList, int position) {
-        binding.tagGroup.setParam(viewPager, tagList, position);
+        if (binding != null) {
+            binding.tagGroup.setParam(viewPager, tagList, position);
+        }
     }
 
     public MainViewModuleFactory getFactory() {
@@ -164,7 +166,9 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     }
 
     public void changeTabLayoutShow(boolean isShow) {
-        binding.setShowTag(isShow);
+        if (binding != null) {
+            binding.setShowTag(isShow);
+        }
     }
 
     @Override
@@ -204,12 +208,14 @@ public class MainHomeActivity extends BaseActivity<ActivityMainHomeBinding> impl
     }
 
     public void hideFabButton() {
-        binding.floatBtn.hide(new FloatingActionButton.OnVisibilityChangedListener() {
-            @Override
-            public void onHidden(FloatingActionButton fab) {
-                super.onHidden(fab);
-                fab.setVisibility(View.INVISIBLE);
-            }
-        });
+        if (binding != null) {
+            binding.floatBtn.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    fab.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
     }
 }

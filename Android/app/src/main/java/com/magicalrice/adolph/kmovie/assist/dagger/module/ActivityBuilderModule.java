@@ -5,7 +5,6 @@ import com.magicalrice.adolph.kmovie.business.login.LoginActivity;
 import com.magicalrice.adolph.kmovie.business.mainhome.MainHomeActivity;
 import com.magicalrice.adolph.kmovie.business.movie_detail.VideoDetailActivity;
 import com.magicalrice.adolph.kmovie.business.movie_role.VideoRoleActivity;
-import com.magicalrice.adolph.kmovie.viewmodule.VideoDetailViewModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
