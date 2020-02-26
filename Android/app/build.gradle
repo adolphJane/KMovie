@@ -2,14 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('/Users/adolph/Development/Android/KeyStore/KMovie.jks')
-            storePassword '7758521'
-            keyAlias = 'kmovie'
-            keyPassword '7758521'
-        }
-    }
     compileSdkVersion 29
     buildToolsVersion '28.0.3'
     defaultConfig {
@@ -37,7 +29,7 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
