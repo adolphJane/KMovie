@@ -17,7 +17,7 @@
             type="boolean" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -39,7 +39,7 @@
                     android:layout_height="20dp"
                     android:background="?attr/colorPrimary" />
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -81,7 +81,7 @@
                     </RelativeLayout>
 
 
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
             </LinearLayout>
         </com.magicalrice.adolph.kmovie.widget.view.MagicalAppbarLayout>
 
@@ -98,7 +98,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="52dp" />
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/bottom_tab"
             style="@style/NoUnderLineTabLayout"
             android:layout_width="match_parent"
@@ -108,13 +108,13 @@
             app:tabGravity="fill"
             app:tabMode="fixed" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/float_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_marginBottom="70dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:alpha="0"
             android:onClick="@{v -> clickListener.scrollToTop()}"
             android:scaleX="0"
@@ -123,5 +123,5 @@
             android:src="@drawable/ic_arrow_up_black_36dp"
             app:rippleColor="@color/black_3"
             app:layout_behavior="com.magicalrice.adolph.kmovie.widget.ScrollAwareBehavior" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

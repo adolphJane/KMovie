@@ -5,7 +5,7 @@ package com.magicalrice.adolph.kmovie.data.remote;
  */
 
 public class ApiConstants {
-    public static final int TIME_IN_SEC = 10;
+    public static final int TIME_IN_SEC = 30;
     /**
      * API Related Information
      */

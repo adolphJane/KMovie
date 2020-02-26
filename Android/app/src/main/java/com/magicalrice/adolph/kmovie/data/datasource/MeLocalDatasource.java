@@ -1,6 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;

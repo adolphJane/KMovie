@@ -1,13 +1,12 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.magicalrice.adolph.kmovie.data.datasource.MeLocalDatasource;
-import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.repository.MovieDetailRepository;
 import com.magicalrice.adolph.kmovie.data.repository.MovieRepository;
@@ -25,7 +24,7 @@ public class MainViewModuleFactory extends ViewModelProvider.AndroidViewModelFac
     private MeLocalDatasource meLocalDatasource;
     private Application application;
 
-    public MainViewModuleFactory(@NonNull Application application, MovieRepository movieRepository,MovieDetailRepository detailRepository, SearchRemoteDataSource searchDataSource, RoleRepository roleRepository,MeLocalDatasource meLocalDatasource) {
+    public MainViewModuleFactory(@NonNull Application application, MovieRepository movieRepository, MovieDetailRepository detailRepository, SearchRemoteDataSource searchDataSource, RoleRepository roleRepository, MeLocalDatasource meLocalDatasource) {
         super(application);
         this.application = application;
         this.movieRepository = movieRepository;

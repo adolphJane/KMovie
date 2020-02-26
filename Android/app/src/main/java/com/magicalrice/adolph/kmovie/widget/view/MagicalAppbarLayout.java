@@ -1,11 +1,10 @@
 package com.magicalrice.adolph.kmovie.widget.view;
 
 import android.content.Context;
-import android.support.design.widget.AppBarLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.magicalrice.adolph.kmovie.utils.LUtils;
+import com.google.android.material.appbar.AppBarLayout;
 
 /**
  * Created by Adolph on 2018/5/8.

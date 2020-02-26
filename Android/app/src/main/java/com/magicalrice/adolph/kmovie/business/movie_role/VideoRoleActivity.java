@@ -1,28 +1,22 @@
 package com.magicalrice.adolph.kmovie.business.movie_role;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonPrimitive;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
@@ -32,14 +26,13 @@ import com.magicalrice.adolph.kmovie.data.entities.BaseMoviePersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvPersonCredit;
 import com.magicalrice.adolph.kmovie.data.entities.Image;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
+import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.remote.ApiConstants;
 import com.magicalrice.adolph.kmovie.databinding.ActivityMovieRoleBinding;
 import com.magicalrice.adolph.kmovie.utils.ChineseEnglishUtil;
-import com.magicalrice.adolph.kmovie.utils.ScreenUtils;
 import com.magicalrice.adolph.kmovie.utils.Utils;
 import com.magicalrice.adolph.kmovie.viewmodule.MainViewModuleFactory;
 import com.magicalrice.adolph.kmovie.viewmodule.RoleViewModule;
@@ -82,7 +75,7 @@ public class VideoRoleActivity extends BaseActivity<ActivityMovieRoleBinding> im
         if (personId == -1) {
             return;
         }
-        viewModule = ViewModelProviders.of(this, factory).get(RoleViewModule.class);
+        viewModule = new ViewModelProvider(this, factory).get(RoleViewModule.class);
         initData();
     }
 

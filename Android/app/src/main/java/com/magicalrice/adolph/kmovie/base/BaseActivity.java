@@ -1,15 +1,12 @@
 package com.magicalrice.adolph.kmovie.base;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 
-import com.magicalrice.adolph.kmovie.utils.StatusBarUtil;
-import com.sw.debug.view.modules.TimerModule;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
-import dagger.android.AndroidInjection;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -27,16 +24,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends DaggerApp
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppManager.getInstance().addActivity(this);
-        TimerModule.Companion.getInstance().begin(getApplicationContext());
         binding = DataBindingUtil.setContentView(this,getLayoutRes());
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            TimerModule.Companion.getInstance().end(getApplicationContext());
-        }
     }
 
     @Override

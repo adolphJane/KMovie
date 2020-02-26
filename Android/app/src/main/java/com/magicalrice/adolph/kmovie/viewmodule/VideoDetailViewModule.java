@@ -1,31 +1,17 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.JsonSyntaxException;
-import com.magicalrice.adolph.kmovie.data.datasource.MovieDetailRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.entities.Credits;
-import com.magicalrice.adolph.kmovie.data.entities.Images;
-import com.magicalrice.adolph.kmovie.data.entities.Keywords;
-import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
-import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
-import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
-import com.magicalrice.adolph.kmovie.data.entities.TvShow;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowDetailBean;
-import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.repository.MovieDetailRepository;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
 
-import java.io.IOException;
-
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function6;
-import io.reactivex.functions.Function7;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 

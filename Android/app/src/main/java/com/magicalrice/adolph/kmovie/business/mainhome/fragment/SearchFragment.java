@@ -1,14 +1,9 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,6 +16,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseDialogFragment;
@@ -49,7 +50,7 @@ public class SearchFragment extends BaseDialogFragment<FragmentMovieSearchBindin
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() != null) {
-            viewModule = ViewModelProviders.of(getActivity(), factory).get(SearchViewModule.class);
+            viewModule = new ViewModelProvider(getActivity(), factory).get(SearchViewModule.class);
             viewModule.getHistoryList();
         }
     }

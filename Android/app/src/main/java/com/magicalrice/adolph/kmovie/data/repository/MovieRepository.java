@@ -1,7 +1,5 @@
 package com.magicalrice.adolph.kmovie.data.repository;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.magicalrice.adolph.kmovie.data.datasource.MovieLocalDataSource;
@@ -10,8 +8,6 @@ import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
 import com.magicalrice.adolph.kmovie.data.entities.GenreResults;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
-import com.magicalrice.adolph.kmovie.data.local.database.MovieDatabase;
-import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.utils.RxUtils;
 
 import java.util.List;
@@ -21,8 +17,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Adolph on 2018/6/11.

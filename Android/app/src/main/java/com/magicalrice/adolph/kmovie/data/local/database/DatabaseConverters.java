@@ -1,42 +1,21 @@
 package com.magicalrice.adolph.kmovie.data.local.database;
 
-import android.arch.persistence.room.TypeConverter;
+
+import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.magicalrice.adolph.kmovie.data.entities.AlternativeTitle;
-import com.magicalrice.adolph.kmovie.data.entities.BaseCompany;
-import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
-import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
-import com.magicalrice.adolph.kmovie.data.entities.CastMember;
-import com.magicalrice.adolph.kmovie.data.entities.Changes;
-import com.magicalrice.adolph.kmovie.data.entities.Changes.Entries;
-import com.magicalrice.adolph.kmovie.data.entities.ContentRating;
-import com.magicalrice.adolph.kmovie.data.entities.Country;
 import com.magicalrice.adolph.kmovie.data.entities.Credits;
-import com.magicalrice.adolph.kmovie.data.entities.CrewMember;
-import com.magicalrice.adolph.kmovie.data.entities.Genre;
-import com.magicalrice.adolph.kmovie.data.entities.Image;
 import com.magicalrice.adolph.kmovie.data.entities.Images;
 import com.magicalrice.adolph.kmovie.data.entities.Keywords;
 import com.magicalrice.adolph.kmovie.data.entities.Movie;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
-import com.magicalrice.adolph.kmovie.data.entities.Network;
 import com.magicalrice.adolph.kmovie.data.entities.Person;
 import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
 import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
-import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResult;
 import com.magicalrice.adolph.kmovie.data.entities.ReleaseDatesResults;
-import com.magicalrice.adolph.kmovie.data.entities.SpokenLanguage;
-import com.magicalrice.adolph.kmovie.data.entities.Translations.Translation;
 import com.magicalrice.adolph.kmovie.data.entities.TvShow;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
-import com.magicalrice.adolph.kmovie.data.entities.Videos.Video;
-
-import java.lang.reflect.Type;
-import java.util.Date;
-import java.util.List;
 
 public class DatabaseConverters {
     @TypeConverter

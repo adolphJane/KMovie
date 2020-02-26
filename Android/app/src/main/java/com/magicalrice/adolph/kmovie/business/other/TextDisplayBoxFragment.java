@@ -1,13 +1,14 @@
 package com.magicalrice.adolph.kmovie.business.other;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.magicalrice.adolph.kmovie.R;
 
@@ -35,7 +36,7 @@ public class TextDisplayBoxFragment extends DialogFragment {
         return view;
     }
 
-    public static void showFragment(FragmentActivity activity,String title,String overview) {
+    public static void showFragment(FragmentActivity activity, String title, String overview) {
         if (activity != null) {
             TextDisplayBoxFragment fragment = (TextDisplayBoxFragment) activity.getSupportFragmentManager().findFragmentByTag("text_box");
             if (fragment != null) {

@@ -1,6 +1,5 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
-import com.google.gson.JsonSyntaxException;
 import com.magicalrice.adolph.kmovie.data.entities.Credits;
 import com.magicalrice.adolph.kmovie.data.entities.Images;
 import com.magicalrice.adolph.kmovie.data.entities.Keywords;
@@ -15,7 +14,6 @@ import com.magicalrice.adolph.kmovie.data.entities.TvShowDetailBean;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
 import com.magicalrice.adolph.kmovie.data.enumerations.AuthenticationType;
 import com.magicalrice.adolph.kmovie.data.remote.Tmdb;
-import com.magicalrice.adolph.kmovie.utils.LUtils;
 import com.magicalrice.adolph.kmovie.utils.RxUtils;
 
 import javax.inject.Inject;
@@ -24,8 +22,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function6;
 import io.reactivex.functions.Function7;
-import okhttp3.ResponseBody;
-import retrofit2.HttpException;
 
 /**
  * Created by Adolph on 2018/5/7.

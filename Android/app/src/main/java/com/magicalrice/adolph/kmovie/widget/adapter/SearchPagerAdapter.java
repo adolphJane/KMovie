@@ -1,21 +1,20 @@
 package com.magicalrice.adolph.kmovie.widget.adapter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.SubSearchFragment;
 import com.magicalrice.adolph.kmovie.data.entities.BaseCollection;
 import com.magicalrice.adolph.kmovie.data.entities.BaseCompany;
-import com.magicalrice.adolph.kmovie.data.entities.BaseKeyword;
 import com.magicalrice.adolph.kmovie.data.entities.BaseMovie;
 import com.magicalrice.adolph.kmovie.data.entities.BasePerson;
 import com.magicalrice.adolph.kmovie.data.entities.BaseTvShow;
 import com.magicalrice.adolph.kmovie.data.entities.CollectionResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.CompanyResultsPage;
-import com.magicalrice.adolph.kmovie.data.entities.KeywordResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.MovieResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.PersonResultsPage;
 import com.magicalrice.adolph.kmovie.data.entities.TvShowResultsPage;
@@ -24,12 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchPagerAdapter extends FragmentPagerAdapter{
+public class SearchPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitle = new ArrayList<>();
 
     public SearchPagerAdapter(FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         for (int i = 0;i < 5;i++) {
             SubSearchFragment fragment;
             switch (i) {

@@ -1,10 +1,11 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
@@ -48,7 +49,7 @@ public class SubSearchFragment<T, K> extends BaseFragment<FragmentSubSearchBindi
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         if (getActivity() != null) {
-            viewModule = ViewModelProviders.of(getActivity(), ((MainHomeActivity) getActivity()).getFactory()).get(SearchViewModule.class);
+            viewModule = new ViewModelProvider(getActivity(), ((MainHomeActivity) getActivity()).getFactory()).get(SearchViewModule.class);
         }
     }
 

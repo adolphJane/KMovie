@@ -1,6 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
-import android.support.annotation.FloatRange;
+import androidx.annotation.FloatRange;
 
 /**
  * Created by Adolph on 2018/4/4.

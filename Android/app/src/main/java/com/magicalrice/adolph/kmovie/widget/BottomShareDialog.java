@@ -6,14 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.data.entities.AppInfo;
 import com.magicalrice.adolph.kmovie.utils.Utils;
@@ -50,7 +51,7 @@ public class BottomShareDialog extends BottomSheetDialogFragment {
         dialog.setContentView(view);
         ((View) view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mBehavior = BottomSheetBehavior.from((View) view.getParent());
-        mBehavior.setState(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
+        mBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
         appInfos = Utils.getShareAppList(getContext(), shareIntent);
         adapter = new AppInfoAdapter(appInfos);
         mRecyclerView.setAdapter(adapter);

@@ -9,14 +9,15 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.annotation.ColorRes;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.widget.Toast;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
@@ -118,7 +119,7 @@ public class Utils {
     public static List<ResolveInfo> getShareApps(Context context,Intent intent) {
         List<ResolveInfo> resolveInfoList;
         PackageManager pm = context.getPackageManager();
-        resolveInfoList = pm.queryIntentActivities(intent,PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
+        resolveInfoList = pm.queryIntentActivities(intent,PackageManager.MATCH_DEFAULT_ONLY);
         return resolveInfoList;
     }
 

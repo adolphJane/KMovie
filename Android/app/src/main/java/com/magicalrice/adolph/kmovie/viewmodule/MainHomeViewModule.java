@@ -1,11 +1,11 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.magicalrice.adolph.kmovie.data.entities.BaseVideo;
 import com.magicalrice.adolph.kmovie.data.entities.GenreResults;
@@ -16,13 +16,13 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 
-public class MainHomeViewModule extends AndroidViewModel{
+public class MainHomeViewModule extends AndroidViewModel {
     private MovieRepository repository;
     public MutableLiveData<GenreResults> genreData = new MutableLiveData<>();
     public MutableLiveData<Boolean> shoudTop = new MutableLiveData<>();
-    private int videoType = 0;
+    private int videoType = 1;
 
-    public MainHomeViewModule(@NonNull Application application,MovieRepository repository) {
+    public MainHomeViewModule(@NonNull Application application, MovieRepository repository) {
         super(application);
         this.repository = repository;
     }

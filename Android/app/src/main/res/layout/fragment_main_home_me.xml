@@ -7,7 +7,7 @@
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -23,13 +23,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/img_avastar"
                 android:layout_marginTop="40dp"
                 android:text="喜欢的电影"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/love_movie_list"
                 android:layout_width="match_parent"
                 android:layout_height="175dp"
@@ -38,13 +37,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="喜欢的电视节目"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/love_tv_list"
                 android:layout_width="match_parent"
                 android:layout_height="175dp"
@@ -53,13 +51,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="喜欢的演员"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/love_actor_list"
                 android:layout_width="match_parent"
                 android:layout_height="175dp"

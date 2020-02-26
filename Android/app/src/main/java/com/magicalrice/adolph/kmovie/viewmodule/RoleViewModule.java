@@ -1,22 +1,16 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.JsonSyntaxException;
-import com.magicalrice.adolph.kmovie.data.datasource.RoleRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.entities.Person;
-import com.magicalrice.adolph.kmovie.data.entities.PersonMovieCredits;
 import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
-import com.magicalrice.adolph.kmovie.data.entities.PersonImages;
-import com.magicalrice.adolph.kmovie.data.entities.PersonTvCredits;
 import com.magicalrice.adolph.kmovie.data.repository.RoleRepository;
 import com.magicalrice.adolph.kmovie.utils.LUtils;
 
-import io.reactivex.Observable;
-import io.reactivex.functions.Function4;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
@@ -28,7 +22,7 @@ public class RoleViewModule extends AndroidViewModel {
     private RoleRepository repository;
     public MutableLiveData<RoleDetailBean> personData = new MutableLiveData<>();
 
-    public RoleViewModule(@NonNull Application application,RoleRepository repository) {
+    public RoleViewModule(@NonNull Application application, RoleRepository repository) {
         super(application);
         this.repository = repository;
     }

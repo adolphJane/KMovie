@@ -1,14 +1,13 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.ListPreloader.PreloadSizeProvider;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
@@ -43,17 +42,16 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
     private MainVideoAdapter movieAdapter;
     private Genre genre;
     private int page = 1;
-    private boolean isVisible = false;
     @Inject
     MainViewModuleFactory factory;
-    private int type = 0;
+    private int type = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
         genre = getArguments().getParcelable("gener");
-        viewModule = ViewModelProviders.of(getActivity(), factory).get(MainHomeViewModule.class);
+        viewModule = new ViewModelProvider(getActivity(), factory).get(MainHomeViewModule.class);
         viewModule.clearCache();
         if (genre != null) {
             requestNewData();
@@ -149,7 +147,7 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
 
     private void initData() {
         viewModule.shoudTop.observe(this, aBoolean -> {
-            if (aBoolean && isVisible && isResumed() && viewModule.getVideoType() == type) {
+            if (aBoolean && isVisible() && isResumed() && viewModule.getVideoType() == type) {
                 binding.recycler.smoothScrollToPosition(0);
                 viewModule.shoudTop.setValue(false);
             }
@@ -169,11 +167,5 @@ public class SubMainFragment extends BaseDaggerFragment<FragmentSubMainHomeBindi
                 VideoDetailActivity.startActivity(getActivity(), video.getId(), video.getOverview(), type);
             }
         }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        isVisible = isVisibleToUser;
     }
 }

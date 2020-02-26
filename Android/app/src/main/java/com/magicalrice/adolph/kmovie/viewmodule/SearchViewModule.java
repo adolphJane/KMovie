@@ -1,10 +1,11 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.magicalrice.adolph.kmovie.data.datasource.SearchRemoteDataSource;
 import com.magicalrice.adolph.kmovie.data.entities.CollectionResultsPage;

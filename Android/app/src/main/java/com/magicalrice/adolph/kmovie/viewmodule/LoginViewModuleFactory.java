@@ -1,12 +1,12 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
-import com.magicalrice.adolph.kmovie.data.datasource.MovieRemoteDataSource;
 
 /**
  * Created by Adolph on 2018/2/28.

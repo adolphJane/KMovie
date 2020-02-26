@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android.iml" filepath="$PROJECT_DIR$/Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/Android-app.iml" filepath="$PROJECT_DIR$/app/Android-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KMovie-Android.iml" filepath="$PROJECT_DIR$/KMovie-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/KMovie-Android-app.iml" filepath="$PROJECT_DIR$/app/KMovie-Android-app.iml" group="Android/app" />
+      <module fileurl="file://$PROJECT_DIR$/Personal-KMovie-Android.iml" filepath="$PROJECT_DIR$/Personal-KMovie-Android.iml" group="Android" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

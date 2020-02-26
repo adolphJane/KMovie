@@ -1,12 +1,7 @@
 package com.magicalrice.adolph.kmovie.business.movie_detail;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +9,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -95,7 +96,7 @@ public class VideoDetailActivity extends BaseActivity<ActivityMovieDetailBinding
             this.finish();
             return;
         }
-        viewModule = ViewModelProviders.of(this, factory).get(VideoDetailViewModule.class);
+        viewModule = new ViewModelProvider(this, factory).get(VideoDetailViewModule.class);
         initData();
     }
 

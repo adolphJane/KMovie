@@ -1,9 +1,10 @@
 package com.magicalrice.adolph.kmovie.widget.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
@@ -45,7 +46,7 @@ public class SearchResultsAdapter<Z> extends BaseQuickAdapter<Z, BaseViewHolder>
     @Override
     public List getPreloadItems(int position) {
         String url = "";
-        if (mData != null && mData.size() > 0 && position != mData.size()) {
+        if (mData != null && mData.size() > 0 && position < mData.size()) {
             if (type == 1) {
                 url = ((BaseMovie) mData.get(position)).getPoster_path();
             } else if (type == 2) {

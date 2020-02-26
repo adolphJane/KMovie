@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,9 +26,9 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/img_poster"
+            android:layout_toEndOf="@id/img_poster"
             tools:text="狂暴巨兽"
             android:textSize="16sp"/>
         
@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:text="剧情简介"
             android:textSize="12sp"
-            android:layout_toRightOf="@id/img_poster"
-            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@id/img_poster"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_below="@id/tv_title"
             android:textColor="@color/gray_6"/>
@@ -50,17 +50,17 @@
             android:layout_height="wrap_content"
             android:text="更多信息"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textSize="12sp"
             android:textColor="@color/white_5"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"/>
 
         <View
             android:id="@+id/split_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_toRightOf="@id/img_poster"
+            android:layout_toEndOf="@id/img_poster"
             android:background="@color/black_5"
             android:layout_above="@id/tv_more"
             android:layout_marginBottom="5dp"/>
@@ -71,8 +71,8 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/img_poster"
-            android:layout_marginLeft="20dp"
+            android:layout_toEndOf="@id/img_poster"
+            android:layout_marginStart="20dp"
             android:layout_below="@id/tv_1"
             android:layout_alignBottom="@id/split_line"
             android:layout_marginBottom="5dp"
@@ -82,4 +82,4 @@
     </RelativeLayout>
 
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

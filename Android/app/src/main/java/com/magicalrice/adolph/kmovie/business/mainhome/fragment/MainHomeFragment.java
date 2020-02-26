@@ -1,9 +1,10 @@
 package com.magicalrice.adolph.kmovie.business.mainhome.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseDaggerFragment;
@@ -29,7 +30,7 @@ public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding
     private MainHomeViewModule viewModule;
     private MainHomeAdapter adapter;
     private List<String> genreList = new ArrayList<>();
-    private int type = 0;
+    private int type = 1;
     @Inject
     MainViewModuleFactory factory;
 
@@ -37,7 +38,7 @@ public class MainHomeFragment extends BaseDaggerFragment<FragmentMainHomeBinding
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments().getInt("type");
-        viewModule = ViewModelProviders.of(getActivity(), factory).get(MainHomeViewModule.class);
+        viewModule = new ViewModelProvider(getActivity(), factory).get(MainHomeViewModule.class);
         if (type == 1) {
             viewModule.getMovieGenre();
         } else if (type == 2) {

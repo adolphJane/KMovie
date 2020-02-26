@@ -1,13 +1,14 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.magicalrice.adolph.kmovie.base.MovieApplication;
 import com.magicalrice.adolph.kmovie.data.datasource.LoginRemoteDataSource;
 import com.magicalrice.adolph.kmovie.utils.SpUtils;

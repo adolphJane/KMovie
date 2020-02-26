@@ -1,7 +1,7 @@
 package com.magicalrice.adolph.kmovie.data.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.ColumnInfo;
+import androidx.room.PrimaryKey;
 
 import java.util.List;
 

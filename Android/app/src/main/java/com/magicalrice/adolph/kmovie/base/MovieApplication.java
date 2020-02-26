@@ -9,9 +9,6 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
-import com.sw.debug.view.DebugViewWrapper;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
@@ -30,9 +27,7 @@ public class MovieApplication extends DaggerApplication {
         instance = this;
         MyLifecycle.init(this);
         initLogger();
-        initBugly();
         initLeakCanary();
-        initDebugView();
     }
 
     @Override
@@ -64,25 +59,13 @@ public class MovieApplication extends DaggerApplication {
         }
     }
 
-    private void initDebugView() {
-        DebugViewWrapper.Companion.getInstance().init(
-                new DebugViewWrapper.Builder(this)
-                        .viewWidth(250)
-                        .bgColor(0x6f677700)
-                        .alwaysShowOverlaySetting(true)
-                        .logMaxLines(20)
-        );
-
-//        DebugViewWrapper.Companion.getInstance().show();
-    }
-
-    private void initBugly() {
-        UserStrategy strategy = new UserStrategy(getApplicationContext());
-        strategy.setAppChannel("Main");
-        strategy.setAppVersion(BuildConfig.VERSION_NAME);
-        strategy.setAppPackageName(BuildConfig.APPLICATION_ID);
-        CrashReport.initCrashReport(getApplicationContext(), "d820f8b302", false,strategy);
-    }
+//    private void initBugly() {
+//        UserStrategy strategy = new UserStrategy(getApplicationContext());
+//        strategy.setAppChannel("Main");
+//        strategy.setAppVersion(BuildConfig.VERSION_NAME);
+//        strategy.setAppPackageName(BuildConfig.APPLICATION_ID);
+//        CrashReport.initCrashReport(getApplicationContext(), "d820f8b302", false,strategy);
+//    }
 
     public static MovieApplication getInstance() {
         return instance;

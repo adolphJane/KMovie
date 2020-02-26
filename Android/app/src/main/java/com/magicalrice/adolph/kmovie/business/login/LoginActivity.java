@@ -1,15 +1,17 @@
 package com.magicalrice.adolph.kmovie.business.login;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.ViewTreeObserver;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.magicalrice.adolph.kmovie.R;
 import com.magicalrice.adolph.kmovie.base.BaseActivity;
@@ -39,7 +41,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> implements
         super.onCreate(savedInstanceState);
         StatusBarUtil.translucentStatusBar(this, false);
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(this);
-        viewModule = ViewModelProviders.of(this, factory).get(LoginViewModule.class);
+        viewModule = new ViewModelProvider(this,factory).get(LoginViewModule.class);
         binding.setListener(this);
         canLoginDirect();
         loginViewModule();

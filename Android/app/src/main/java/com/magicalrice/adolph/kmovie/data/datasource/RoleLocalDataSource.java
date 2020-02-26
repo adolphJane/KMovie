@@ -1,6 +1,6 @@
 package com.magicalrice.adolph.kmovie.data.datasource;
 
-import android.arch.persistence.room.EmptyResultSetException;
+import androidx.room.EmptyResultSetException;
 
 import com.magicalrice.adolph.kmovie.data.entities.RoleDetailBean;
 import com.magicalrice.adolph.kmovie.data.local.database.MovieDatabase;

@@ -1,9 +1,10 @@
 package com.magicalrice.adolph.kmovie.widget.adapter;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.magicalrice.adolph.kmovie.business.mainhome.fragment.SubMainFragment;
 import com.magicalrice.adolph.kmovie.data.entities.Genre;
@@ -33,7 +34,7 @@ public class MainHomeAdapter extends FragmentStatePagerAdapter {
     }
 
     public MainHomeAdapter(FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @Override

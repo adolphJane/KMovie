@@ -1,9 +1,10 @@
 package com.magicalrice.adolph.kmovie.viewmodule;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.magicalrice.adolph.kmovie.data.datasource.MeLocalDatasource;
 import com.magicalrice.adolph.kmovie.data.entities.MovieDetailBean;
@@ -21,7 +22,7 @@ import java.util.List;
 public class MainMeViewModule extends AndroidViewModel {
     private MeLocalDatasource datasource;
 
-    public MainMeViewModule(@NonNull Application application,MeLocalDatasource datasource) {
+    public MainMeViewModule(@NonNull Application application, MeLocalDatasource datasource) {
         super(application);
         this.datasource = datasource;
     }
